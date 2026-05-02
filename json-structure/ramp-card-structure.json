@@ -1,0 +1,22 @@
+{
+  "name": "Card",
+  "description": "A Ramp physical or virtual corporate card.",
+  "fields": [
+    { "name": "id", "type": "string", "required": true, "description": "Unique card identifier." },
+    { "name": "cardholder_id", "type": "string", "required": false, "description": "Identifier of the cardholder (user)." },
+    { "name": "display_name", "type": "string", "required": false, "description": "Human-readable card name." },
+    { "name": "last_four", "type": "string", "required": false, "description": "Last four digits of the card number." },
+    { "name": "state", "type": "string (enum)", "required": true, "description": "Card state: ACTIVE, SUSPENDED, TERMINATED, UNACTIVATED." },
+    { "name": "is_physical", "type": "boolean", "required": false, "description": "True if physical card, false if virtual." },
+    {
+      "name": "spending_restrictions",
+      "type": "object",
+      "required": false,
+      "description": "Spending limit configuration.",
+      "fields": [
+        { "name": "amount", "type": "number", "required": false, "description": "Spending limit amount." },
+        { "name": "interval", "type": "string (enum)", "required": false, "description": "Limit interval: DAILY, WEEKLY, MONTHLY, QUARTERLY, YEARLY, TOTAL." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Ramp Spend Management"
+  description: >-
+    Workflow capability for managing corporate spend, cards, and expense automation
+    using the Ramp Developer API. Enables finance teams and developers to query
+    transactions, manage cards, track reimbursements, and analyze spending patterns
+    across the organization.
+  tags:
+    - Finance
+    - Spend Management
+    - Corporate Cards
+    - Expense Management
+    - Ramp
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      RAMP_ACCESS_TOKEN: RAMP_ACCESS_TOKEN
+
+capability:
+  consumes:
+    - import: ramp
+      location: ./shared/ramp-developer-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: ramp-spend-management-api
+      description: "Unified REST API for Ramp spend management workflows."
+      resources:
+        - path: /v1/transactions
+          name: transactions
+          description: "Card and bill transactions across the organization."
+          operations:
+            - method: GET
+              name: list-transactions
+              description: "List transactions with optional date range filters."
+              call: "ramp.list-transactions"
+              with:
+                from_date: "rest.from_date"
+                to_date: "rest.to_date"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/transactions/{id}
+          name: transaction
+          description: "Single transaction record."
+          operations:
+            - method: GET
+              name: get-transaction
+              description: "Retrieve a single transaction by ID."
+              call: "ramp.get-transaction"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/cards
+          name: cards
+          description: "Physical and virtual corporate cards."
+          operations:
+            - method: GET
+              name: list-cards
+              description: "List all cards issued to users and departments."
+              call: "ramp.list-cards"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/users
+          name: users
+          description: "Ramp user accounts."
+          operations:
+            - method: GET
+              name: list-users
+              description: "List all users in the organization."
+              call: "ramp.list-users"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/departments
+          name: departments
+          description: "Department records."
+          operations:
+            - method: GET
+              name: list-departments
+              description: "List all departments."
+              call: "ramp.list-departments"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/reimbursements
+          name: reimbursements
+          description: "Out-of-pocket reimbursement requests."
+          operations:
+            - method: GET
+              name: list-reimbursements
+              description: "List all reimbursement requests."
+              call: "ramp.list-reimbursements"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/bills
+          name: bills
+          description: "Bill pay records and approval workflows."
+          operations:
+            - method: GET
+              name: list-bills
+              description: "List all bills."
+              call: "ramp.list-bills"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/statements
+          name: statements
+          description: "Card statement records."
+          operations:
+            - method: GET
+              name: list-statements
+              description: "List all card statements."
+              call: "ramp.list-statements"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9080
+      namespace: ramp-spend-management-mcp
+      transport: http
+      description: "MCP server for AI-assisted spend management and expense automation using Ramp."
+      tools:
+        - name: list-transactions
+          description: "List Ramp card and bill transactions with optional date range filtering. Use to analyze spending, reconcile expenses, or audit financial activity."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "ramp.list-transactions"
+          with:
+            from_date: "tools.from_date"
+            to_date: "tools.to_date"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-transaction
+          description: "Retrieve a single Ramp transaction by ID. Use to inspect a specific expense or resolve a dispute."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "ramp.get-transaction"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-cards
+          description: "List all corporate cards issued in the organization, including spending limits and states."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "ramp.list-cards"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-users
+          description: "List all Ramp users in the organization with their roles and department assignments."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "ramp.list-users"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-departments
+          description: "List all departments to understand organizational spend structure."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "ramp.list-departments"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-reimbursements
+          description: "List out-of-pocket reimbursement requests submitted by employees."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "ramp.list-reimbursements"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-bills
+          description: "List bill pay records and their approval status."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "ramp.list-bills"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-statements
+          description: "List card statements for period-end reconciliation."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "ramp.list-statements"
+          outputParameters:
+            - type: object
+              mapping: "$."

@@ -24,7 +24,7 @@ Ramp is a finance automation platform that combines corporate cards, expense man
 ## Timestamps
 
 - **Created:** 2025-02-17
-- **Modified:** 2026-04-28
+- **Modified:** 2026-05-02
 
 ## APIs
 
@@ -53,6 +53,30 @@ The Ramp Developer API enables developers to programmatically access and manage 
 - [JSONSchema](json-schema/ramp-card.json)
 - [JSONSchema](json-schema/ramp-user.json)
 - [JSONLD](json-ld/ramp-context.jsonld)
+- [JSONStructure](json-structure/ramp-transaction-structure.json)
+- [JSONStructure](json-structure/ramp-card-structure.json)
+- [JSONStructure](json-structure/ramp-user-structure.json)
+- [Example](examples/ramp-list-transactions-example.json)
+- [Example](examples/ramp-list-cards-example.json)
+- [Example](examples/ramp-list-users-example.json)
+- [SpectralRules](rules/ramp-rules.yml)
+- [NaftikoCapabilities](capabilities/spend-management.yaml)
+- [NaftikoCapabilities](capabilities/accounting-integration.yaml)
+
+## Capabilities
+
+### Shared Definitions
+
+| File | Description |
+|---|---|
+| [capabilities/shared/ramp-developer-api.yaml](capabilities/shared/ramp-developer-api.yaml) | Ramp Developer API — 11 operations across transactions, cards, users, departments, reimbursements, bills, statements, and audit logs |
+
+### Workflow Capabilities
+
+| Capability | Description | Operations |
+|---|---|---|
+| [capabilities/spend-management.yaml](capabilities/spend-management.yaml) | Finance team and developer workflow for managing corporate spend, cards, and expense automation | 8 tools |
+| [capabilities/accounting-integration.yaml](capabilities/accounting-integration.yaml) | Accounting team workflow for GL mapping, vendor management, and period-end reconciliation | 5 tools |
 
 ## Common Properties
 
@@ -67,6 +91,7 @@ The Ramp Developer API enables developers to programmatically access and manage 
 - [Status](https://status.ramp.com/)
 - [Terms of Service](https://ramp.com/legal/platform-agreement)
 - [Privacy Policy](https://ramp.com/legal/privacy-policy)
+- [Vocabulary](vocabulary/ramp-vocabulary.yml)
 
 ## Maintainers
 

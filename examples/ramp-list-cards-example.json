@@ -1,0 +1,45 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.ramp.com/developer/v1/cards",
+    "headers": {
+      "Authorization": "Bearer {access_token}",
+      "Content-Type": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "id": "card_01HZ5T8KQ9NVXG3PBYA7C2F6A",
+          "cardholder_id": "usr_01HZ5T8KQ9NVXG3PBYA7C2F6B",
+          "display_name": "Engineering Team - AWS",
+          "last_four": "4242",
+          "state": "ACTIVE",
+          "is_physical": false,
+          "spending_restrictions": {
+            "amount": 5000.00,
+            "interval": "MONTHLY"
+          }
+        },
+        {
+          "id": "card_01HZ5T8KQ9NVXG3PBYA7C2F6C",
+          "cardholder_id": "usr_01HZ5T8KQ9NVXG3PBYA7C2F6D",
+          "display_name": "Marketing - Software",
+          "last_four": "8888",
+          "state": "ACTIVE",
+          "is_physical": false,
+          "spending_restrictions": {
+            "amount": 2000.00,
+            "interval": "MONTHLY"
+          }
+        }
+      ],
+      "page": {
+        "next": null,
+        "previous": null
+      }
+    }
+  }
+}

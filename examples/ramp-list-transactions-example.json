@@ -1,0 +1,51 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.ramp.com/developer/v1/transactions",
+    "headers": {
+      "Authorization": "Bearer {access_token}",
+      "Content-Type": "application/json"
+    },
+    "queryParameters": {
+      "from_date": "2026-04-01",
+      "to_date": "2026-04-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "id": "txn_01HZ5T8KQ9NVXG3PBYA7C2F6M",
+          "amount": 124.99,
+          "currency_code": "USD",
+          "merchant_name": "Amazon Web Services",
+          "merchant_category_code": "7372",
+          "user_transaction_time": "2026-04-15T14:32:00Z",
+          "state": "CLEARED",
+          "sk_category_id": 1,
+          "card_id": "card_01HZ5T8KQ9NVXG3PBYA7C2F6A",
+          "user_id": "usr_01HZ5T8KQ9NVXG3PBYA7C2F6B",
+          "memo": "Cloud infrastructure costs"
+        },
+        {
+          "id": "txn_01HZ5T8KQ9NVXG3PBYA7C2F6N",
+          "amount": 49.00,
+          "currency_code": "USD",
+          "merchant_name": "Slack Technologies",
+          "merchant_category_code": "7372",
+          "user_transaction_time": "2026-04-16T09:00:00Z",
+          "state": "CLEARED",
+          "sk_category_id": 2,
+          "card_id": "card_01HZ5T8KQ9NVXG3PBYA7C2F6C",
+          "user_id": "usr_01HZ5T8KQ9NVXG3PBYA7C2F6D",
+          "memo": "Team communication subscription"
+        }
+      ],
+      "page": {
+        "next": "cursor_01HZ5T8KQ9NVXG3PBYA7C2F7A",
+        "previous": null
+      }
+    }
+  }
+}

@@ -21,7 +21,7 @@ tags:
   - Accounting
   - Reimbursements
 created: '2025-02-17'
-modified: '2026-04-28'
+modified: '2026-05-02'
 url: https://raw.githubusercontent.com/api-evangelist/ramp/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
@@ -56,6 +56,24 @@ apis:
         url: json-schema/ramp-user.json
       - type: JSONLD
         url: json-ld/ramp-context.jsonld
+      - type: JSONStructure
+        url: json-structure/ramp-transaction-structure.json
+      - type: JSONStructure
+        url: json-structure/ramp-card-structure.json
+      - type: JSONStructure
+        url: json-structure/ramp-user-structure.json
+      - type: Example
+        url: examples/ramp-list-transactions-example.json
+      - type: Example
+        url: examples/ramp-list-cards-example.json
+      - type: Example
+        url: examples/ramp-list-users-example.json
+      - type: SpectralRules
+        url: rules/ramp-rules.yml
+      - type: NaftikoCapabilities
+        url: capabilities/spend-management.yaml
+      - type: NaftikoCapabilities
+        url: capabilities/accounting-integration.yaml
 common:
   - type: Website
     url: https://ramp.com/
@@ -79,6 +97,8 @@ common:
     url: https://ramp.com/legal/platform-agreement
   - type: Privacy Policy
     url: https://ramp.com/legal/privacy-policy
+  - type: Vocabulary
+    url: vocabulary/ramp-vocabulary.yml
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

@@ -1,0 +1,17 @@
+{
+  "name": "Transaction",
+  "description": "A Ramp card or bill transaction record.",
+  "fields": [
+    { "name": "id", "type": "string", "required": true, "description": "Unique transaction identifier." },
+    { "name": "amount", "type": "number", "required": true, "description": "Transaction amount in original currency." },
+    { "name": "currency_code", "type": "string", "required": true, "description": "ISO 4217 currency code (e.g., USD)." },
+    { "name": "merchant_name", "type": "string", "required": false, "description": "Merchant or vendor name." },
+    { "name": "merchant_category_code", "type": "string", "required": false, "description": "Merchant category code from card network." },
+    { "name": "user_transaction_time", "type": "string (date-time)", "required": false, "description": "Timestamp the transaction was initiated." },
+    { "name": "state", "type": "string (enum)", "required": true, "description": "Transaction state: CLEARED, PENDING, DECLINED, ERROR." },
+    { "name": "sk_category_id", "type": "integer", "required": false, "description": "Ramp spend category identifier." },
+    { "name": "card_id", "type": "string", "required": false, "description": "Identifier of the card used." },
+    { "name": "user_id", "type": "string", "required": false, "description": "Identifier of the user." },
+    { "name": "memo", "type": "string", "required": false, "description": "User-entered memo." }
+  ]
+}

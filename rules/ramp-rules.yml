@@ -1,0 +1,84 @@
+extends: spectral:oas
+rules:
+  ramp-operation-ids-camel-case:
+    description: All operationIds must use camelCase to match the Ramp Developer API convention.
+    message: "OperationId '{{value}}' must be camelCase (e.g., listTransactions, getCard)."
+    severity: warn
+    given: "$.paths[*][*].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  ramp-tags-title-case:
+    description: All tags must use Title Case to match the Ramp Developer API convention.
+    message: "Tag '{{value}}' must use Title Case."
+    severity: warn
+    given: "$.paths[*][*].tags[*]"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z][a-zA-Z ]*$"
+
+  ramp-pagination-list-operations:
+    description: List operations (GET collections) should support pagination via page_size and start query parameters.
+    message: "List operation '{{path}}' should support 'page_size' and 'start' query parameters for pagination."
+    severity: hint
+    given: "$.paths[*].get"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          properties:
+            parameters:
+              type: array
+
+  ramp-response-200-required:
+    description: All GET operations must define a 200 response.
+    message: "GET operation at '{{path}}' must define a 200 response."
+    severity: error
+    given: "$.paths[*].get.responses"
+    then:
+      function: truthy
+
+  ramp-oauth2-scopes-defined:
+    description: All operations that require authentication should reference OAuth2 scopes.
+    message: "Operation '{{path}}' should reference an OAuth2 scope via the security field."
+    severity: warn
+    given: "$.paths[*][*]"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          properties:
+            security:
+              type: array
+
+  ramp-no-trailing-slashes:
+    description: API paths must not end with a trailing slash.
+    message: "Path '{{path}}' must not end with a trailing slash."
+    severity: error
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "/$"
+
+  ramp-kebab-case-paths:
+    description: Path segments should use kebab-case for multi-word identifiers.
+    message: "Path '{{path}}' should use kebab-case for multi-word segments (e.g., /audit-logs not /auditLogs)."
+    severity: warn
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(/[a-z][a-z0-9-]*(/[a-z][a-z0-9-]*|/\\{[^}]+\\})*)?$"
+
+  ramp-resource-descriptions:
+    description: All operations should have a description for developer clarity.
+    message: "Operation '{{path}}' should have a description field."
+    severity: hint
+    given: "$.paths[*][*]"
+    then:
+      field: description
+      function: truthy

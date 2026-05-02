@@ -1,0 +1,14 @@
+{
+  "name": "User",
+  "description": "A Ramp user account within an organization.",
+  "fields": [
+    { "name": "id", "type": "string", "required": true, "description": "Unique user identifier." },
+    { "name": "email", "type": "string", "required": false, "description": "User email address." },
+    { "name": "first_name", "type": "string", "required": false, "description": "User first name." },
+    { "name": "last_name", "type": "string", "required": false, "description": "User last name." },
+    { "name": "role", "type": "string", "required": false, "description": "User role within Ramp (e.g., ADMIN, USER)." },
+    { "name": "department_id", "type": "string", "required": false, "description": "Identifier of the user's department." },
+    { "name": "location_id", "type": "string", "required": false, "description": "Identifier of the user's location." },
+    { "name": "is_manager", "type": "boolean", "required": false, "description": "True if the user has manager privileges." }
+  ]
+}

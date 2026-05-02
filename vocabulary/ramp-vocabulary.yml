@@ -1,0 +1,166 @@
+---
+name: Ramp Vocabulary
+description: >-
+  Domain vocabulary for the Ramp finance automation platform, covering spend management,
+  corporate cards, expense management, accounts payable, and accounting integrations.
+created: "2026-05-02"
+modified: "2026-05-02"
+tags:
+  - Finance
+  - Spend Management
+  - Corporate Cards
+  - Expense Management
+
+terms:
+  - term: Transaction
+    definition: >-
+      A financial event recorded when a Ramp card is used at a merchant or when a bill
+      is paid. Transactions progress through states: PENDING → CLEARED (or DECLINED/ERROR).
+    synonyms:
+      - Expense
+      - Charge
+      - Purchase
+    related:
+      - Card
+      - Merchant
+      - Statement
+
+  - term: Card
+    definition: >-
+      A Ramp-issued payment card assigned to a user or virtual use case. Cards may be
+      physical (mailed to cardholder) or virtual (digital credentials only). Each card
+      carries spending restrictions controlling amount and interval.
+    synonyms:
+      - Corporate Card
+      - Virtual Card
+    related:
+      - Transaction
+      - User
+      - Spending Restrictions
+
+  - term: Spending Restrictions
+    definition: >-
+      Controls applied to a Ramp card that limit the total spend over a given interval
+      (DAILY, WEEKLY, MONTHLY, QUARTERLY, YEARLY, or TOTAL lifetime). Used to enforce
+      budget policies.
+    related:
+      - Card
+      - Department
+
+  - term: User
+    definition: >-
+      An employee or contractor with a Ramp account within the organization. Users may
+      have the role ADMIN (full platform access) or USER (cardholder access). Managers
+      have visibility into their direct reports' spend.
+    related:
+      - Card
+      - Department
+      - Reimbursement
+
+  - term: Department
+    definition: >-
+      An organizational unit used to group spend and reporting. Cards and users are
+      associated with departments for spend analytics.
+    related:
+      - User
+      - Location
+
+  - term: Location
+    definition: >-
+      A physical office or operational site used to organize spend. Cards and users
+      can be associated with a location.
+    related:
+      - Department
+      - User
+
+  - term: Reimbursement
+    definition: >-
+      A request submitted by an employee for reimbursement of out-of-pocket expenses
+      paid using personal funds rather than a Ramp card. Reimbursements include the
+      amount, currency, merchant, and expense date.
+    synonyms:
+      - Out-of-Pocket Expense
+    related:
+      - Transaction
+      - User
+
+  - term: Bill
+    definition: >-
+      A vendor invoice entered into Ramp for payment through the accounts payable
+      workflow. Bills are associated with vendors, carry approval workflows, and
+      are paid via ACH, check, or virtual card.
+    synonyms:
+      - Invoice
+      - AP Bill
+    related:
+      - Vendor
+      - Accounting
+
+  - term: Statement
+    definition: >-
+      A periodic summary of card transactions for a billing cycle. Statements are
+      used for period-end reconciliation and financial close.
+    related:
+      - Transaction
+      - Accounting
+
+  - term: Vendor
+    definition: >-
+      A supplier or service provider whose invoices are managed in Ramp's bill pay
+      and accounting workflows. Vendors are mapped to accounting system records.
+    synonyms:
+      - Supplier
+      - Payee
+    related:
+      - Bill
+      - Accounting
+
+  - term: General Ledger Account
+    definition: >-
+      An accounting chart-of-accounts entry to which transactions and bills are
+      coded. Ramp syncs GL accounts from connected accounting platforms (QuickBooks,
+      Xero, NetSuite, Sage).
+    abbreviation: GL Account
+    related:
+      - Accounting Connection
+      - Transaction
+      - Bill
+
+  - term: Accounting Connection
+    definition: >-
+      The integration between Ramp and an external accounting platform (e.g., QuickBooks
+      Online, Xero, Sage Intacct, NetSuite). Accounting connections sync GL accounts,
+      departments, vendors, and transactions between systems.
+    related:
+      - General Ledger Account
+      - Vendor
+
+  - term: Audit Log
+    definition: >-
+      A tamper-evident log of actions performed within a Ramp organization, including
+      user logins, card changes, spending limit updates, and policy changes. Used for
+      compliance and security reviews.
+    synonyms:
+      - Audit Trail
+      - Activity Log
+    related:
+      - User
+      - Compliance
+
+  - term: App Center
+    definition: >-
+      The Ramp marketplace for third-party applications built by developers using the
+      Ramp Developer API. Applications in the App Center can be installed by Ramp
+      customers to extend the platform.
+    related:
+      - Developer API
+      - OAuth2
+
+  - term: OAuth2 Scope
+    definition: >-
+      A permission granted to an application during the OAuth2 client credentials flow.
+      Ramp scopes are resource-specific (e.g., transactions:read, cards:read) and
+      follow the principle of least privilege.
+    related:
+      - Developer API
+      - App Center

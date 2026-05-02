@@ -1,0 +1,41 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.ramp.com/developer/v1/users",
+    "headers": {
+      "Authorization": "Bearer {access_token}",
+      "Content-Type": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "id": "usr_01HZ5T8KQ9NVXG3PBYA7C2F6B",
+          "email": "jane.doe@example.com",
+          "first_name": "Jane",
+          "last_name": "Doe",
+          "role": "ADMIN",
+          "department_id": "dept_01HZ5T8KQ9NVXG3PBYA7C2F61",
+          "location_id": "loc_01HZ5T8KQ9NVXG3PBYA7C2F62",
+          "is_manager": true
+        },
+        {
+          "id": "usr_01HZ5T8KQ9NVXG3PBYA7C2F6D",
+          "email": "john.smith@example.com",
+          "first_name": "John",
+          "last_name": "Smith",
+          "role": "USER",
+          "department_id": "dept_01HZ5T8KQ9NVXG3PBYA7C2F63",
+          "location_id": "loc_01HZ5T8KQ9NVXG3PBYA7C2F62",
+          "is_manager": false
+        }
+      ],
+      "page": {
+        "next": null,
+        "previous": null
+      }
+    }
+  }
+}

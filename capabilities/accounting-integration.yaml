@@ -1,0 +1,137 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Ramp Accounting Integration"
+  description: >-
+    Workflow capability for syncing Ramp spend data with external accounting platforms.
+    Enables accounting teams to map transactions to general ledger accounts, manage
+    vendors, apply accounting fields, and export financial data for reconciliation
+    in systems like QuickBooks, Xero, NetSuite, and Sage.
+  tags:
+    - Finance
+    - Accounting
+    - Accounts Payable
+    - Vendors
+    - Ramp
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      RAMP_ACCESS_TOKEN: RAMP_ACCESS_TOKEN
+
+capability:
+  consumes:
+    - import: ramp
+      location: ./shared/ramp-developer-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8081
+      namespace: ramp-accounting-api
+      description: "Unified REST API for Ramp accounting integration workflows."
+      resources:
+        - path: /v1/accounting/accounts
+          name: accounting-accounts
+          description: "General ledger accounts."
+          operations:
+            - method: GET
+              name: list-accounting-accounts
+              description: "List all general ledger accounts."
+              call: "ramp.list-accounting-accounts"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/accounting/vendors
+          name: accounting-vendors
+          description: "Vendor records for accounting integrations."
+          operations:
+            - method: GET
+              name: list-accounting-vendors
+              description: "List all vendor records."
+              call: "ramp.list-accounting-vendors"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/bills
+          name: bills
+          description: "Bill pay records."
+          operations:
+            - method: GET
+              name: list-bills
+              description: "List all bills pending accounting review."
+              call: "ramp.list-bills"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/audit-logs
+          name: audit-logs
+          description: "Audit events for compliance and accounting review."
+          operations:
+            - method: GET
+              name: list-audit-events
+              description: "List audit events."
+              call: "ramp.list-audit-events"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9081
+      namespace: ramp-accounting-mcp
+      transport: http
+      description: "MCP server for AI-assisted accounting integration with Ramp."
+      tools:
+        - name: list-gl-accounts
+          description: "List general ledger accounts configured in Ramp for accounting system mapping."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "ramp.list-accounting-accounts"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-vendors
+          description: "List vendor records used for bill pay and accounting integrations."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "ramp.list-accounting-vendors"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-bills
+          description: "List bill pay records for accounts payable workflows."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "ramp.list-bills"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-audit-events
+          description: "List audit events for compliance reporting and accounting review."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "ramp.list-audit-events"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-statements
+          description: "List card statements for period-end close and reconciliation."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "ramp.list-statements"
+          outputParameters:
+            - type: object
+              mapping: "$."

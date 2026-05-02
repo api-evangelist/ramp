@@ -1,0 +1,291 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Ramp Developer API"
+  description: >-
+    The Ramp Developer API enables developers to access and manage Ramp account
+    data, automate financial workflows, and build applications for the Ramp App
+    Center. It provides resources for transactions, cards, users, departments,
+    locations, vendors, accounting integrations, reimbursements, bills, and statements.
+  tags:
+    - Finance
+    - Spend Management
+    - Corporate Cards
+    - Expense Management
+    - Accounts Payable
+    - Accounting
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      RAMP_ACCESS_TOKEN: RAMP_ACCESS_TOKEN
+
+capability:
+  consumes:
+    - type: http
+      namespace: ramp
+      baseUri: https://api.ramp.com/developer/v1
+      description: "Ramp Developer API for finance automation and spend management."
+      authentication:
+        type: bearer
+        token: "{{RAMP_ACCESS_TOKEN}}"
+      resources:
+        - name: accounting-accounts
+          path: /accounting/accounts
+          description: "General ledger account resources."
+          operations:
+            - name: list-accounting-accounts
+              method: GET
+              description: "Returns a paginated list of general ledger accounts."
+              inputParameters:
+                - name: page_size
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Number of records per page."
+                - name: start
+                  in: query
+                  type: string
+                  required: false
+                  description: "Cursor for pagination."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: accounting-vendors
+          path: /accounting/vendors
+          description: "Vendor records for accounting integrations."
+          operations:
+            - name: list-accounting-vendors
+              method: GET
+              description: "Returns a list of vendor records."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: transactions
+          path: /transactions
+          description: "Card and bill transactions."
+          operations:
+            - name: list-transactions
+              method: GET
+              description: "Returns a paginated list of transactions."
+              inputParameters:
+                - name: from_date
+                  in: query
+                  type: string
+                  required: false
+                  description: "Start date filter (YYYY-MM-DD)."
+                - name: to_date
+                  in: query
+                  type: string
+                  required: false
+                  description: "End date filter (YYYY-MM-DD)."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: transaction
+          path: /transactions/{id}
+          description: "Single transaction resource."
+          operations:
+            - name: get-transaction
+              method: GET
+              description: "Retrieves a single transaction by ID."
+              inputParameters:
+                - name: id
+                  in: path
+                  type: string
+                  required: true
+                  description: "Transaction identifier."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: cards
+          path: /cards
+          description: "Physical and virtual cards."
+          operations:
+            - name: list-cards
+              method: GET
+              description: "Returns a paginated list of cards."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: users
+          path: /users
+          description: "User accounts."
+          operations:
+            - name: list-users
+              method: GET
+              description: "Returns a paginated list of users."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: departments
+          path: /departments
+          description: "Department records."
+          operations:
+            - name: list-departments
+              method: GET
+              description: "Returns a paginated list of departments."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: locations
+          path: /locations
+          description: "Location records."
+          operations:
+            - name: list-locations
+              method: GET
+              description: "Returns a paginated list of locations."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: reimbursements
+          path: /reimbursements
+          description: "Out-of-pocket reimbursement requests."
+          operations:
+            - name: list-reimbursements
+              method: GET
+              description: "Returns a paginated list of reimbursements."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: bills
+          path: /bills
+          description: "Bill pay records."
+          operations:
+            - name: list-bills
+              method: GET
+              description: "Returns a paginated list of bills."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: statements
+          path: /statements
+          description: "Card statement records."
+          operations:
+            - name: list-statements
+              method: GET
+              description: "Returns a paginated list of statements."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: audit-logs
+          path: /audit-logs/events
+          description: "Audit events."
+          operations:
+            - name: list-audit-events
+              method: GET
+              description: "Returns a paginated list of audit events."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8100
+      namespace: ramp-rest
+      resources:
+        - path: /v1/transactions
+          name: transactions
+          description: "Card and bill transactions."
+          operations:
+            - method: GET
+              name: list-transactions
+              description: "List all transactions."
+
+        - path: /v1/cards
+          name: cards
+          description: "Corporate cards."
+          operations:
+            - method: GET
+              name: list-cards
+              description: "List all cards."
+
+        - path: /v1/users
+          name: users
+          description: "Ramp users."
+          operations:
+            - method: GET
+              name: list-users
+              description: "List all users."
+
+    - type: mcp
+      port: 9100
+      namespace: ramp-mcp
+      transport: http
+      tools:
+        - name: list-transactions
+          description: "List Ramp transactions with optional date filters."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "ramp.list-transactions"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-transaction
+          description: "Retrieve a single Ramp transaction by ID."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "ramp.get-transaction"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-cards
+          description: "List all corporate cards."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "ramp.list-cards"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-users
+          description: "List all Ramp users."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "ramp.list-users"
+          outputParameters:
+            - type: object
+              mapping: "$."
