@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ramp/refs/heads/main/json-schema/ramp-card.json",
+  "title": "Ramp Card",
+  "description": "Schema describing a physical or virtual Ramp card.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "cardholder_id": { "type": "string" },
+    "display_name": { "type": "string" },
+    "last_four": { "type": "string", "minLength": 4, "maxLength": 4 },
+    "state": { "type": "string", "enum": ["ACTIVE", "SUSPENDED", "TERMINATED", "UNACTIVATED"] },
+    "is_physical": { "type": "boolean" },
+    "spending_restrictions": {
+      "type": "object",
+      "properties": {
+        "amount": { "type": "number" },
+        "interval": { "type": "string", "enum": ["DAILY", "WEEKLY", "MONTHLY", "QUARTERLY", "YEARLY", "TOTAL"] }
+      }
+    }
+  },
+  "required": ["id", "state"]
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ramp/refs/heads/main/json-schema/ramp-user.json",
+  "title": "Ramp User",
+  "description": "Schema describing a user within a Ramp organization.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "email": { "type": "string", "format": "email" },
+    "first_name": { "type": "string" },
+    "last_name": { "type": "string" },
+    "role": { "type": "string", "enum": ["BUSINESS_OWNER", "BUSINESS_ADMIN", "BUSINESS_USER", "BUSINESS_BOOKKEEPER", "IT_ADMIN"] },
+    "department_id": { "type": "string" },
+    "location_id": { "type": "string" },
+    "is_manager": { "type": "boolean" },
+    "manager_id": { "type": "string" },
+    "status": { "type": "string", "enum": ["USER_ACTIVE", "USER_SUSPENDED", "USER_INACTIVE"] }
+  },
+  "required": ["id", "email"]
+}

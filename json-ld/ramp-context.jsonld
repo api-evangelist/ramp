@@ -1,0 +1,31 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "ramp": "https://ramp.com/ns#",
+    "Transaction": "ramp:Transaction",
+    "Card": "ramp:Card",
+    "User": "ramp:User",
+    "Department": "ramp:Department",
+    "Location": "ramp:Location",
+    "Vendor": "ramp:Vendor",
+    "Reimbursement": "ramp:Reimbursement",
+    "Bill": "ramp:Bill",
+    "Statement": "ramp:Statement",
+    "id": "@id",
+    "type": "@type",
+    "name": "schema:name",
+    "email": "schema:email",
+    "amount": "schema:price",
+    "currency_code": "schema:priceCurrency",
+    "merchant_name": "schema:merchant",
+    "user_transaction_time": "schema:dateTime",
+    "first_name": "schema:givenName",
+    "last_name": "schema:familyName",
+    "role": "schema:roleName",
+    "department_id": { "@id": "ramp:department", "@type": "@id" },
+    "location_id": { "@id": "ramp:location", "@type": "@id" },
+    "card_id": { "@id": "ramp:card", "@type": "@id" },
+    "user_id": { "@id": "ramp:user", "@type": "@id" }
+  }
+}

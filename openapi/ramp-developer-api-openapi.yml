@@ -1,0 +1,559 @@
+openapi: 3.1.0
+info:
+  title: Ramp Developer API
+  description: >-
+    The Ramp Developer API enables developers to access and manage Ramp account
+    data, build applications for the Ramp App Center, and automate financial
+    workflows. It provides programmatic access to spend management resources
+    including transactions, cards, users, departments, locations, vendors,
+    accounting integrations, reimbursements, bills, and statements. The API
+    supports both reading data for reporting and analytics use cases and
+    writing data for automation of financial operations across an organization.
+  version: '1.0'
+  contact:
+    name: Ramp Developer Support
+    url: https://docs.ramp.com/developer-api/v1/overview/introduction
+  termsOfService: https://ramp.com/legal/platform-agreement
+  license:
+    name: Ramp Platform Terms
+    url: https://ramp.com/legal/platform-agreement
+externalDocs:
+  description: Ramp Developer API Documentation
+  url: https://docs.ramp.com/developer-api/v1/overview/introduction
+servers:
+  - url: https://api.ramp.com/developer/v1
+    description: Production
+  - url: https://demo-api.ramp.com/developer/v1
+    description: Demo
+tags:
+  - name: Accounts
+    description: General ledger account resources used to map Ramp activity to accounting systems.
+  - name: Accounting Fields
+    description: Custom accounting fields and field options for categorizing transactions.
+  - name: Accounting Connection
+    description: Endpoints for managing the connection between Ramp and external accounting platforms.
+  - name: Vendors
+    description: Vendor records used by accounting integrations and bill pay workflows.
+  - name: Tax Codes
+    description: Tax code configuration for accounting integrations.
+  - name: Inventory Items
+    description: Inventory item records used for line item categorization.
+  - name: Applications
+    description: Financing and credit applications.
+  - name: Audit Logs
+    description: Audit events recording activity within a Ramp organization.
+  - name: Transactions
+    description: Card and bill transactions across the organization.
+  - name: Cards
+    description: Physical and virtual cards issued to users and departments.
+  - name: Users
+    description: User accounts within a Ramp organization.
+  - name: Departments
+    description: Department records used to organize spend.
+  - name: Locations
+    description: Location records used to organize spend.
+  - name: Reimbursements
+    description: Out-of-pocket reimbursement requests.
+  - name: Bills
+    description: Bill pay records and approval workflows.
+  - name: Statements
+    description: Card statement records.
+paths:
+  /accounting/accounts:
+    get:
+      tags:
+        - Accounts
+      summary: List general ledger accounts
+      description: Returns a paginated list of general ledger accounts configured for the organization.
+      operationId: listAccountingAccounts
+      parameters:
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+        - name: start
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A page of accounting accounts.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountList'
+      security:
+        - OAuth2:
+            - accounting:read
+  /accounting/vendors:
+    get:
+      tags:
+        - Vendors
+      summary: List accounting vendors
+      operationId: listAccountingVendors
+      responses:
+        '200':
+          description: A page of vendor records.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VendorList'
+      security:
+        - OAuth2:
+            - accounting:read
+  /transactions:
+    get:
+      tags:
+        - Transactions
+      summary: List transactions
+      description: Returns a paginated list of transactions for the organization.
+      operationId: listTransactions
+      parameters:
+        - name: from_date
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: to_date
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: A page of transactions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionList'
+      security:
+        - OAuth2:
+            - transactions:read
+  /transactions/{id}:
+    get:
+      tags:
+        - Transactions
+      summary: Retrieve a transaction
+      operationId: getTransaction
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A transaction record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+      security:
+        - OAuth2:
+            - transactions:read
+  /cards:
+    get:
+      tags:
+        - Cards
+      summary: List cards
+      operationId: listCards
+      responses:
+        '200':
+          description: A page of cards.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardList'
+      security:
+        - OAuth2:
+            - cards:read
+  /users:
+    get:
+      tags:
+        - Users
+      summary: List users
+      operationId: listUsers
+      responses:
+        '200':
+          description: A page of users.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+      security:
+        - OAuth2:
+            - users:read
+  /departments:
+    get:
+      tags:
+        - Departments
+      summary: List departments
+      operationId: listDepartments
+      responses:
+        '200':
+          description: A page of departments.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartmentList'
+      security:
+        - OAuth2:
+            - departments:read
+  /locations:
+    get:
+      tags:
+        - Locations
+      summary: List locations
+      operationId: listLocations
+      responses:
+        '200':
+          description: A page of locations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationList'
+      security:
+        - OAuth2:
+            - locations:read
+  /reimbursements:
+    get:
+      tags:
+        - Reimbursements
+      summary: List reimbursements
+      operationId: listReimbursements
+      responses:
+        '200':
+          description: A page of reimbursements.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReimbursementList'
+      security:
+        - OAuth2:
+            - reimbursements:read
+  /bills:
+    get:
+      tags:
+        - Bills
+      summary: List bills
+      operationId: listBills
+      responses:
+        '200':
+          description: A page of bills.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillList'
+      security:
+        - OAuth2:
+            - bills:read
+  /statements:
+    get:
+      tags:
+        - Statements
+      summary: List statements
+      operationId: listStatements
+      responses:
+        '200':
+          description: A page of statements.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatementList'
+      security:
+        - OAuth2:
+            - statements:read
+  /audit-logs/events:
+    get:
+      tags:
+        - Audit Logs
+      summary: List audit events
+      operationId: listAuditEvents
+      responses:
+        '200':
+          description: A page of audit events.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditEventList'
+      security:
+        - OAuth2:
+            - audit:read
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.ramp.com/developer/v1/token
+          scopes:
+            accounting:read: Read accounting resources
+            accounting:write: Write accounting resources
+            transactions:read: Read transactions
+            cards:read: Read cards
+            users:read: Read users
+            departments:read: Read departments
+            locations:read: Read locations
+            reimbursements:read: Read reimbursements
+            bills:read: Read bills
+            statements:read: Read statements
+            audit:read: Read audit logs
+            applications:read: Read applications
+  schemas:
+    Account:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        code:
+          type: string
+        classification:
+          type: string
+    AccountList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+        page:
+          $ref: '#/components/schemas/Page'
+    Vendor:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        code:
+          type: string
+    VendorList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vendor'
+        page:
+          $ref: '#/components/schemas/Page'
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+        amount:
+          type: number
+        currency_code:
+          type: string
+        merchant_name:
+          type: string
+        user_transaction_time:
+          type: string
+          format: date-time
+        state:
+          type: string
+        sk_category_id:
+          type: integer
+        card_id:
+          type: string
+        user_id:
+          type: string
+    TransactionList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+        page:
+          $ref: '#/components/schemas/Page'
+    Card:
+      type: object
+      properties:
+        id:
+          type: string
+        cardholder_id:
+          type: string
+        display_name:
+          type: string
+        last_four:
+          type: string
+        state:
+          type: string
+        is_physical:
+          type: boolean
+    CardList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Card'
+        page:
+          $ref: '#/components/schemas/Page'
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        role:
+          type: string
+        department_id:
+          type: string
+        location_id:
+          type: string
+        is_manager:
+          type: boolean
+    UserList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        page:
+          $ref: '#/components/schemas/Page'
+    Department:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    DepartmentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Department'
+        page:
+          $ref: '#/components/schemas/Page'
+    Location:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    LocationList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Location'
+        page:
+          $ref: '#/components/schemas/Page'
+    Reimbursement:
+      type: object
+      properties:
+        id:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        merchant:
+          type: string
+        user_id:
+          type: string
+        transaction_date:
+          type: string
+          format: date
+        state:
+          type: string
+    ReimbursementList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reimbursement'
+        page:
+          $ref: '#/components/schemas/Page'
+    Bill:
+      type: object
+      properties:
+        id:
+          type: string
+        amount:
+          type: object
+        vendor_id:
+          type: string
+        invoice_number:
+          type: string
+        due_at:
+          type: string
+          format: date-time
+        status:
+          type: string
+    BillList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bill'
+        page:
+          $ref: '#/components/schemas/Page'
+    Statement:
+      type: object
+      properties:
+        id:
+          type: string
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        amount:
+          type: number
+    StatementList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Statement'
+        page:
+          $ref: '#/components/schemas/Page'
+    AuditEvent:
+      type: object
+      properties:
+        id:
+          type: string
+        event_type:
+          type: string
+        actor_user_id:
+          type: string
+        target_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+    AuditEventList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditEvent'
+        page:
+          $ref: '#/components/schemas/Page'
+    Page:
+      type: object
+      properties:
+        next:
+          type: string
+        previous:
+          type: string

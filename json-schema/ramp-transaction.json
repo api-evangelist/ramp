@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ramp/refs/heads/main/json-schema/ramp-transaction.json",
+  "title": "Ramp Transaction",
+  "description": "Schema describing a Ramp card or bill transaction record returned by the Ramp Developer API.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "Unique identifier of the transaction." },
+    "amount": { "type": "number", "description": "Transaction amount in the original currency." },
+    "currency_code": { "type": "string", "description": "ISO 4217 currency code." },
+    "merchant_name": { "type": "string", "description": "Merchant or vendor name as captured at point of sale." },
+    "merchant_category_code": { "type": "string", "description": "Merchant category code returned by the card network." },
+    "user_transaction_time": { "type": "string", "format": "date-time", "description": "Timestamp the transaction was initiated by the user." },
+    "state": { "type": "string", "enum": ["CLEARED", "PENDING", "DECLINED", "ERROR"], "description": "Transaction state." },
+    "sk_category_id": { "type": "integer", "description": "Ramp spend category identifier." },
+    "card_id": { "type": "string", "description": "Identifier of the card used." },
+    "user_id": { "type": "string", "description": "Identifier of the user that initiated the transaction." },
+    "memo": { "type": "string", "description": "Memo attached to the transaction." }
+  },
+  "required": ["id", "amount", "currency_code", "state"]
+}
