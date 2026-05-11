@@ -99,6 +99,23 @@ common:
     url: https://ramp.com/legal/privacy-policy
   - type: Vocabulary
     url: vocabulary/ramp-vocabulary.yml
+  - type: Integrations
+    url: https://ramp.com/integrations
+integrations:
+  - name: NetSuite Accounting
+  - name: Sage Intacct Accounting
+  - name: QuickBooks Accounting
+  - name: Microsoft Dynamics Business Central Accounting
+  - name: Xero Accounting
+  - name: Workday Financial Management Accounting
+  - name: Acumatica Accounting
+  - name: QuickBooks Desktop Accounting
+  - name: Oracle Fusion Cloud Accounting
+  - name: Zoho Books Accounting
+  - name: Amazon Business Receipt automation
+  - name: Corporate Traveler Receipt automation, Travel
+  - name: DoorDash Receipt automation, Productivity
+  - name: Egencia Receipt automation, Travel
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
