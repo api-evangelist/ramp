@@ -83,7 +83,7 @@ common:
     url: https://docs.ramp.com/developer-api/v1/overview/introduction
   - type: Authentication
     url: https://docs.ramp.com/developer-api/v1/guides/authorization
-  - type: Sign Up
+  - type: SignUp
     url: https://app.ramp.com/sign-up
   - type: Pricing
     url: https://ramp.com/pricing
@@ -91,11 +91,11 @@ common:
     url: https://ramp.com/blog
   - type: Support
     url: https://support.ramp.com/
-  - type: Status
+  - type: StatusPage
     url: https://status.ramp.com/
-  - type: Terms of Service
+  - type: TermsOfService
     url: https://ramp.com/legal/platform-agreement
-  - type: Privacy Policy
+  - type: PrivacyPolicy
     url: https://ramp.com/legal/privacy-policy
   - type: Vocabulary
     url: vocabulary/ramp-vocabulary.yml
