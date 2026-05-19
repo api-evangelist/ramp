@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Ramp Developer API — Statements
+  description: 'Ramp Developer API — Statements. 1 operations. Lead operation: List statements. Self-contained Naftiko capability
+    covering one Ramp business surface.'
+  tags:
+  - Ramp
+  - Statements
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    RAMP_API_KEY: RAMP_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: developer-statements
+    baseUri: https://api.ramp.com/developer/v1
+    description: Ramp Developer API — Statements business capability. Self-contained, no shared references.
+    resources:
+    - name: statements
+      path: /statements
+      operations:
+      - name: liststatements
+        method: GET
+        description: List statements
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.RAMP_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: developer-statements-rest
+    port: 8080
+    description: REST adapter for Ramp Developer API — Statements. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/statements
+      name: statements
+      description: REST surface for statements.
+      operations:
+      - method: GET
+        name: liststatements
+        description: List statements
+        call: developer-statements.liststatements
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: developer-statements-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Ramp Developer API — Statements. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-statements
+      description: List statements
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: developer-statements.liststatements
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Ramp Developer API — Reimbursements
+  description: 'Ramp Developer API — Reimbursements. 1 operations. Lead operation: List reimbursements. Self-contained Naftiko
+    capability covering one Ramp business surface.'
+  tags:
+  - Ramp
+  - Reimbursements
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    RAMP_API_KEY: RAMP_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: developer-reimbursements
+    baseUri: https://api.ramp.com/developer/v1
+    description: Ramp Developer API — Reimbursements business capability. Self-contained, no shared references.
+    resources:
+    - name: reimbursements
+      path: /reimbursements
+      operations:
+      - name: listreimbursements
+        method: GET
+        description: List reimbursements
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.RAMP_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: developer-reimbursements-rest
+    port: 8080
+    description: REST adapter for Ramp Developer API — Reimbursements. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/reimbursements
+      name: reimbursements
+      description: REST surface for reimbursements.
+      operations:
+      - method: GET
+        name: listreimbursements
+        description: List reimbursements
+        call: developer-reimbursements.listreimbursements
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: developer-reimbursements-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Ramp Developer API — Reimbursements. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-reimbursements
+      description: List reimbursements
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: developer-reimbursements.listreimbursements
+      outputParameters:
+      - type: object
+        mapping: $.

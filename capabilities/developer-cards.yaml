@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Ramp Developer API — Cards
+  description: 'Ramp Developer API — Cards. 1 operations. Lead operation: List cards. Self-contained Naftiko capability covering
+    one Ramp business surface.'
+  tags:
+  - Ramp
+  - Cards
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    RAMP_API_KEY: RAMP_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: developer-cards
+    baseUri: https://api.ramp.com/developer/v1
+    description: Ramp Developer API — Cards business capability. Self-contained, no shared references.
+    resources:
+    - name: cards
+      path: /cards
+      operations:
+      - name: listcards
+        method: GET
+        description: List cards
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.RAMP_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: developer-cards-rest
+    port: 8080
+    description: REST adapter for Ramp Developer API — Cards. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/cards
+      name: cards
+      description: REST surface for cards.
+      operations:
+      - method: GET
+        name: listcards
+        description: List cards
+        call: developer-cards.listcards
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: developer-cards-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Ramp Developer API — Cards. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-cards
+      description: List cards
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: developer-cards.listcards
+      outputParameters:
+      - type: object
+        mapping: $.

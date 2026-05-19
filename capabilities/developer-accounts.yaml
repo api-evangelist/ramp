@@ -1,0 +1,83 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Ramp Developer API — Accounts
+  description: 'Ramp Developer API — Accounts. 1 operations. Lead operation: List general ledger accounts. Self-contained
+    Naftiko capability covering one Ramp business surface.'
+  tags:
+  - Ramp
+  - Accounts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    RAMP_API_KEY: RAMP_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: developer-accounts
+    baseUri: https://api.ramp.com/developer/v1
+    description: Ramp Developer API — Accounts business capability. Self-contained, no shared references.
+    resources:
+    - name: accounting-accounts
+      path: /accounting/accounts
+      operations:
+      - name: listaccountingaccounts
+        method: GET
+        description: List general ledger accounts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page_size
+          in: query
+          type: integer
+        - name: start
+          in: query
+          type: string
+    authentication:
+      type: bearer
+      token: '{{env.RAMP_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: developer-accounts-rest
+    port: 8080
+    description: REST adapter for Ramp Developer API — Accounts. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/accounting/accounts
+      name: accounting-accounts
+      description: REST surface for accounting-accounts.
+      operations:
+      - method: GET
+        name: listaccountingaccounts
+        description: List general ledger accounts
+        call: developer-accounts.listaccountingaccounts
+        with:
+          page_size: rest.page_size
+          start: rest.start
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: developer-accounts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Ramp Developer API — Accounts. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-general-ledger-accounts
+      description: List general ledger accounts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: developer-accounts.listaccountingaccounts
+      with:
+        page_size: tools.page_size
+        start: tools.start
+      outputParameters:
+      - type: object
+        mapping: $.

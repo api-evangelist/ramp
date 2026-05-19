@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Ramp Developer API — Bills
+  description: 'Ramp Developer API — Bills. 1 operations. Lead operation: List bills. Self-contained Naftiko capability covering
+    one Ramp business surface.'
+  tags:
+  - Ramp
+  - Bills
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    RAMP_API_KEY: RAMP_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: developer-bills
+    baseUri: https://api.ramp.com/developer/v1
+    description: Ramp Developer API — Bills business capability. Self-contained, no shared references.
+    resources:
+    - name: bills
+      path: /bills
+      operations:
+      - name: listbills
+        method: GET
+        description: List bills
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.RAMP_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: developer-bills-rest
+    port: 8080
+    description: REST adapter for Ramp Developer API — Bills. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/bills
+      name: bills
+      description: REST surface for bills.
+      operations:
+      - method: GET
+        name: listbills
+        description: List bills
+        call: developer-bills.listbills
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: developer-bills-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Ramp Developer API — Bills. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-bills
+      description: List bills
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: developer-bills.listbills
+      outputParameters:
+      - type: object
+        mapping: $.

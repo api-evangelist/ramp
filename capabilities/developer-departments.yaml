@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Ramp Developer API — Departments
+  description: 'Ramp Developer API — Departments. 1 operations. Lead operation: List departments. Self-contained Naftiko capability
+    covering one Ramp business surface.'
+  tags:
+  - Ramp
+  - Departments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    RAMP_API_KEY: RAMP_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: developer-departments
+    baseUri: https://api.ramp.com/developer/v1
+    description: Ramp Developer API — Departments business capability. Self-contained, no shared references.
+    resources:
+    - name: departments
+      path: /departments
+      operations:
+      - name: listdepartments
+        method: GET
+        description: List departments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.RAMP_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: developer-departments-rest
+    port: 8080
+    description: REST adapter for Ramp Developer API — Departments. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/departments
+      name: departments
+      description: REST surface for departments.
+      operations:
+      - method: GET
+        name: listdepartments
+        description: List departments
+        call: developer-departments.listdepartments
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: developer-departments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Ramp Developer API — Departments. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-departments
+      description: List departments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: developer-departments.listdepartments
+      outputParameters:
+      - type: object
+        mapping: $.
