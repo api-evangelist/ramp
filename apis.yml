@@ -121,6 +121,8 @@ common:
     url: vocabulary/ramp-vocabulary.yml
   - type: Integrations
     url: https://ramp.com/integrations
+  - type: LLMsTxt
+    url: https://docs.ramp.com/llms.txt
 integrations:
   - name: NetSuite Accounting
   - name: Sage Intacct Accounting
