@@ -1,0 +1,738 @@
+asyncapi: 2.6.0
+info:
+  title: Ramp Developer API Webhooks
+  version: 1.0.0
+  description: |
+    Event-driven surface for the Ramp Developer API. Ramp delivers
+    webhook events to subscriber-provided HTTPS endpoints whenever
+    state changes occur on resources such as transactions, bills,
+    reimbursements, purchase orders, vendors, users, and unified
+    requests.
+
+    All payloads share a common envelope and are signed with an
+    HMAC-SHA256 signature delivered in the `X-Ramp-Signature`
+    request header so consumers can verify authenticity.
+
+    Source: https://docs.ramp.com/developer-api/v1/webhooks
+
+    NOTE: The user task brief referenced a Svix signature scheme.
+    Ramp's public documentation describes signing using the
+    `X-Ramp-Signature` header (HMAC-SHA256 of the raw request body
+    with the subscription secret). The spec below models Ramp's
+    documented scheme rather than a fabricated Svix scheme so the
+    artifact stays faithful to the source. Consumers integrating
+    via a Svix-style relay should treat the documented Ramp signing
+    headers as canonical.
+  contact:
+    name: Ramp Developer Support
+    url: https://docs.ramp.com/developer-api/v1/overview/introduction
+  license:
+    name: Ramp Platform Agreement
+    url: https://ramp.com/legal/platform-agreement
+  tags:
+    - name: corporate-cards
+    - name: spend-management
+    - name: webhooks
+    - name: events
+
+defaultContentType: application/json
+
+servers:
+  subscriber:
+    url: '{webhookUrl}'
+    protocol: https
+    description: |
+      Subscriber-controlled HTTPS endpoint registered with Ramp.
+      Ramp POSTs each event to this URL. Endpoints must respond
+      with a 2xx status within 10 seconds; otherwise Ramp retries
+      (429/5xx only) up to 10 times with exponential backoff and
+      jitter (0-60s initial delay).
+    variables:
+      webhookUrl:
+        default: https://example.com/webhooks/ramp
+        description: Fully-qualified HTTPS URL configured on the Ramp webhook subscription.
+
+channels:
+  ramp/webhook:
+    description: |
+      Single inbound channel that receives every Ramp webhook event.
+      Consumers route on the envelope `type` field. The complete list
+      of event types is enumerated in the `RampEventType` schema.
+    bindings:
+      http:
+        type: request
+        method: POST
+        bindingVersion: 0.3.0
+    subscribe:
+      summary: Receive a Ramp webhook event.
+      operationId: receiveRampWebhook
+      bindings:
+        http:
+          type: request
+          method: POST
+          bindingVersion: 0.3.0
+      message:
+        oneOf:
+          - $ref: '#/components/messages/ApplicationsStatusUpdated'
+          - $ref: '#/components/messages/BillsApproved'
+          - $ref: '#/components/messages/BillsArchived'
+          - $ref: '#/components/messages/BillsCreated'
+          - $ref: '#/components/messages/BillsPaid'
+          - $ref: '#/components/messages/BillsReadyToSync'
+          - $ref: '#/components/messages/BillsRejected'
+          - $ref: '#/components/messages/EntitiesCreated'
+          - $ref: '#/components/messages/ItemReceiptsCreated'
+          - $ref: '#/components/messages/PaymentsUpdated'
+          - $ref: '#/components/messages/PurchaseOrdersArchived'
+          - $ref: '#/components/messages/PurchaseOrdersCreated'
+          - $ref: '#/components/messages/PurchaseOrdersUpdated'
+          - $ref: '#/components/messages/ReimbursementsBatchPaymentReimbursed'
+          - $ref: '#/components/messages/ReimbursementsReadyForReview'
+          - $ref: '#/components/messages/ReimbursementsReadyToSync'
+          - $ref: '#/components/messages/ReimbursementsSyncRequested'
+          - $ref: '#/components/messages/SpendRequestsCommentCreated'
+          - $ref: '#/components/messages/TransactionsAuthorized'
+          - $ref: '#/components/messages/TransactionsCleared'
+          - $ref: '#/components/messages/TransactionsDeclined'
+          - $ref: '#/components/messages/TransactionsReadyForReview'
+          - $ref: '#/components/messages/TransactionsReadyToSync'
+          - $ref: '#/components/messages/TransactionsSyncRequested'
+          - $ref: '#/components/messages/TransactionsSynced'
+          - $ref: '#/components/messages/UnifiedRequestsCreated'
+          - $ref: '#/components/messages/UnifiedRequestsExternalApprovalRequest'
+          - $ref: '#/components/messages/UnifiedRequestsExternalApprovalRequestReset'
+          - $ref: '#/components/messages/UnifiedRequestsModified'
+          - $ref: '#/components/messages/UnifiedRequestsNodeAdvanced'
+          - $ref: '#/components/messages/UnifiedRequestsOverrideApproved'
+          - $ref: '#/components/messages/UnifiedRequestsUpdated'
+          - $ref: '#/components/messages/UsersInviteAccepted'
+          - $ref: '#/components/messages/VendorsActivated'
+          - $ref: '#/components/messages/VendorsUpdated'
+          - $ref: '#/components/messages/TestsTestEvent'
+
+components:
+  messageTraits:
+    RampWebhookHeaders:
+      headers:
+        type: object
+        required:
+          - X-Ramp-Signature
+        properties:
+          X-Ramp-Signature:
+            type: string
+            description: |
+              HMAC-SHA256 hash of the raw request body, signed with
+              the webhook subscription secret. Verify by recomputing
+              the HMAC over the exact raw bytes received and comparing
+              in constant time.
+            example: <hmac-sha256-hex>
+          Content-Type:
+            type: string
+            const: application/json
+          User-Agent:
+            type: string
+            description: Identifies the Ramp webhook delivery agent.
+
+  messages:
+    ApplicationsStatusUpdated:
+      name: ApplicationsStatusUpdated
+      title: applications.status_updated
+      summary: Fired when a Ramp application status changes (e.g. IN_REVIEW, APPROVED, REJECTED).
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: applications.status_updated
+
+    BillsApproved:
+      name: BillsApproved
+      title: bills.approved
+      summary: Fired when a bill is approved.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: bills.approved
+
+    BillsArchived:
+      name: BillsArchived
+      title: bills.archived
+      summary: Fired when a bill is archived.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: bills.archived
+
+    BillsCreated:
+      name: BillsCreated
+      title: bills.created
+      summary: Fired when a new bill is created.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: bills.created
+
+    BillsPaid:
+      name: BillsPaid
+      title: bills.paid
+      summary: Fired when a bill payment completes.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: bills.paid
+
+    BillsReadyToSync:
+      name: BillsReadyToSync
+      title: bills.ready_to_sync
+      summary: Fired when a bill is ready to sync to accounting.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: bills.ready_to_sync
+
+    BillsRejected:
+      name: BillsRejected
+      title: bills.rejected
+      summary: Fired when a bill is rejected.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: bills.rejected
+
+    EntitiesCreated:
+      name: EntitiesCreated
+      title: entities.created
+      summary: Fired when a business entity is created.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: entities.created
+
+    ItemReceiptsCreated:
+      name: ItemReceiptsCreated
+      title: item_receipts.created
+      summary: Fired when an item receipt is created.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: item_receipts.created
+
+    PaymentsUpdated:
+      name: PaymentsUpdated
+      title: payments.updated
+      summary: Fired when a bill payment state updates.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: payments.updated
+
+    PurchaseOrdersArchived:
+      name: PurchaseOrdersArchived
+      title: purchase_orders.archived
+      summary: Fired when a purchase order is archived.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: purchase_orders.archived
+
+    PurchaseOrdersCreated:
+      name: PurchaseOrdersCreated
+      title: purchase_orders.created
+      summary: Fired when a purchase order is created.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: purchase_orders.created
+
+    PurchaseOrdersUpdated:
+      name: PurchaseOrdersUpdated
+      title: purchase_orders.updated
+      summary: Fired when a purchase order is updated.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: purchase_orders.updated
+
+    ReimbursementsBatchPaymentReimbursed:
+      name: ReimbursementsBatchPaymentReimbursed
+      title: reimbursements.batch_payment_reimbursed
+      summary: Fired when a batch reimbursement payment is disbursed.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: reimbursements.batch_payment_reimbursed
+
+    ReimbursementsReadyForReview:
+      name: ReimbursementsReadyForReview
+      title: reimbursements.ready_for_review
+      summary: Fired when a reimbursement is ready for review.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: reimbursements.ready_for_review
+
+    ReimbursementsReadyToSync:
+      name: ReimbursementsReadyToSync
+      title: reimbursements.ready_to_sync
+      summary: Fired when a reimbursement is ready to sync to accounting.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: reimbursements.ready_to_sync
+
+    ReimbursementsSyncRequested:
+      name: ReimbursementsSyncRequested
+      title: reimbursements.sync_requested
+      summary: Fired when a reimbursement sync is requested.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: reimbursements.sync_requested
+
+    SpendRequestsCommentCreated:
+      name: SpendRequestsCommentCreated
+      title: spend_requests.comment_created
+      summary: Fired when a comment is added to a spend request.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: spend_requests.comment_created
+
+    TransactionsAuthorized:
+      name: TransactionsAuthorized
+      title: transactions.authorized
+      summary: Fired when a corporate-card transaction is authorized.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: transactions.authorized
+
+    TransactionsCleared:
+      name: TransactionsCleared
+      title: transactions.cleared
+      summary: Fired when a corporate-card transaction settles/clears.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: transactions.cleared
+
+    TransactionsDeclined:
+      name: TransactionsDeclined
+      title: transactions.declined
+      summary: Fired when a corporate-card transaction is declined.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: transactions.declined
+
+    TransactionsReadyForReview:
+      name: TransactionsReadyForReview
+      title: transactions.ready_for_review
+      summary: Fired when a transaction is ready for review.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: transactions.ready_for_review
+
+    TransactionsReadyToSync:
+      name: TransactionsReadyToSync
+      title: transactions.ready_to_sync
+      summary: Fired when a transaction is ready to sync to accounting.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: transactions.ready_to_sync
+
+    TransactionsSyncRequested:
+      name: TransactionsSyncRequested
+      title: transactions.sync_requested
+      summary: Fired when a transaction sync is requested.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: transactions.sync_requested
+
+    TransactionsSynced:
+      name: TransactionsSynced
+      title: transactions.synced
+      summary: Fired when a transaction has been synced to accounting.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: transactions.synced
+
+    UnifiedRequestsCreated:
+      name: UnifiedRequestsCreated
+      title: unified_requests.created
+      summary: Fired when a unified request is created.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: unified_requests.created
+
+    UnifiedRequestsExternalApprovalRequest:
+      name: UnifiedRequestsExternalApprovalRequest
+      title: unified_requests.external_approval_request
+      summary: Fired when a unified request requires external approval.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: unified_requests.external_approval_request
+
+    UnifiedRequestsExternalApprovalRequestReset:
+      name: UnifiedRequestsExternalApprovalRequestReset
+      title: unified_requests.external_approval_request_reset
+      summary: Fired when an external approval request on a unified request is reset.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: unified_requests.external_approval_request_reset
+
+    UnifiedRequestsModified:
+      name: UnifiedRequestsModified
+      title: unified_requests.modified
+      summary: Fired when a unified request is modified.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: unified_requests.modified
+
+    UnifiedRequestsNodeAdvanced:
+      name: UnifiedRequestsNodeAdvanced
+      title: unified_requests.node_advanced
+      summary: Fired when a unified request advances to the next approval node.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: unified_requests.node_advanced
+
+    UnifiedRequestsOverrideApproved:
+      name: UnifiedRequestsOverrideApproved
+      title: unified_requests.override_approved
+      summary: Fired when a unified request is approved via override.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: unified_requests.override_approved
+
+    UnifiedRequestsUpdated:
+      name: UnifiedRequestsUpdated
+      title: unified_requests.updated
+      summary: Fired when a unified request is updated.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: unified_requests.updated
+
+    UsersInviteAccepted:
+      name: UsersInviteAccepted
+      title: users.invite_accepted
+      summary: Fired when an invited user accepts their Ramp invitation.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: users.invite_accepted
+
+    VendorsActivated:
+      name: VendorsActivated
+      title: vendors.activated
+      summary: Fired when a vendor is activated.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: vendors.activated
+
+    VendorsUpdated:
+      name: VendorsUpdated
+      title: vendors.updated
+      summary: Fired when a vendor record is updated.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: vendors.updated
+
+    TestsTestEvent:
+      name: TestsTestEvent
+      title: tests.test_event
+      summary: Test event delivered when a subscription's test action is invoked.
+      traits:
+        - $ref: '#/components/messageTraits/RampWebhookHeaders'
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/RampEventEnvelope'
+          - type: object
+            properties:
+              type:
+                const: tests.test_event
+
+  schemas:
+    RampEventEnvelope:
+      type: object
+      description: |
+        Common envelope shared by every Ramp webhook delivery. The
+        `object` field carries the resource identifier; use the
+        corresponding Developer API resource endpoint to hydrate the
+        full record. Event IDs are stable across retries to support
+        idempotency.
+      required:
+        - id
+        - type
+        - created_at
+        - business_id
+        - object
+      properties:
+        id:
+          type: string
+          description: Unique event identifier. Stable across retry attempts.
+          example: evt_01HXYZABCDEF
+        type:
+          $ref: '#/components/schemas/RampEventType'
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the event was generated.
+          example: '2026-05-30T12:34:56Z'
+        business_id:
+          type: string
+          description: Identifier of the Ramp business account associated with the event.
+          example: bus_01HXYZ123456
+        object:
+          type: object
+          description: |
+            Reference to the affected resource. Carries at minimum
+            the resource identifier so subscribers can call the
+            Developer API to fetch the current state.
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              description: Identifier of the affected resource.
+              example: txn_01HXYZ7891011
+            type:
+              type: string
+              description: Resource type (e.g. transaction, bill, reimbursement).
+
+    RampEventType:
+      type: string
+      description: Enumeration of every webhook event type Ramp may emit.
+      enum:
+        - applications.status_updated
+        - bills.approved
+        - bills.archived
+        - bills.created
+        - bills.paid
+        - bills.ready_to_sync
+        - bills.rejected
+        - entities.created
+        - item_receipts.created
+        - payments.updated
+        - purchase_orders.archived
+        - purchase_orders.created
+        - purchase_orders.updated
+        - reimbursements.batch_payment_reimbursed
+        - reimbursements.ready_for_review
+        - reimbursements.ready_to_sync
+        - reimbursements.sync_requested
+        - spend_requests.comment_created
+        - transactions.authorized
+        - transactions.cleared
+        - transactions.declined
+        - transactions.ready_for_review
+        - transactions.ready_to_sync
+        - transactions.sync_requested
+        - transactions.synced
+        - unified_requests.created
+        - unified_requests.external_approval_request
+        - unified_requests.external_approval_request_reset
+        - unified_requests.modified
+        - unified_requests.node_advanced
+        - unified_requests.override_approved
+        - unified_requests.updated
+        - users.invite_accepted
+        - vendors.activated
+        - vendors.updated
+        - tests.test_event
+
+  securitySchemes:
+    rampWebhookSignature:
+      type: httpApiKey
+      in: header
+      name: X-Ramp-Signature
+      description: |
+        Each delivery includes `X-Ramp-Signature`, an HMAC-SHA256
+        hash of the raw request body computed with the webhook
+        subscription's signing secret. Verify before processing.

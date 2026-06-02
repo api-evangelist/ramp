@@ -18,7 +18,7 @@ tags:
   - Accounting
   - Reimbursements
 created: '2025-02-17'
-modified: '2026-05-19'
+modified: '2026-05-30'
 url: https://raw.githubusercontent.com/api-evangelist/ramp/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
@@ -42,6 +42,8 @@ apis:
       url: https://docs.ramp.com/developer-api/v1/overview/introduction
     - type: OpenAPI
       url: openapi/ramp-developer-api-openapi.yml
+    - type: AsyncAPI
+      url: asyncapi/ramp-developer-api-webhooks-asyncapi.yml
     - type: JSONSchema
       url: json-schema/ramp-transaction.json
     - type: JSONSchema
