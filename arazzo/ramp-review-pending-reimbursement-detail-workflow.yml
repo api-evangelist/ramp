@@ -1,0 +1,79 @@
+arazzo: 1.0.1
+info:
+  title: Ramp Review Pending Reimbursement Detail
+  summary: List reimbursements and branch into a user lookup only when one is still pending.
+  description: >-
+    A reimbursement-approval read flow with branching. The workflow lists
+    reimbursements and inspects the first request's state: when it is still
+    pending it lists users so the requester can be resolved for review, and
+    when it is not pending it ends without the extra lookup. This adapts an
+    approval theme to the read-only operations the Ramp Developer API exposes.
+    Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: rampApi
+  url: ../openapi/ramp-developer-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: review-pending-reimbursement-detail
+  summary: Branch into a user lookup only when the first reimbursement is pending.
+  description: >-
+    Lists reimbursements and conditionally lists users to resolve the
+    requester when the first reimbursement is in a pending state.
+  inputs:
+    type: object
+    required:
+    - pendingState
+    properties:
+      accessToken:
+        type: string
+        description: OAuth2 client-credentials bearer token with reimbursements:read and users:read scopes.
+      pendingState:
+        type: string
+        description: The reimbursement state value that indicates a request still awaits review.
+  steps:
+  - stepId: listReimbursements
+    description: >-
+      List the organization's reimbursements and capture the first request's
+      state and requesting user.
+    operationId: listReimbursements
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstState: $response.body#/data/0/state
+      firstUserId: $response.body#/data/0/user_id
+    onSuccess:
+    - name: isPending
+      type: goto
+      stepId: listUsers
+      criteria:
+      - context: $response.body
+        condition: $.data[0].state == $inputs.pendingState
+        type: jsonpath
+    - name: notPending
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data[0].state != $inputs.pendingState
+        type: jsonpath
+  - stepId: listUsers
+    description: >-
+      List users so the pending reimbursement's user_id can be resolved to a
+      named requester for review.
+    operationId: listUsers
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      users: $response.body#/data
+  outputs:
+    pendingUserId: $steps.listReimbursements.outputs.firstUserId
+    users: $steps.listUsers.outputs.users

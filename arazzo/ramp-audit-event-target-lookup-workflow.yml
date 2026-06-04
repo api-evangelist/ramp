@@ -1,0 +1,59 @@
+arazzo: 1.0.1
+info:
+  title: Ramp Audit Event Target Lookup
+  summary: List audit events and the user directory to resolve the actor behind each event.
+  description: >-
+    Turns raw audit events into something a reviewer can read. The workflow
+    lists audit events, then lists users so a caller can resolve each event's
+    actor_user_id against the user directory and attribute the action to a
+    named person. This is the supported read path for audit attribution, since
+    the Ramp Developer API exposes no get-user by id. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: rampApi
+  url: ../openapi/ramp-developer-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: audit-event-target-lookup
+  summary: List audit events and users so event actors can be resolved to people.
+  description: >-
+    Lists audit events and then the user directory so each event's
+    actor_user_id can be matched to a named user.
+  inputs:
+    type: object
+    properties:
+      accessToken:
+        type: string
+        description: OAuth2 client-credentials bearer token with audit:read and users:read scopes.
+  steps:
+  - stepId: listAuditEvents
+    description: >-
+      List the organization's audit events and capture each event's type,
+      actor, target, and timestamp.
+    operationId: listAuditEvents
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      events: $response.body#/data
+  - stepId: listUsers
+    description: >-
+      List the organization's users so each audit event's actor_user_id can be
+      resolved to a named user.
+    operationId: listUsers
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      users: $response.body#/data
+  outputs:
+    events: $steps.listAuditEvents.outputs.events
+    users: $steps.listUsers.outputs.users

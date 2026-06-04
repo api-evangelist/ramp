@@ -1,0 +1,90 @@
+arazzo: 1.0.1
+info:
+  title: Ramp Export Spend Snapshot
+  summary: Pull transactions, cards, and users together to assemble a single spend snapshot.
+  description: >-
+    Assembles a one-pass spend snapshot suitable for a reporting export. The
+    workflow lists transactions for a date window, then lists the card and user
+    directories so a caller can enrich every transaction with its card display
+    name and cardholder. The result is the three datasets needed to build a
+    joined spend report in a single run. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: rampApi
+  url: ../openapi/ramp-developer-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: export-spend-snapshot
+  summary: List transactions plus the card and user directories for a joined spend export.
+  description: >-
+    Lists transactions in a date window and the card and user directories so a
+    caller can join them into a single enriched spend dataset.
+  inputs:
+    type: object
+    required:
+    - fromDate
+    - toDate
+    properties:
+      accessToken:
+        type: string
+        description: OAuth2 client-credentials bearer token with transactions:read, cards:read, and users:read scopes.
+      fromDate:
+        type: string
+        format: date
+        description: Inclusive lower bound for the transaction window (YYYY-MM-DD).
+      toDate:
+        type: string
+        format: date
+        description: Inclusive upper bound for the transaction window (YYYY-MM-DD).
+  steps:
+  - stepId: listTransactions
+    description: >-
+      List transactions for the date window to form the base of the spend
+      snapshot.
+    operationId: listTransactions
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: from_date
+      in: query
+      value: $inputs.fromDate
+    - name: to_date
+      in: query
+      value: $inputs.toDate
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      transactions: $response.body#/data
+  - stepId: listCards
+    description: >-
+      List cards so each transaction's card_id can be enriched with a display
+      name and last four.
+    operationId: listCards
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      cards: $response.body#/data
+  - stepId: listUsers
+    description: >-
+      List users so each transaction's user_id can be enriched with a name and
+      email.
+    operationId: listUsers
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      users: $response.body#/data
+  outputs:
+    transactions: $steps.listTransactions.outputs.transactions
+    cards: $steps.listCards.outputs.cards
+    users: $steps.listUsers.outputs.users

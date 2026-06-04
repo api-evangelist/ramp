@@ -1,0 +1,60 @@
+arazzo: 1.0.1
+info:
+  title: Ramp Reconcile Reimbursements To Users
+  summary: Pull reimbursements and the user directory to attribute each request to a person.
+  description: >-
+    Prepares out-of-pocket reimbursement requests for review and payout
+    tracking. The workflow lists reimbursements, then lists users so a caller
+    can resolve each reimbursement's user_id against the user directory and
+    attribute the request to a named employee with an email. This is the
+    supported read path for reimbursement attribution, since the Ramp Developer
+    API exposes no get-reimbursement or get-user by id. Every step spells out
+    its request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: rampApi
+  url: ../openapi/ramp-developer-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: reconcile-reimbursements-to-users
+  summary: List reimbursements and users so reimbursement requesters can be resolved.
+  description: >-
+    Lists reimbursements and then the user directory so each reimbursement's
+    user_id can be matched to a named employee.
+  inputs:
+    type: object
+    properties:
+      accessToken:
+        type: string
+        description: OAuth2 client-credentials bearer token with reimbursements:read and users:read scopes.
+  steps:
+  - stepId: listReimbursements
+    description: >-
+      List the organization's reimbursements and capture each request's
+      amount, merchant, state, and requesting user.
+    operationId: listReimbursements
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      reimbursements: $response.body#/data
+  - stepId: listUsers
+    description: >-
+      List the organization's users so each reimbursement's user_id can be
+      resolved to a named employee and email.
+    operationId: listUsers
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      users: $response.body#/data
+  outputs:
+    reimbursements: $steps.listReimbursements.outputs.reimbursements
+    users: $steps.listUsers.outputs.users

@@ -1,0 +1,91 @@
+arazzo: 1.0.1
+info:
+  title: Ramp Paginate Accounting Accounts
+  summary: Page through the general ledger account list by following the start cursor.
+  description: >-
+    Walks the cursor-based pagination of the Ramp accounting accounts endpoint,
+    the one list operation in the Ramp Developer API that exposes both a
+    page_size limit and a start cursor parameter. The workflow lists the first
+    page of general ledger accounts, captures the next cursor returned in
+    page.next, and lists the following page by passing that cursor back as the
+    start parameter so a caller can drain the full chart of accounts. Every
+    step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: rampApi
+  url: ../openapi/ramp-developer-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: paginate-accounting-accounts
+  summary: Retrieve two consecutive pages of general ledger accounts using the start cursor.
+  description: >-
+    Lists the first page of accounting accounts at a given page size, then
+    follows the page.next cursor to list the second page.
+  inputs:
+    type: object
+    required:
+    - pageSize
+    properties:
+      accessToken:
+        type: string
+        description: OAuth2 client-credentials bearer token with the accounting:read scope.
+      pageSize:
+        type: integer
+        description: Number of accounts to request per page.
+  steps:
+  - stepId: firstPage
+    description: >-
+      List the first page of general ledger accounts at the requested page
+      size and capture the forward cursor from the page metadata.
+    operationId: listAccountingAccounts
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: page_size
+      in: query
+      value: $inputs.pageSize
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstPageData: $response.body#/data
+      nextCursor: $response.body#/page/next
+    onSuccess:
+    - name: hasMore
+      type: goto
+      stepId: secondPage
+      criteria:
+      - context: $response.body
+        condition: $.page.next != null
+        type: jsonpath
+    - name: noMore
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.page.next == null
+        type: jsonpath
+  - stepId: secondPage
+    description: >-
+      List the next page of accounts by sending the forward cursor captured
+      from the first page back as the start parameter.
+    operationId: listAccountingAccounts
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: page_size
+      in: query
+      value: $inputs.pageSize
+    - name: start
+      in: query
+      value: $steps.firstPage.outputs.nextCursor
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      secondPageData: $response.body#/data
+      nextCursor: $response.body#/page/next
+  outputs:
+    firstPageData: $steps.firstPage.outputs.firstPageData
+    secondPageData: $steps.secondPage.outputs.secondPageData
+    finalCursor: $steps.secondPage.outputs.nextCursor

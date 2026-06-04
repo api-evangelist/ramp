@@ -1,0 +1,74 @@
+arazzo: 1.0.1
+info:
+  title: Ramp Map Users To Departments
+  summary: Pull the user, department, and location directories to build an org spend map.
+  description: >-
+    Assembles the reference data needed to roll spend up by organizational
+    unit. The workflow lists users, then lists departments and locations so a
+    caller can join each user's department_id and location_id against the
+    department and location directories. This produces the lookup tables that
+    let reporting attribute card and reimbursement spend to the right
+    department and location. Every step spells out its request inline so the
+    flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: rampApi
+  url: ../openapi/ramp-developer-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: map-users-to-departments
+  summary: List users and the department and location directories to resolve their references.
+  description: >-
+    Lists users and then the department and location directories so each
+    user's department_id and location_id can be resolved to names.
+  inputs:
+    type: object
+    properties:
+      accessToken:
+        type: string
+        description: OAuth2 client-credentials bearer token with users:read, departments:read, and locations:read scopes.
+  steps:
+  - stepId: listUsers
+    description: >-
+      List the organization's users and capture each user's department and
+      location references.
+    operationId: listUsers
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      users: $response.body#/data
+  - stepId: listDepartments
+    description: >-
+      List the organization's departments so user department_id references can
+      be resolved to department names.
+    operationId: listDepartments
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      departments: $response.body#/data
+  - stepId: listLocations
+    description: >-
+      List the organization's locations so user location_id references can be
+      resolved to location names.
+    operationId: listLocations
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      locations: $response.body#/data
+  outputs:
+    users: $steps.listUsers.outputs.users
+    departments: $steps.listDepartments.outputs.departments
+    locations: $steps.listLocations.outputs.locations

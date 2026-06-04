@@ -1,0 +1,77 @@
+arazzo: 1.0.1
+info:
+  title: Ramp Find Cardholder Recent Spend
+  summary: List users, then list a date window of transactions to slice spend by cardholder.
+  description: >-
+    Prepares a per-cardholder spend view for a recent period. The workflow
+    lists users to capture the directory of cardholders, then lists
+    transactions bounded by a date window so a caller can group those
+    transactions by user_id and surface each employee's recent spend. The two
+    lists together are the supported way to build a cardholder spend slice,
+    since the Ramp Developer API exposes no per-user transaction filter. Every
+    step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: rampApi
+  url: ../openapi/ramp-developer-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: find-cardholder-recent-spend
+  summary: List users and a date window of transactions to group spend by cardholder.
+  description: >-
+    Lists users and a date-bounded set of transactions so a caller can group
+    spend by user_id.
+  inputs:
+    type: object
+    required:
+    - fromDate
+    - toDate
+    properties:
+      accessToken:
+        type: string
+        description: OAuth2 client-credentials bearer token with users:read and transactions:read scopes.
+      fromDate:
+        type: string
+        format: date
+        description: Inclusive lower bound for the transaction window (YYYY-MM-DD).
+      toDate:
+        type: string
+        format: date
+        description: Inclusive upper bound for the transaction window (YYYY-MM-DD).
+  steps:
+  - stepId: listUsers
+    description: >-
+      List the organization's users to capture the cardholder directory the
+      spend will be grouped by.
+    operationId: listUsers
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      users: $response.body#/data
+  - stepId: listTransactions
+    description: >-
+      List transactions for the date window so each can be grouped to a
+      cardholder by user_id.
+    operationId: listTransactions
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: from_date
+      in: query
+      value: $inputs.fromDate
+    - name: to_date
+      in: query
+      value: $inputs.toDate
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      transactions: $response.body#/data
+  outputs:
+    users: $steps.listUsers.outputs.users
+    transactions: $steps.listTransactions.outputs.transactions

@@ -1,0 +1,81 @@
+arazzo: 1.0.1
+info:
+  title: Ramp Flag Open Bill Vendor
+  summary: List bills and branch into a vendor lookup only when the first bill is still open.
+  description: >-
+    A bill-pay triage read flow with branching. The workflow lists bills and
+    inspects the first bill's status: when it is still open it lists accounting
+    vendors so the payee can be resolved for follow-up, and when it is not open
+    it ends without the extra lookup. This adapts a bill approval theme to the
+    read-only operations the Ramp Developer API exposes. Every step spells out
+    its request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: rampApi
+  url: ../openapi/ramp-developer-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: flag-open-bill-vendor
+  summary: Branch into an accounting vendor lookup only when the first bill is open.
+  description: >-
+    Lists bills and conditionally lists accounting vendors to resolve the
+    payee when the first bill is in an open status.
+  inputs:
+    type: object
+    required:
+    - openStatus
+    properties:
+      accessToken:
+        type: string
+        description: OAuth2 client-credentials bearer token with bills:read and accounting:read scopes.
+      openStatus:
+        type: string
+        description: The bill status value that indicates the bill is still open and unpaid.
+  steps:
+  - stepId: listBills
+    description: >-
+      List the organization's bills and capture the first bill's status,
+      vendor reference, and due date.
+    operationId: listBills
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstStatus: $response.body#/data/0/status
+      firstVendorId: $response.body#/data/0/vendor_id
+      firstDueAt: $response.body#/data/0/due_at
+    onSuccess:
+    - name: isOpen
+      type: goto
+      stepId: listVendors
+      criteria:
+      - context: $response.body
+        condition: $.data[0].status == $inputs.openStatus
+        type: jsonpath
+    - name: notOpen
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data[0].status != $inputs.openStatus
+        type: jsonpath
+  - stepId: listVendors
+    description: >-
+      List accounting vendors so the open bill's vendor_id can be resolved to a
+      payee name and code for follow-up.
+    operationId: listAccountingVendors
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      vendors: $response.body#/data
+  outputs:
+    openBillVendorId: $steps.listBills.outputs.firstVendorId
+    openBillDueAt: $steps.listBills.outputs.firstDueAt
+    vendors: $steps.listVendors.outputs.vendors

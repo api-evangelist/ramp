@@ -1,0 +1,60 @@
+arazzo: 1.0.1
+info:
+  title: Ramp Card Inventory By Cardholder
+  summary: Pull the card and user directories to build a per-cardholder card inventory.
+  description: >-
+    Builds a card inventory keyed by the person who holds each card. The
+    workflow lists cards, then lists users so a caller can join each card's
+    cardholder_id against the user directory and produce a per-employee view of
+    physical and virtual cards, their last four, and their state. This is the
+    supported read path for cardholder resolution, since the Ramp Developer API
+    exposes no get-user by id. Every step spells out its request inline so the
+    flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: rampApi
+  url: ../openapi/ramp-developer-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: card-inventory-by-cardholder
+  summary: List cards and users so each card can be attributed to its cardholder.
+  description: >-
+    Lists cards and then the user directory so each card's cardholder_id can be
+    matched to a named employee.
+  inputs:
+    type: object
+    properties:
+      accessToken:
+        type: string
+        description: OAuth2 client-credentials bearer token with cards:read and users:read scopes.
+  steps:
+  - stepId: listCards
+    description: >-
+      List the organization's cards and capture each card's cardholder,
+      display name, last four, and state.
+    operationId: listCards
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      cards: $response.body#/data
+  - stepId: listUsers
+    description: >-
+      List the organization's users so each card's cardholder_id can be
+      resolved to a named employee.
+    operationId: listUsers
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      users: $response.body#/data
+  outputs:
+    cards: $steps.listCards.outputs.cards
+    users: $steps.listUsers.outputs.users

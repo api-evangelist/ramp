@@ -1,0 +1,95 @@
+arazzo: 1.0.1
+info:
+  title: Ramp Trace Transaction To Account Detail
+  summary: List transactions, retrieve the first in full, then pull GL accounts for coding.
+  description: >-
+    A three-step accounting read chain. The workflow lists transactions in a
+    date window, retrieves the first transaction in full to read its merchant
+    and category hint, and then lists general ledger accounts so a caller can
+    decide which account to code the spend against. This stitches the supported
+    list, retrieve, and chart-of-accounts operations into one coding-ready
+    flow. Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: rampApi
+  url: ../openapi/ramp-developer-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: trace-transaction-to-account-detail
+  summary: List transactions, retrieve the first in full, and list accounts for coding.
+  description: >-
+    Lists transactions, retrieves the first transaction's detail, and lists
+    general ledger accounts so the transaction can be coded.
+  inputs:
+    type: object
+    required:
+    - fromDate
+    - toDate
+    properties:
+      accessToken:
+        type: string
+        description: OAuth2 client-credentials bearer token with transactions:read and accounting:read scopes.
+      fromDate:
+        type: string
+        format: date
+        description: Inclusive lower bound for the transaction window (YYYY-MM-DD).
+      toDate:
+        type: string
+        format: date
+        description: Inclusive upper bound for the transaction window (YYYY-MM-DD).
+  steps:
+  - stepId: listTransactions
+    description: >-
+      List transactions for the date window and capture the first
+      transaction's id.
+    operationId: listTransactions
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: from_date
+      in: query
+      value: $inputs.fromDate
+    - name: to_date
+      in: query
+      value: $inputs.toDate
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstTransactionId: $response.body#/data/0/id
+  - stepId: getTransaction
+    description: >-
+      Retrieve the full record of the first transaction to read its merchant
+      and category hint.
+    operationId: getTransaction
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: id
+      in: path
+      value: $steps.listTransactions.outputs.firstTransactionId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      merchantName: $response.body#/merchant_name
+      categoryId: $response.body#/sk_category_id
+      amount: $response.body#/amount
+  - stepId: listAccounts
+    description: >-
+      List general ledger accounts so the retrieved transaction can be coded
+      to the appropriate account.
+    operationId: listAccountingAccounts
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      accounts: $response.body#/data
+  outputs:
+    merchantName: $steps.getTransaction.outputs.merchantName
+    categoryId: $steps.getTransaction.outputs.categoryId
+    accounts: $steps.listAccounts.outputs.accounts

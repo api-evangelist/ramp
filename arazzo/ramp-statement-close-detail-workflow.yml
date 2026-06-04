@@ -1,0 +1,69 @@
+arazzo: 1.0.1
+info:
+  title: Ramp Statement Close Detail
+  summary: List statements, then pull the transactions for the statement period to reconcile a close.
+  description: >-
+    Supports a statement-close reconciliation read. The workflow lists card
+    statements to capture the most recent statement's start and end dates, then
+    lists transactions bounded by that same period so a caller can tie the
+    statement total back to the underlying transactions. The transaction list
+    is bounded with the from_date and to_date the statement window supplies.
+    Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: rampApi
+  url: ../openapi/ramp-developer-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: statement-close-detail
+  summary: Resolve a statement period and list the transactions that fall within it.
+  description: >-
+    Lists statements to capture a statement period, then lists transactions
+    bounded by that period for reconciliation.
+  inputs:
+    type: object
+    properties:
+      accessToken:
+        type: string
+        description: OAuth2 client-credentials bearer token with statements:read and transactions:read scopes.
+  steps:
+  - stepId: listStatements
+    description: >-
+      List the organization's statements and capture the first statement's
+      start and end dates to use as the transaction window.
+    operationId: listStatements
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      periodStart: $response.body#/data/0/start_date
+      periodEnd: $response.body#/data/0/end_date
+      statementAmount: $response.body#/data/0/amount
+  - stepId: listPeriodTransactions
+    description: >-
+      List transactions bounded by the statement's start and end dates so they
+      can be reconciled against the statement total.
+    operationId: listTransactions
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: from_date
+      in: query
+      value: $steps.listStatements.outputs.periodStart
+    - name: to_date
+      in: query
+      value: $steps.listStatements.outputs.periodEnd
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      transactions: $response.body#/data
+  outputs:
+    periodStart: $steps.listStatements.outputs.periodStart
+    periodEnd: $steps.listStatements.outputs.periodEnd
+    statementAmount: $steps.listStatements.outputs.statementAmount
+    transactions: $steps.listPeriodTransactions.outputs.transactions

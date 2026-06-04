@@ -93,6 +93,63 @@ apis:
     - type: NaftikoCapability
       url: capabilities/developer-vendors.yaml
 common:
+  - type: ArazzoWorkflows
+    url: arazzo/
+    workflows:
+    - url: arazzo/ramp-attribute-transaction-to-cardholder-workflow.yml
+      name: Ramp Attribute Transaction To Cardholder
+      summary: Resolve a transaction's card and user, then pull the user and card directories for attribution.
+    - url: arazzo/ramp-audit-event-target-lookup-workflow.yml
+      name: Ramp Audit Event Target Lookup
+      summary: List audit events and the user directory to resolve the actor behind each event.
+    - url: arazzo/ramp-card-inventory-by-cardholder-workflow.yml
+      name: Ramp Card Inventory By Cardholder
+      summary: Pull the card and user directories to build a per-cardholder card inventory.
+    - url: arazzo/ramp-categorize-transaction-to-account-workflow.yml
+      name: Ramp Categorize Transaction To Account
+      summary: Retrieve a transaction and pull the GL account list to support categorization.
+    - url: arazzo/ramp-export-spend-snapshot-workflow.yml
+      name: Ramp Export Spend Snapshot
+      summary: Pull transactions, cards, and users together to assemble a single spend snapshot.
+    - url: arazzo/ramp-find-cardholder-recent-spend-workflow.yml
+      name: Ramp Find Cardholder Recent Spend
+      summary: List users, then list a date window of transactions to slice spend by cardholder.
+    - url: arazzo/ramp-flag-large-transaction-workflow.yml
+      name: Ramp Flag Large Transaction
+      summary: List transactions in a window and branch on whether the first one exceeds a threshold.
+    - url: arazzo/ramp-flag-open-bill-vendor-workflow.yml
+      name: Ramp Flag Open Bill Vendor
+      summary: List bills and branch into a vendor lookup only when the first bill is still open.
+    - url: arazzo/ramp-inspect-transaction-detail-workflow.yml
+      name: Ramp Inspect Transaction Detail
+      summary: List transactions in a date range, pick the first, and retrieve its full record.
+    - url: arazzo/ramp-locate-department-spend-workflow.yml
+      name: Ramp Locate Department Spend
+      summary: Pull departments, users, and transactions to roll spend up by department.
+    - url: arazzo/ramp-locate-location-spend-workflow.yml
+      name: Ramp Locate Location Spend
+      summary: Pull locations, users, and transactions to roll spend up by location.
+    - url: arazzo/ramp-map-users-to-departments-workflow.yml
+      name: Ramp Map Users To Departments
+      summary: Pull the user, department, and location directories to build an org spend map.
+    - url: arazzo/ramp-paginate-accounting-accounts-workflow.yml
+      name: Ramp Paginate Accounting Accounts
+      summary: Page through the general ledger account list by following the start cursor.
+    - url: arazzo/ramp-reconcile-bills-with-vendors-workflow.yml
+      name: Ramp Reconcile Bills With Vendors
+      summary: Pull bills and the accounting vendor directory to resolve each bill's vendor.
+    - url: arazzo/ramp-reconcile-reimbursements-to-users-workflow.yml
+      name: Ramp Reconcile Reimbursements To Users
+      summary: Pull reimbursements and the user directory to attribute each request to a person.
+    - url: arazzo/ramp-review-pending-reimbursement-detail-workflow.yml
+      name: Ramp Review Pending Reimbursement Detail
+      summary: List reimbursements and branch into a user lookup only when one is still pending.
+    - url: arazzo/ramp-statement-close-detail-workflow.yml
+      name: Ramp Statement Close Detail
+      summary: List statements, then pull the transactions for the statement period to reconcile a close.
+    - url: arazzo/ramp-trace-transaction-to-account-detail-workflow.yml
+      name: Ramp Trace Transaction To Account Detail
+      summary: List transactions, retrieve the first in full, then pull GL accounts for coding.
   - type: GitHubOrganization
     url: https://github.com/ramp-public
   - type: LinkedIn

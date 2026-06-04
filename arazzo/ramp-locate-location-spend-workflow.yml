@@ -1,0 +1,89 @@
+arazzo: 1.0.1
+info:
+  title: Ramp Locate Location Spend
+  summary: Pull locations, users, and transactions to roll spend up by location.
+  description: >-
+    Builds the datasets needed to roll transaction spend up to a location. The
+    workflow lists locations, then lists users so each user's location_id can
+    be joined to a location, and finally lists transactions for a date window
+    so each transaction's user_id can be traced through the user to its
+    location. The three lists together let a caller compute per-location spend
+    for the period. Every step spells out its request inline so the flow can be
+    read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: rampApi
+  url: ../openapi/ramp-developer-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: locate-location-spend
+  summary: List locations, users, and transactions to attribute spend by location.
+  description: >-
+    Lists locations and users to build the user-to-location map, then lists
+    transactions so spend can be rolled up by location.
+  inputs:
+    type: object
+    required:
+    - fromDate
+    - toDate
+    properties:
+      accessToken:
+        type: string
+        description: OAuth2 client-credentials bearer token with locations:read, users:read, and transactions:read scopes.
+      fromDate:
+        type: string
+        format: date
+        description: Inclusive lower bound for the transaction window (YYYY-MM-DD).
+      toDate:
+        type: string
+        format: date
+        description: Inclusive upper bound for the transaction window (YYYY-MM-DD).
+  steps:
+  - stepId: listLocations
+    description: >-
+      List the organization's locations to form the top level of the spend
+      rollup.
+    operationId: listLocations
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      locations: $response.body#/data
+  - stepId: listUsers
+    description: >-
+      List users so each user's location_id can be joined to a location.
+    operationId: listUsers
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      users: $response.body#/data
+  - stepId: listTransactions
+    description: >-
+      List transactions for the date window so each transaction's user_id can
+      be traced to a location for the spend rollup.
+    operationId: listTransactions
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: from_date
+      in: query
+      value: $inputs.fromDate
+    - name: to_date
+      in: query
+      value: $inputs.toDate
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      transactions: $response.body#/data
+  outputs:
+    locations: $steps.listLocations.outputs.locations
+    users: $steps.listUsers.outputs.users
+    transactions: $steps.listTransactions.outputs.transactions

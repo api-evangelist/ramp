@@ -1,0 +1,59 @@
+arazzo: 1.0.1
+info:
+  title: Ramp Reconcile Bills With Vendors
+  summary: Pull bills and the accounting vendor directory to resolve each bill's vendor.
+  description: >-
+    Prepares bill pay records for accounting reconciliation. The workflow lists
+    bills, then lists accounting vendors so a caller can join each bill's
+    vendor_id against the vendor directory and resolve the payee name and
+    accounting code. This is the supported read path for bill-to-vendor
+    matching, since the Ramp Developer API exposes no get-vendor by id. Every
+    step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: rampApi
+  url: ../openapi/ramp-developer-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: reconcile-bills-with-vendors
+  summary: List bills and accounting vendors so bill vendor references can be resolved.
+  description: >-
+    Lists bills and then the accounting vendor directory so each bill's
+    vendor_id can be matched to a vendor name and code.
+  inputs:
+    type: object
+    properties:
+      accessToken:
+        type: string
+        description: OAuth2 client-credentials bearer token with bills:read and accounting:read scopes.
+  steps:
+  - stepId: listBills
+    description: >-
+      List the organization's bills and capture each bill's vendor reference,
+      invoice number, and due date.
+    operationId: listBills
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      bills: $response.body#/data
+  - stepId: listVendors
+    description: >-
+      List accounting vendors so each bill's vendor_id can be resolved to a
+      vendor name and accounting code.
+    operationId: listAccountingVendors
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      vendors: $response.body#/data
+  outputs:
+    bills: $steps.listBills.outputs.bills
+    vendors: $steps.listVendors.outputs.vendors
