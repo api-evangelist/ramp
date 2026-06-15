@@ -1,0 +1,1354 @@
+{
+  "item": [
+    {
+      "id": "84aa2b44-b3ba-47bc-9aac-b1e1b0bc9f2b",
+      "name": "Accounts",
+      "description": {
+        "content": "General ledger account resources used to map Ramp activity to accounting systems.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f17e0807-8af5-4855-b292-b664c572795a",
+          "name": "List general ledger accounts",
+          "request": {
+            "name": "List general ledger accounts",
+            "description": {
+              "content": "Returns a paginated list of general ledger accounts configured for the organization.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounting",
+                "accounts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "a3f71267-f803-480d-9810-2ce4ed538a8f",
+              "name": "A page of accounting accounts.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounting",
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "start",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"code\": \"string\",\n      \"classification\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"code\": \"string\",\n      \"classification\": \"string\"\n    }\n  ],\n  \"page\": {\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "8570445d-3550-4fe6-9927-beb32de0e7ab",
+      "name": "Accounting Fields",
+      "description": {
+        "content": "Custom accounting fields and field options for categorizing transactions.",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "849183f3-889d-4d92-83bc-2e7eacd72dc9",
+      "name": "Accounting Connection",
+      "description": {
+        "content": "Endpoints for managing the connection between Ramp and external accounting platforms.",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "236cc6fd-49dd-4766-9b42-dcb05ab047d9",
+      "name": "Vendors",
+      "description": {
+        "content": "Vendor records used by accounting integrations and bill pay workflows.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5f7957c9-816a-40cf-92da-0150b4e11df6",
+          "name": "List accounting vendors",
+          "request": {
+            "name": "List accounting vendors",
+            "description": {},
+            "url": {
+              "path": [
+                "accounting",
+                "vendors"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bfa8ad99-5384-4255-a370-4a37e6b6a907",
+              "name": "A page of vendor records.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounting",
+                    "vendors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"code\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"code\": \"string\"\n    }\n  ],\n  \"page\": {\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "4ed9e91c-3a52-4c21-855d-3ddf3ac5cb1e",
+      "name": "Tax Codes",
+      "description": {
+        "content": "Tax code configuration for accounting integrations.",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "694ad348-756b-4392-a6e2-173981df34a8",
+      "name": "Inventory Items",
+      "description": {
+        "content": "Inventory item records used for line item categorization.",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "f4b62ec9-2f2d-44b2-8929-84e39652b643",
+      "name": "Applications",
+      "description": {
+        "content": "Financing and credit applications.",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "d74c2d37-89d7-4780-a416-089db6878d77",
+      "name": "Audit Logs",
+      "description": {
+        "content": "Audit events recording activity within a Ramp organization.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "dec74e34-952b-457e-a189-bc6133ca4d04",
+          "name": "List audit events",
+          "request": {
+            "name": "List audit events",
+            "description": {},
+            "url": {
+              "path": [
+                "audit-logs",
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "376618f2-8436-47a3-96dd-90e4af8315b4",
+              "name": "A page of audit events.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "audit-logs",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"event_type\": \"string\",\n      \"actor_user_id\": \"string\",\n      \"target_id\": \"string\",\n      \"timestamp\": \"1964-02-13T15:07:57.486Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"event_type\": \"string\",\n      \"actor_user_id\": \"string\",\n      \"target_id\": \"string\",\n      \"timestamp\": \"1977-04-06T02:14:04.482Z\"\n    }\n  ],\n  \"page\": {\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "d0bf1acb-0a9c-4f3c-97e7-285e8360d855",
+      "name": "Transactions",
+      "description": {
+        "content": "Card and bill transactions across the organization.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2537937f-1c36-49b4-ad11-da20f8a45f05",
+          "name": "List transactions",
+          "request": {
+            "name": "List transactions",
+            "description": {
+              "content": "Returns a paginated list of transactions for the organization.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from_date",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "to_date",
+                  "value": "<date>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "57ed2e83-0e7e-443c-99de-6106c6eb3093",
+              "name": "A page of transactions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to_date",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"amount\": 9389.260247444978,\n      \"currency_code\": \"string\",\n      \"merchant_name\": \"string\",\n      \"user_transaction_time\": \"2018-03-22T15:56:53.620Z\",\n      \"state\": \"string\",\n      \"sk_category_id\": 1595,\n      \"card_id\": \"string\",\n      \"user_id\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"amount\": 6631.115251471934,\n      \"currency_code\": \"string\",\n      \"merchant_name\": \"string\",\n      \"user_transaction_time\": \"1964-04-05T10:43:23.057Z\",\n      \"state\": \"string\",\n      \"sk_category_id\": 5511,\n      \"card_id\": \"string\",\n      \"user_id\": \"string\"\n    }\n  ],\n  \"page\": {\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8e1c118e-cb04-48de-a011-6c4a2864497d",
+          "name": "Retrieve a transaction",
+          "request": {
+            "name": "Retrieve a transaction",
+            "description": {},
+            "url": {
+              "path": [
+                "transactions",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6d5b39da-6521-4708-8c68-dfa2de0fa026",
+              "name": "A transaction record.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"amount\": 3049.607038795689,\n  \"currency_code\": \"string\",\n  \"merchant_name\": \"string\",\n  \"user_transaction_time\": \"2008-06-09T22:31:33.983Z\",\n  \"state\": \"string\",\n  \"sk_category_id\": 5982,\n  \"card_id\": \"string\",\n  \"user_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "d1bac77e-939d-4d07-b578-2e1d2d1f56a0",
+      "name": "Cards",
+      "description": {
+        "content": "Physical and virtual cards issued to users and departments.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bed2d1c7-a56e-4811-bdd4-6b9fae09d76f",
+          "name": "List cards",
+          "request": {
+            "name": "List cards",
+            "description": {},
+            "url": {
+              "path": [
+                "cards"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "552ce566-2b37-4d30-aff4-95297aa62553",
+              "name": "A page of cards.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cards"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"cardholder_id\": \"string\",\n      \"display_name\": \"string\",\n      \"last_four\": \"string\",\n      \"state\": \"string\",\n      \"is_physical\": true\n    },\n    {\n      \"id\": \"string\",\n      \"cardholder_id\": \"string\",\n      \"display_name\": \"string\",\n      \"last_four\": \"string\",\n      \"state\": \"string\",\n      \"is_physical\": false\n    }\n  ],\n  \"page\": {\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "26ebc83c-8835-424c-9648-2b138d2896f5",
+      "name": "Users",
+      "description": {
+        "content": "User accounts within a Ramp organization.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "352c3605-9fbe-4c81-a27b-e1ac38eae030",
+          "name": "List users",
+          "request": {
+            "name": "List users",
+            "description": {},
+            "url": {
+              "path": [
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2159f60f-cc52-4be3-9b6d-91da8b391fe0",
+              "name": "A page of users.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"email\": \"string\",\n      \"first_name\": \"string\",\n      \"last_name\": \"string\",\n      \"role\": \"string\",\n      \"department_id\": \"string\",\n      \"location_id\": \"string\",\n      \"is_manager\": false\n    },\n    {\n      \"id\": \"string\",\n      \"email\": \"string\",\n      \"first_name\": \"string\",\n      \"last_name\": \"string\",\n      \"role\": \"string\",\n      \"department_id\": \"string\",\n      \"location_id\": \"string\",\n      \"is_manager\": false\n    }\n  ],\n  \"page\": {\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "2ec31974-2dc3-47fa-b3c3-822ae1af1eba",
+      "name": "Departments",
+      "description": {
+        "content": "Department records used to organize spend.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4bf27225-4274-47a0-b3c6-f496ac8594dc",
+          "name": "List departments",
+          "request": {
+            "name": "List departments",
+            "description": {},
+            "url": {
+              "path": [
+                "departments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bd53f9ad-d60e-4e8f-9317-430bfe392d84",
+              "name": "A page of departments.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "departments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  ],\n  \"page\": {\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "c10d997e-701c-4d9c-9609-53e91f0d9827",
+      "name": "Locations",
+      "description": {
+        "content": "Location records used to organize spend.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3c7070e5-5280-42af-b4ce-db383c5cb844",
+          "name": "List locations",
+          "request": {
+            "name": "List locations",
+            "description": {},
+            "url": {
+              "path": [
+                "locations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "1d224bda-50e6-4e13-ab87-df8756fca6d3",
+              "name": "A page of locations.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "locations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  ],\n  \"page\": {\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "e5e3f63b-52e0-4e78-9c9a-84fdce6a66c3",
+      "name": "Reimbursements",
+      "description": {
+        "content": "Out-of-pocket reimbursement requests.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7e548ee9-268b-476a-b0fd-6454c4b9fd5b",
+          "name": "List reimbursements",
+          "request": {
+            "name": "List reimbursements",
+            "description": {},
+            "url": {
+              "path": [
+                "reimbursements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "03112bca-950f-4ccd-a9bd-32f46e08e0e9",
+              "name": "A page of reimbursements.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reimbursements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"amount\": 2480.440399949042,\n      \"currency\": \"string\",\n      \"merchant\": \"string\",\n      \"user_id\": \"string\",\n      \"transaction_date\": \"1965-07-15\",\n      \"state\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"amount\": 5567.260251747226,\n      \"currency\": \"string\",\n      \"merchant\": \"string\",\n      \"user_id\": \"string\",\n      \"transaction_date\": \"2018-11-06\",\n      \"state\": \"string\"\n    }\n  ],\n  \"page\": {\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "68978bf8-8757-43a4-81ea-ad935dc0bd58",
+      "name": "Bills",
+      "description": {
+        "content": "Bill pay records and approval workflows.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4e5d1cf7-3d9c-4243-b726-019fd33d5f24",
+          "name": "List bills",
+          "request": {
+            "name": "List bills",
+            "description": {},
+            "url": {
+              "path": [
+                "bills"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "3eb20ec2-146b-471b-8696-2d4e39e744ff",
+              "name": "A page of bills.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bills"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"amount\": {},\n      \"vendor_id\": \"string\",\n      \"invoice_number\": \"string\",\n      \"due_at\": \"1950-07-07T18:42:19.727Z\",\n      \"status\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"amount\": {},\n      \"vendor_id\": \"string\",\n      \"invoice_number\": \"string\",\n      \"due_at\": \"1992-06-11T04:55:48.653Z\",\n      \"status\": \"string\"\n    }\n  ],\n  \"page\": {\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "e6beab43-9713-4f27-9558-5f5507f6a493",
+      "name": "Statements",
+      "description": {
+        "content": "Card statement records.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1b9d2afd-c579-46f6-8a5c-3bf9d1cc19b6",
+          "name": "List statements",
+          "request": {
+            "name": "List statements",
+            "description": {},
+            "url": {
+              "path": [
+                "statements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ca0e28c9-3a09-4817-b02b-89ca5341a589",
+              "name": "A page of statements.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"start_date\": \"1958-08-28\",\n      \"end_date\": \"1983-12-25\",\n      \"amount\": 7823.265682232649\n    },\n    {\n      \"id\": \"string\",\n      \"start_date\": \"1987-12-04\",\n      \"end_date\": \"2023-05-26\",\n      \"amount\": 2306.5321311331923\n    }\n  ],\n  \"page\": {\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ramp.com/developer/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ecd7bcbe-3ffb-4039-865b-21977db3b0f1",
+    "name": "Ramp Developer API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Ramp Developer API enables developers to access and manage Ramp account data, build applications for the Ramp App Center, and automate financial workflows. It provides programmatic access to spend management resources including transactions, cards, users, departments, locations, vendors, accounting integrations, reimbursements, bills, and statements. The API supports both reading data for reporting and analytics use cases and writing data for automation of financial operations across an organization.\n\nContact Support:\n Name: Ramp Developer Support",
+      "type": "text/plain"
+    }
+  }
+}
