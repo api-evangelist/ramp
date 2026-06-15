@@ -1,202 +1,196 @@
 aid: ramp
 name: Ramp
-description: Ramp is a finance automation platform that combines corporate cards, expense management, accounts payable, vendor
-  management, and accounting integrations into a single product. The Ramp Developer API enables developers to access and manage
-  Ramp account data, build applications for the Ramp App Center reaching over 25,000 Ramp customers, and automate financial
-  workflows by integrating Ramp into existing systems.
+description: Ramp is a finance automation platform that combines corporate cards,
+  expense management, accounts payable, vendor management, and accounting integrations
+  into a single product. The Ramp Developer API enables developers to access and manage
+  Ramp account data, build applications for the Ramp App Center reaching over 25,000
+  Ramp customers, and automate financial workflows by integrating Ramp into existing
+  systems.
 type: Index
 position: Consumer
 access: 3rd-Party
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - Finance
-  - Spend Management
-  - Corporate Cards
-  - Expense Management
-  - Accounts Payable
-  - Bill Pay
-  - Accounting
-  - Reimbursements
+- Finance
+- Spend Management
+- Corporate Cards
+- Expense Management
+- Accounts Payable
+- Bill Pay
+- Accounting
+- Reimbursements
 created: '2025-02-17'
 modified: '2026-05-30'
 url: https://raw.githubusercontent.com/api-evangelist/ramp/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
-  - aid: ramp:ramp-developer-api
-    name: Ramp Developer API
-    description: The Ramp Developer API enables developers to programmatically access and manage Ramp account data, build applications
-      for the Ramp App Center, and automate financial workflows. It provides resources for transactions, cards, users, departments,
-      locations, vendors, accounting integrations, reimbursements, bills, and statements, supporting both reporting and automation
-      use cases.
-    humanURL: https://docs.ramp.com/developer-api/v1/overview/introduction
-    baseURL: https://api.ramp.com/developer/v1
-    tags:
-    - Finance
-    - Spend Management
-    - Corporate Cards
-    - Expense Management
-    - Accounts Payable
-    - Accounting
-    properties:
-    - type: Documentation
-      url: https://docs.ramp.com/developer-api/v1/overview/introduction
-    - type: OpenAPI
-      url: openapi/ramp-developer-api-openapi.yml
-    - type: AsyncAPI
-      url: asyncapi/ramp-developer-api-webhooks-asyncapi.yml
-    - type: JSONSchema
-      url: json-schema/ramp-transaction.json
-    - type: JSONSchema
-      url: json-schema/ramp-card.json
-    - type: JSONSchema
-      url: json-schema/ramp-user.json
-    - type: JSONLD
-      url: json-ld/ramp-context.jsonld
-    - type: JSONStructure
-      url: json-structure/ramp-transaction-structure.json
-    - type: JSONStructure
-      url: json-structure/ramp-card-structure.json
-    - type: JSONStructure
-      url: json-structure/ramp-user-structure.json
-    - type: Example
-      url: examples/ramp-list-transactions-example.json
-    - type: Example
-      url: examples/ramp-list-cards-example.json
-    - type: Example
-      url: examples/ramp-list-users-example.json
-    - type: SpectralRules
-      url: rules/ramp-rules.yml
-    - type: NaftikoCapabilities
-      url: capabilities/spend-management.yaml
-    - type: NaftikoCapabilities
-      url: capabilities/accounting-integration.yaml
-    - type: NaftikoCapability
-      url: capabilities/developer-accounts.yaml
-    - type: NaftikoCapability
-      url: capabilities/developer-audit-logs.yaml
-    - type: NaftikoCapability
-      url: capabilities/developer-bills.yaml
-    - type: NaftikoCapability
-      url: capabilities/developer-cards.yaml
-    - type: NaftikoCapability
-      url: capabilities/developer-departments.yaml
-    - type: NaftikoCapability
-      url: capabilities/developer-locations.yaml
-    - type: NaftikoCapability
-      url: capabilities/developer-reimbursements.yaml
-    - type: NaftikoCapability
-      url: capabilities/developer-statements.yaml
-    - type: NaftikoCapability
-      url: capabilities/developer-transactions.yaml
-    - type: NaftikoCapability
-      url: capabilities/developer-users.yaml
-    - type: NaftikoCapability
-      url: capabilities/developer-vendors.yaml
-common:
-  - type: ArazzoWorkflows
-    url: arazzo/
-    workflows:
-    - url: arazzo/ramp-attribute-transaction-to-cardholder-workflow.yml
-      name: Ramp Attribute Transaction To Cardholder
-      summary: Resolve a transaction's card and user, then pull the user and card directories for attribution.
-    - url: arazzo/ramp-audit-event-target-lookup-workflow.yml
-      name: Ramp Audit Event Target Lookup
-      summary: List audit events and the user directory to resolve the actor behind each event.
-    - url: arazzo/ramp-card-inventory-by-cardholder-workflow.yml
-      name: Ramp Card Inventory By Cardholder
-      summary: Pull the card and user directories to build a per-cardholder card inventory.
-    - url: arazzo/ramp-categorize-transaction-to-account-workflow.yml
-      name: Ramp Categorize Transaction To Account
-      summary: Retrieve a transaction and pull the GL account list to support categorization.
-    - url: arazzo/ramp-export-spend-snapshot-workflow.yml
-      name: Ramp Export Spend Snapshot
-      summary: Pull transactions, cards, and users together to assemble a single spend snapshot.
-    - url: arazzo/ramp-find-cardholder-recent-spend-workflow.yml
-      name: Ramp Find Cardholder Recent Spend
-      summary: List users, then list a date window of transactions to slice spend by cardholder.
-    - url: arazzo/ramp-flag-large-transaction-workflow.yml
-      name: Ramp Flag Large Transaction
-      summary: List transactions in a window and branch on whether the first one exceeds a threshold.
-    - url: arazzo/ramp-flag-open-bill-vendor-workflow.yml
-      name: Ramp Flag Open Bill Vendor
-      summary: List bills and branch into a vendor lookup only when the first bill is still open.
-    - url: arazzo/ramp-inspect-transaction-detail-workflow.yml
-      name: Ramp Inspect Transaction Detail
-      summary: List transactions in a date range, pick the first, and retrieve its full record.
-    - url: arazzo/ramp-locate-department-spend-workflow.yml
-      name: Ramp Locate Department Spend
-      summary: Pull departments, users, and transactions to roll spend up by department.
-    - url: arazzo/ramp-locate-location-spend-workflow.yml
-      name: Ramp Locate Location Spend
-      summary: Pull locations, users, and transactions to roll spend up by location.
-    - url: arazzo/ramp-map-users-to-departments-workflow.yml
-      name: Ramp Map Users To Departments
-      summary: Pull the user, department, and location directories to build an org spend map.
-    - url: arazzo/ramp-paginate-accounting-accounts-workflow.yml
-      name: Ramp Paginate Accounting Accounts
-      summary: Page through the general ledger account list by following the start cursor.
-    - url: arazzo/ramp-reconcile-bills-with-vendors-workflow.yml
-      name: Ramp Reconcile Bills With Vendors
-      summary: Pull bills and the accounting vendor directory to resolve each bill's vendor.
-    - url: arazzo/ramp-reconcile-reimbursements-to-users-workflow.yml
-      name: Ramp Reconcile Reimbursements To Users
-      summary: Pull reimbursements and the user directory to attribute each request to a person.
-    - url: arazzo/ramp-review-pending-reimbursement-detail-workflow.yml
-      name: Ramp Review Pending Reimbursement Detail
-      summary: List reimbursements and branch into a user lookup only when one is still pending.
-    - url: arazzo/ramp-statement-close-detail-workflow.yml
-      name: Ramp Statement Close Detail
-      summary: List statements, then pull the transactions for the statement period to reconcile a close.
-    - url: arazzo/ramp-trace-transaction-to-account-detail-workflow.yml
-      name: Ramp Trace Transaction To Account Detail
-      summary: List transactions, retrieve the first in full, then pull GL accounts for coding.
-  - type: GitHubOrganization
-    url: https://github.com/ramp-public
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/ramp
-  - type: Website
-    url: https://ramp.com/
+- aid: ramp:ramp-developer-api
+  name: Ramp Developer API
+  description: The Ramp Developer API enables developers to programmatically access
+    and manage Ramp account data, build applications for the Ramp App Center, and
+    automate financial workflows. It provides resources for transactions, cards, users,
+    departments, locations, vendors, accounting integrations, reimbursements, bills,
+    and statements, supporting both reporting and automation use cases.
+  humanURL: https://docs.ramp.com/developer-api/v1/overview/introduction
+  baseURL: https://api.ramp.com/developer/v1
+  tags:
+  - Finance
+  - Spend Management
+  - Corporate Cards
+  - Expense Management
+  - Accounts Payable
+  - Accounting
+  properties:
   - type: Documentation
-    url: https://docs.ramp.com/
-  - type: Developer Portal
     url: https://docs.ramp.com/developer-api/v1/overview/introduction
-  - type: Authentication
-    url: https://docs.ramp.com/developer-api/v1/guides/authorization
-  - type: SignUp
-    url: https://app.ramp.com/sign-up
-  - type: Pricing
-    url: https://ramp.com/pricing
-  - type: Blog
-    url: https://ramp.com/blog
-  - type: Support
-    url: https://support.ramp.com/
-  - type: StatusPage
-    url: https://status.ramp.com/
-  - type: TermsOfService
-    url: https://ramp.com/legal/platform-agreement
-  - type: PrivacyPolicy
-    url: https://ramp.com/legal/privacy-policy
-  - type: Vocabulary
-    url: vocabulary/ramp-vocabulary.yml
-  - type: Integrations
-    url: https://ramp.com/integrations
-  - type: LLMsTxt
-    url: https://docs.ramp.com/llms.txt
+  - type: OpenAPI
+    url: openapi/ramp-developer-api-openapi.yml
+  - type: AsyncAPI
+    url: asyncapi/ramp-developer-api-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/ramp-transaction.json
+  - type: JSONSchema
+    url: json-schema/ramp-card.json
+  - type: JSONSchema
+    url: json-schema/ramp-user.json
+  - type: JSONLD
+    url: json-ld/ramp-context.jsonld
+  - type: JSONStructure
+    url: json-structure/ramp-transaction-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-card-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-user-structure.json
+  - type: Example
+    url: examples/ramp-list-transactions-example.json
+  - type: Example
+    url: examples/ramp-list-cards-example.json
+  - type: Example
+    url: examples/ramp-list-users-example.json
+  - type: SpectralRules
+    url: rules/ramp-rules.yml
+  - url: graphql/ramp-graphql.md
+    type: GraphQL
+common:
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/ramp/overview
+- type: ArazzoWorkflows
+  url: arazzo/
+  workflows:
+  - url: arazzo/ramp-attribute-transaction-to-cardholder-workflow.yml
+    name: Ramp Attribute Transaction To Cardholder
+    summary: Resolve a transaction's card and user, then pull the user and card directories
+      for attribution.
+  - url: arazzo/ramp-audit-event-target-lookup-workflow.yml
+    name: Ramp Audit Event Target Lookup
+    summary: List audit events and the user directory to resolve the actor behind
+      each event.
+  - url: arazzo/ramp-card-inventory-by-cardholder-workflow.yml
+    name: Ramp Card Inventory By Cardholder
+    summary: Pull the card and user directories to build a per-cardholder card inventory.
+  - url: arazzo/ramp-categorize-transaction-to-account-workflow.yml
+    name: Ramp Categorize Transaction To Account
+    summary: Retrieve a transaction and pull the GL account list to support categorization.
+  - url: arazzo/ramp-export-spend-snapshot-workflow.yml
+    name: Ramp Export Spend Snapshot
+    summary: Pull transactions, cards, and users together to assemble a single spend
+      snapshot.
+  - url: arazzo/ramp-find-cardholder-recent-spend-workflow.yml
+    name: Ramp Find Cardholder Recent Spend
+    summary: List users, then list a date window of transactions to slice spend by
+      cardholder.
+  - url: arazzo/ramp-flag-large-transaction-workflow.yml
+    name: Ramp Flag Large Transaction
+    summary: List transactions in a window and branch on whether the first one exceeds
+      a threshold.
+  - url: arazzo/ramp-flag-open-bill-vendor-workflow.yml
+    name: Ramp Flag Open Bill Vendor
+    summary: List bills and branch into a vendor lookup only when the first bill is
+      still open.
+  - url: arazzo/ramp-inspect-transaction-detail-workflow.yml
+    name: Ramp Inspect Transaction Detail
+    summary: List transactions in a date range, pick the first, and retrieve its full
+      record.
+  - url: arazzo/ramp-locate-department-spend-workflow.yml
+    name: Ramp Locate Department Spend
+    summary: Pull departments, users, and transactions to roll spend up by department.
+  - url: arazzo/ramp-locate-location-spend-workflow.yml
+    name: Ramp Locate Location Spend
+    summary: Pull locations, users, and transactions to roll spend up by location.
+  - url: arazzo/ramp-map-users-to-departments-workflow.yml
+    name: Ramp Map Users To Departments
+    summary: Pull the user, department, and location directories to build an org spend
+      map.
+  - url: arazzo/ramp-paginate-accounting-accounts-workflow.yml
+    name: Ramp Paginate Accounting Accounts
+    summary: Page through the general ledger account list by following the start cursor.
+  - url: arazzo/ramp-reconcile-bills-with-vendors-workflow.yml
+    name: Ramp Reconcile Bills With Vendors
+    summary: Pull bills and the accounting vendor directory to resolve each bill's
+      vendor.
+  - url: arazzo/ramp-reconcile-reimbursements-to-users-workflow.yml
+    name: Ramp Reconcile Reimbursements To Users
+    summary: Pull reimbursements and the user directory to attribute each request
+      to a person.
+  - url: arazzo/ramp-review-pending-reimbursement-detail-workflow.yml
+    name: Ramp Review Pending Reimbursement Detail
+    summary: List reimbursements and branch into a user lookup only when one is still
+      pending.
+  - url: arazzo/ramp-statement-close-detail-workflow.yml
+    name: Ramp Statement Close Detail
+    summary: List statements, then pull the transactions for the statement period
+      to reconcile a close.
+  - url: arazzo/ramp-trace-transaction-to-account-detail-workflow.yml
+    name: Ramp Trace Transaction To Account Detail
+    summary: List transactions, retrieve the first in full, then pull GL accounts
+      for coding.
+- type: GitHubOrganization
+  url: https://github.com/ramp-public
+- type: LinkedIn
+  url: https://www.linkedin.com/company/ramp
+- type: Website
+  url: https://ramp.com/
+- type: Documentation
+  url: https://docs.ramp.com/
+- type: Developer Portal
+  url: https://docs.ramp.com/developer-api/v1/overview/introduction
+- type: Authentication
+  url: https://docs.ramp.com/developer-api/v1/guides/authorization
+- type: SignUp
+  url: https://app.ramp.com/sign-up
+- type: Pricing
+  url: https://ramp.com/pricing
+- type: Blog
+  url: https://ramp.com/blog
+- type: Support
+  url: https://support.ramp.com/
+- type: StatusPage
+  url: https://status.ramp.com/
+- type: TermsOfService
+  url: https://ramp.com/legal/platform-agreement
+- type: PrivacyPolicy
+  url: https://ramp.com/legal/privacy-policy
+- type: Vocabulary
+  url: vocabulary/ramp-vocabulary.yml
+- type: Integrations
+  url: https://ramp.com/integrations
+- type: LLMsTxt
+  url: https://docs.ramp.com/llms.txt
 integrations:
-  - name: NetSuite Accounting
-  - name: Sage Intacct Accounting
-  - name: QuickBooks Accounting
-  - name: Microsoft Dynamics Business Central Accounting
-  - name: Xero Accounting
-  - name: Workday Financial Management Accounting
-  - name: Acumatica Accounting
-  - name: QuickBooks Desktop Accounting
-  - name: Oracle Fusion Cloud Accounting
-  - name: Zoho Books Accounting
-  - name: Amazon Business Receipt automation
-  - name: Corporate Traveler Receipt automation, Travel
-  - name: DoorDash Receipt automation, Productivity
-  - name: Egencia Receipt automation, Travel
+- name: NetSuite Accounting
+- name: Sage Intacct Accounting
+- name: QuickBooks Accounting
+- name: Microsoft Dynamics Business Central Accounting
+- name: Xero Accounting
+- name: Workday Financial Management Accounting
+- name: Acumatica Accounting
+- name: QuickBooks Desktop Accounting
+- name: Oracle Fusion Cloud Accounting
+- name: Zoho Books Accounting
+- name: Amazon Business Receipt automation
+- name: Corporate Traveler Receipt automation, Travel
+- name: DoorDash Receipt automation, Productivity
+- name: Egencia Receipt automation, Travel
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com

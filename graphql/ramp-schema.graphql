@@ -1,0 +1,1021 @@
+"""
+Ramp GraphQL Schema
+Derived from the Ramp Developer REST API (https://docs.ramp.com/developer-api/v1)
+Covers corporate cards, transactions, reimbursements, departments, locations,
+accounting integrations, receipts, memos, and spend policies.
+"""
+
+# ─── Scalars ───────────────────────────────────────────────────────────────────
+
+scalar DateTime
+scalar Decimal
+scalar UUID
+scalar JSON
+
+# ─── Enums ─────────────────────────────────────────────────────────────────────
+
+enum CardState {
+  ACTIVE
+  SUSPENDED
+  TERMINATED
+}
+
+enum CardType {
+  PHYSICAL
+  VIRTUAL
+  BURNER
+}
+
+enum TransactionState {
+  CLEARED
+  DECLINED
+  PENDING
+  REVERSED
+  DELETED
+}
+
+enum TransactionSyncStatus {
+  NOT_SYNCED
+  SYNCED
+  SYNC_FAILED
+}
+
+enum ReimbursementState {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  REJECTED
+  REIMBURSED
+  DELETED
+}
+
+enum ReimbursementDirection {
+  BUSINESS_TO_USER
+  USER_TO_BUSINESS
+}
+
+enum BillState {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  PAID
+  REJECTED
+  DELETED
+}
+
+enum BillPaymentMethod {
+  ACH
+  CHECK
+  INTERNATIONAL_WIRE
+  DOMESTIC_WIRE
+  RAMP_CARD
+}
+
+enum UserRole {
+  BUSINESS_OWNER
+  ADMIN
+  CARDHOLDER
+  BOOKKEEPER
+  ACCOUNTANT
+  IT_ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DELETED
+  INVITED
+}
+
+enum MemoStatus {
+  REQUIRED
+  OPTIONAL
+  DISABLED
+}
+
+enum ReceiptStatus {
+  REQUIRED
+  OPTIONAL
+  DISABLED
+}
+
+enum PolicyType {
+  SPENDING
+  MERCHANT_LOCK
+  CATEGORY_LOCK
+  MCC_CONTROL
+}
+
+enum SpendProgramType {
+  MONTHLY
+  YEARLY
+  QUARTERLY
+  CUSTOM
+  TOTAL
+}
+
+enum AccountingIntegrationProvider {
+  NETSUITE
+  QUICKBOOKS
+  XERO
+  SAGE_INTACCT
+  MICROSOFT_DYNAMICS
+  WORKDAY
+  ORACLE_FUSION
+  ACUMATICA
+  QUICKBOOKS_DESKTOP
+  ZOHO_BOOKS
+}
+
+enum AccountingIntegrationStatus {
+  CONNECTED
+  DISCONNECTED
+  ERROR
+  PENDING
+}
+
+enum CurrencyCode {
+  USD
+  EUR
+  GBP
+  CAD
+  AUD
+  JPY
+  CHF
+  CNY
+  INR
+  MXN
+  BRL
+  SGD
+  HKD
+  SEK
+  NOK
+  DKK
+  NZD
+  ZAR
+  OTHER
+}
+
+enum StatementStatus {
+  OPEN
+  CLOSED
+  PENDING_CLOSE
+}
+
+enum AuditEventType {
+  CARD_CREATED
+  CARD_SUSPENDED
+  CARD_TERMINATED
+  TRANSACTION_APPROVED
+  TRANSACTION_DECLINED
+  USER_INVITED
+  USER_ROLE_CHANGED
+  LIMIT_CHANGED
+  POLICY_UPDATED
+  INTEGRATION_CONNECTED
+  INTEGRATION_DISCONNECTED
+  RECEIPT_UPLOADED
+  MEMO_UPDATED
+  BILL_SUBMITTED
+  BILL_APPROVED
+  BILL_PAID
+  REIMBURSEMENT_SUBMITTED
+  REIMBURSEMENT_APPROVED
+  REIMBURSEMENT_REJECTED
+}
+
+enum SortOrder {
+  ASC
+  DESC
+}
+
+# ─── Core Object Types ─────────────────────────────────────────────────────────
+
+"""A money amount with currency."""
+type Money {
+  amount: Decimal!
+  currencyCode: CurrencyCode!
+}
+
+"""Pagination cursor information."""
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+  totalCount: Int
+}
+
+"""A Ramp user / employee."""
+type User {
+  id: UUID!
+  email: String!
+  firstName: String!
+  lastName: String!
+  role: UserRole!
+  status: UserStatus!
+  department: Department
+  location: Location
+  manager: User
+  directReports: [User!]
+  cards: [Card!]
+  reimbursements(first: Int, after: String): ReimbursementConnection!
+  spendLimit: SpendLimit
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A corporate card issued to a user."""
+type Card {
+  id: UUID!
+  displayName: String
+  lastFour: String!
+  cardType: CardType!
+  state: CardState!
+  cardholder: User
+  spendProgram: SpendProgram
+  spendLimit: SpendLimit
+  restrictions: CardRestrictions
+  transactions(first: Int, after: String, filter: TransactionFilter): TransactionConnection!
+  physicalShipping: PhysicalShipping
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Spend limit configuration."""
+type SpendLimit {
+  id: UUID!
+  amount: Money!
+  interval: SpendProgramType!
+  startDate: DateTime
+  endDate: DateTime
+  remaining: Money
+}
+
+"""Restrictions applied to a card."""
+type CardRestrictions {
+  allowedMerchantCategoryCode: [String!]
+  blockedMerchantCategoryCode: [String!]
+  allowedMerchants: [Merchant!]
+  blockedMerchants: [Merchant!]
+}
+
+"""Physical card shipping details."""
+type PhysicalShipping {
+  address: Address
+  trackingNumber: String
+  carrier: String
+  estimatedDelivery: DateTime
+}
+
+"""A financial transaction."""
+type Transaction {
+  id: UUID!
+  amount: Money!
+  merchantAmount: Money
+  userTransactionTime: DateTime!
+  settledAt: DateTime
+  state: TransactionState!
+  syncStatus: TransactionSyncStatus!
+  card: Card
+  user: User
+  merchant: Merchant
+  memo: String
+  receipts: [Receipt!]
+  lineItems: [TransactionLineItem!]
+  policy: PolicyViolation
+  accountingCodeId: UUID
+  accountingField: AccountingField
+  statementId: UUID
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A transaction line item for split coding."""
+type TransactionLineItem {
+  id: UUID!
+  amount: Money!
+  memo: String
+  accountingField: AccountingField
+  glAccount: GLAccount
+}
+
+"""A merchant."""
+type Merchant {
+  id: UUID!
+  name: String!
+  descriptor: String
+  category: String
+  merchantCategoryCode: String
+  country: String
+  city: String
+  state: String
+  logoUrl: String
+}
+
+"""A receipt attached to a transaction or reimbursement."""
+type Receipt {
+  id: UUID!
+  transactionId: UUID
+  reimbursementId: UUID
+  fileUrl: String!
+  mimeType: String!
+  uploadedAt: DateTime!
+  uploadedBy: User
+}
+
+"""A reimbursement request."""
+type Reimbursement {
+  id: UUID!
+  amount: Money!
+  direction: ReimbursementDirection!
+  state: ReimbursementState!
+  memo: String
+  merchant: String
+  transactionDate: DateTime!
+  receipts: [Receipt!]
+  user: User
+  approver: User
+  accountingField: AccountingField
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A bill / accounts-payable document."""
+type Bill {
+  id: UUID!
+  amount: Money!
+  dueDate: DateTime
+  paidAt: DateTime
+  state: BillState!
+  paymentMethod: BillPaymentMethod
+  vendor: AccountingVendor
+  memo: String
+  lineItems: [BillLineItem!]
+  attachments: [Receipt!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A line item on a bill."""
+type BillLineItem {
+  id: UUID!
+  amount: Money!
+  description: String
+  glAccount: GLAccount
+}
+
+"""An organizational department."""
+type Department {
+  id: UUID!
+  name: String!
+  parentDepartment: Department
+  users: [User!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""An office location."""
+type Location {
+  id: UUID!
+  name: String!
+  address: Address
+  users: [User!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A postal address."""
+type Address {
+  street1: String
+  street2: String
+  city: String
+  state: String
+  postalCode: String
+  country: String!
+}
+
+"""An accounting integration with an ERP/accounting system."""
+type AccountingIntegration {
+  id: UUID!
+  provider: AccountingIntegrationProvider!
+  status: AccountingIntegrationStatus!
+  lastSyncedAt: DateTime
+  glAccounts: [GLAccount!]
+  vendors: [AccountingVendor!]
+  departments: [AccountingDepartment!]
+  locations: [AccountingLocation!]
+  classes: [AccountingClass!]
+  projects: [AccountingProject!]
+  connectedAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A general-ledger account from an accounting integration."""
+type GLAccount {
+  id: UUID!
+  externalId: String
+  name: String!
+  code: String
+  type: String
+  subType: String
+  isActive: Boolean!
+}
+
+"""A vendor record from an accounting integration."""
+type AccountingVendor {
+  id: UUID!
+  externalId: String
+  name: String!
+  email: String
+  address: Address
+  isActive: Boolean!
+}
+
+"""An accounting department (ERP-side)."""
+type AccountingDepartment {
+  id: UUID!
+  externalId: String
+  name: String!
+  isActive: Boolean!
+}
+
+"""An accounting location (ERP-side)."""
+type AccountingLocation {
+  id: UUID!
+  externalId: String
+  name: String!
+  isActive: Boolean!
+}
+
+"""An accounting class dimension."""
+type AccountingClass {
+  id: UUID!
+  externalId: String
+  name: String!
+  isActive: Boolean!
+}
+
+"""An accounting project / job dimension."""
+type AccountingProject {
+  id: UUID!
+  externalId: String
+  name: String!
+  isActive: Boolean!
+}
+
+"""A coding field applied to a transaction or line item."""
+type AccountingField {
+  glAccount: GLAccount
+  vendor: AccountingVendor
+  department: AccountingDepartment
+  location: AccountingLocation
+  class: AccountingClass
+  project: AccountingProject
+  customField1: String
+  customField2: String
+}
+
+"""A spend program (budget)."""
+type SpendProgram {
+  id: UUID!
+  name: String!
+  description: String
+  type: SpendProgramType!
+  limit: Money!
+  startDate: DateTime
+  endDate: DateTime
+  cards: [Card!]
+  users: [User!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A spend policy controlling how money is spent."""
+type SpendPolicy {
+  id: UUID!
+  name: String!
+  policyType: PolicyType!
+  isActive: Boolean!
+  memoRequirement: MemoStatus!
+  receiptRequirement: ReceiptStatus!
+  receiptAmountThreshold: Money
+  restrictions: CardRestrictions
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A policy violation flag on a transaction."""
+type PolicyViolation {
+  id: UUID!
+  policy: SpendPolicy
+  reason: String!
+  resolvedAt: DateTime
+  resolvedBy: User
+}
+
+"""A monthly/periodic statement."""
+type Statement {
+  id: UUID!
+  status: StatementStatus!
+  periodStart: DateTime!
+  periodEnd: DateTime!
+  totalAmount: Money!
+  transactions: [Transaction!]
+  closedAt: DateTime
+  createdAt: DateTime!
+}
+
+"""An audit log event."""
+type AuditEvent {
+  id: UUID!
+  eventType: AuditEventType!
+  actor: User
+  targetEntityId: UUID
+  targetEntityType: String
+  description: String!
+  metadata: JSON
+  occurredAt: DateTime!
+}
+
+# ─── Connection / Edge types ───────────────────────────────────────────────────
+
+type UserEdge {
+  node: User!
+  cursor: String!
+}
+
+type UserConnection {
+  edges: [UserEdge!]!
+  pageInfo: PageInfo!
+}
+
+type CardEdge {
+  node: Card!
+  cursor: String!
+}
+
+type CardConnection {
+  edges: [CardEdge!]!
+  pageInfo: PageInfo!
+}
+
+type TransactionEdge {
+  node: Transaction!
+  cursor: String!
+}
+
+type TransactionConnection {
+  edges: [TransactionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type ReimbursementEdge {
+  node: Reimbursement!
+  cursor: String!
+}
+
+type ReimbursementConnection {
+  edges: [ReimbursementEdge!]!
+  pageInfo: PageInfo!
+}
+
+type BillEdge {
+  node: Bill!
+  cursor: String!
+}
+
+type BillConnection {
+  edges: [BillEdge!]!
+  pageInfo: PageInfo!
+}
+
+type DepartmentEdge {
+  node: Department!
+  cursor: String!
+}
+
+type DepartmentConnection {
+  edges: [DepartmentEdge!]!
+  pageInfo: PageInfo!
+}
+
+type LocationEdge {
+  node: Location!
+  cursor: String!
+}
+
+type LocationConnection {
+  edges: [LocationEdge!]!
+  pageInfo: PageInfo!
+}
+
+type AuditEventEdge {
+  node: AuditEvent!
+  cursor: String!
+}
+
+type AuditEventConnection {
+  edges: [AuditEventEdge!]!
+  pageInfo: PageInfo!
+}
+
+type SpendProgramEdge {
+  node: SpendProgram!
+  cursor: String!
+}
+
+type SpendProgramConnection {
+  edges: [SpendProgramEdge!]!
+  pageInfo: PageInfo!
+}
+
+# ─── Input Types ───────────────────────────────────────────────────────────────
+
+input TransactionFilter {
+  states: [TransactionState!]
+  syncStatuses: [TransactionSyncStatus!]
+  fromDate: DateTime
+  toDate: DateTime
+  cardIds: [UUID!]
+  userIds: [UUID!]
+  departmentIds: [UUID!]
+  locationIds: [UUID!]
+  minAmount: Decimal
+  maxAmount: Decimal
+  merchantCategoryCodes: [String!]
+  hasMemo: Boolean
+  hasReceipt: Boolean
+}
+
+input CardFilter {
+  states: [CardState!]
+  cardTypes: [CardType!]
+  userIds: [UUID!]
+  departmentIds: [UUID!]
+  locationIds: [UUID!]
+  spendProgramIds: [UUID!]
+}
+
+input UserFilter {
+  statuses: [UserStatus!]
+  roles: [UserRole!]
+  departmentIds: [UUID!]
+  locationIds: [UUID!]
+  hasCard: Boolean
+}
+
+input ReimbursementFilter {
+  states: [ReimbursementState!]
+  userIds: [UUID!]
+  fromDate: DateTime
+  toDate: DateTime
+  minAmount: Decimal
+  maxAmount: Decimal
+}
+
+input BillFilter {
+  states: [BillState!]
+  paymentMethods: [BillPaymentMethod!]
+  fromDueDate: DateTime
+  toDueDate: DateTime
+  vendorIds: [UUID!]
+}
+
+input AuditEventFilter {
+  eventTypes: [AuditEventType!]
+  actorIds: [UUID!]
+  fromDate: DateTime
+  toDate: DateTime
+  targetEntityType: String
+}
+
+input CreateCardInput {
+  cardholderId: UUID!
+  displayName: String
+  cardType: CardType!
+  spendProgramId: UUID
+  spendLimit: SpendLimitInput
+  restrictions: CardRestrictionsInput
+  shippingAddress: AddressInput
+}
+
+input UpdateCardInput {
+  displayName: String
+  state: CardState
+  spendLimit: SpendLimitInput
+  restrictions: CardRestrictionsInput
+}
+
+input SpendLimitInput {
+  amount: Decimal!
+  currencyCode: CurrencyCode!
+  interval: SpendProgramType!
+  startDate: DateTime
+  endDate: DateTime
+}
+
+input CardRestrictionsInput {
+  allowedMerchantCategoryCodes: [String!]
+  blockedMerchantCategoryCodes: [String!]
+  allowedMerchantIds: [UUID!]
+  blockedMerchantIds: [UUID!]
+}
+
+input AddressInput {
+  street1: String!
+  street2: String
+  city: String!
+  state: String
+  postalCode: String!
+  country: String!
+}
+
+input CreateUserInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  role: UserRole!
+  departmentId: UUID
+  locationId: UUID
+  managerId: UUID
+}
+
+input UpdateUserInput {
+  firstName: String
+  lastName: String
+  role: UserRole
+  departmentId: UUID
+  locationId: UUID
+  managerId: UUID
+  status: UserStatus
+}
+
+input CreateReimbursementInput {
+  userId: UUID!
+  amount: Decimal!
+  currencyCode: CurrencyCode!
+  direction: ReimbursementDirection!
+  memo: String
+  merchant: String
+  transactionDate: DateTime!
+  receiptIds: [UUID!]
+}
+
+input UpdateReimbursementInput {
+  memo: String
+  merchant: String
+  transactionDate: DateTime
+  receiptIds: [UUID!]
+  accountingField: AccountingFieldInput
+}
+
+input AccountingFieldInput {
+  glAccountId: UUID
+  vendorId: UUID
+  departmentId: UUID
+  locationId: UUID
+  classId: UUID
+  projectId: UUID
+  customField1: String
+  customField2: String
+}
+
+input CreateDepartmentInput {
+  name: String!
+  parentDepartmentId: UUID
+}
+
+input UpdateDepartmentInput {
+  name: String
+  parentDepartmentId: UUID
+}
+
+input CreateLocationInput {
+  name: String!
+  address: AddressInput
+}
+
+input UpdateLocationInput {
+  name: String
+  address: AddressInput
+}
+
+input CreateSpendProgramInput {
+  name: String!
+  description: String
+  type: SpendProgramType!
+  amount: Decimal!
+  currencyCode: CurrencyCode!
+  startDate: DateTime
+  endDate: DateTime
+}
+
+input UpdateSpendProgramInput {
+  name: String
+  description: String
+  amount: Decimal
+  startDate: DateTime
+  endDate: DateTime
+}
+
+input UpdateTransactionInput {
+  memo: String
+  accountingField: AccountingFieldInput
+}
+
+input PaginationInput {
+  first: Int
+  after: String
+  last: Int
+  before: String
+}
+
+# ─── Payload / Response types ──────────────────────────────────────────────────
+
+type CardPayload {
+  card: Card
+  errors: [UserError!]
+}
+
+type UserPayload {
+  user: User
+  errors: [UserError!]
+}
+
+type ReimbursementPayload {
+  reimbursement: Reimbursement
+  errors: [UserError!]
+}
+
+type TransactionPayload {
+  transaction: Transaction
+  errors: [UserError!]
+}
+
+type DepartmentPayload {
+  department: Department
+  errors: [UserError!]
+}
+
+type LocationPayload {
+  location: Location
+  errors: [UserError!]
+}
+
+type SpendProgramPayload {
+  spendProgram: SpendProgram
+  errors: [UserError!]
+}
+
+type DeletePayload {
+  deletedId: UUID
+  errors: [UserError!]
+}
+
+type UserError {
+  field: String
+  message: String!
+  code: String
+}
+
+# ─── Root Query ────────────────────────────────────────────────────────────────
+
+type Query {
+  # Users
+  user(id: UUID!): User
+  users(
+    filter: UserFilter
+    pagination: PaginationInput
+    sortOrder: SortOrder
+  ): UserConnection!
+
+  # Cards
+  card(id: UUID!): Card
+  cards(
+    filter: CardFilter
+    pagination: PaginationInput
+    sortOrder: SortOrder
+  ): CardConnection!
+
+  # Transactions
+  transaction(id: UUID!): Transaction
+  transactions(
+    filter: TransactionFilter
+    pagination: PaginationInput
+    sortOrder: SortOrder
+  ): TransactionConnection!
+
+  # Reimbursements
+  reimbursement(id: UUID!): Reimbursement
+  reimbursements(
+    filter: ReimbursementFilter
+    pagination: PaginationInput
+    sortOrder: SortOrder
+  ): ReimbursementConnection!
+
+  # Bills
+  bill(id: UUID!): Bill
+  bills(
+    filter: BillFilter
+    pagination: PaginationInput
+    sortOrder: SortOrder
+  ): BillConnection!
+
+  # Departments
+  department(id: UUID!): Department
+  departments(pagination: PaginationInput): DepartmentConnection!
+
+  # Locations
+  location(id: UUID!): Location
+  locations(pagination: PaginationInput): LocationConnection!
+
+  # Accounting integration
+  accountingIntegration: AccountingIntegration
+  glAccounts(pagination: PaginationInput, isActive: Boolean): [GLAccount!]!
+  accountingVendors(pagination: PaginationInput, isActive: Boolean): [AccountingVendor!]!
+  accountingDepartments(pagination: PaginationInput, isActive: Boolean): [AccountingDepartment!]!
+  accountingLocations(pagination: PaginationInput, isActive: Boolean): [AccountingLocation!]!
+  accountingClasses(pagination: PaginationInput, isActive: Boolean): [AccountingClass!]!
+  accountingProjects(pagination: PaginationInput, isActive: Boolean): [AccountingProject!]!
+
+  # Spend programs
+  spendProgram(id: UUID!): SpendProgram
+  spendPrograms(pagination: PaginationInput): SpendProgramConnection!
+
+  # Spend policies
+  spendPolicy(id: UUID!): SpendPolicy
+  spendPolicies: [SpendPolicy!]!
+
+  # Merchants
+  merchant(id: UUID!): Merchant
+  merchants(pagination: PaginationInput, search: String): [Merchant!]!
+
+  # Receipts
+  receipt(id: UUID!): Receipt
+  receipts(transactionId: UUID, reimbursementId: UUID): [Receipt!]!
+
+  # Statements
+  statement(id: UUID!): Statement
+  statements(
+    status: StatementStatus
+    pagination: PaginationInput
+  ): [Statement!]!
+
+  # Audit events
+  auditEvents(
+    filter: AuditEventFilter
+    pagination: PaginationInput
+    sortOrder: SortOrder
+  ): AuditEventConnection!
+}
+
+# ─── Root Mutation ─────────────────────────────────────────────────────────────
+
+type Mutation {
+  # Card mutations
+  createCard(input: CreateCardInput!): CardPayload!
+  updateCard(id: UUID!, input: UpdateCardInput!): CardPayload!
+  suspendCard(id: UUID!): CardPayload!
+  unsuspendCard(id: UUID!): CardPayload!
+  terminateCard(id: UUID!): CardPayload!
+
+  # User mutations
+  inviteUser(input: CreateUserInput!): UserPayload!
+  updateUser(id: UUID!, input: UpdateUserInput!): UserPayload!
+  suspendUser(id: UUID!): UserPayload!
+  reactivateUser(id: UUID!): UserPayload!
+
+  # Transaction mutations
+  updateTransaction(id: UUID!, input: UpdateTransactionInput!): TransactionPayload!
+  syncTransaction(id: UUID!): TransactionPayload!
+
+  # Reimbursement mutations
+  createReimbursement(input: CreateReimbursementInput!): ReimbursementPayload!
+  updateReimbursement(id: UUID!, input: UpdateReimbursementInput!): ReimbursementPayload!
+  submitReimbursement(id: UUID!): ReimbursementPayload!
+  approveReimbursement(id: UUID!): ReimbursementPayload!
+  rejectReimbursement(id: UUID!, reason: String): ReimbursementPayload!
+  deleteReimbursement(id: UUID!): DeletePayload!
+
+  # Department mutations
+  createDepartment(input: CreateDepartmentInput!): DepartmentPayload!
+  updateDepartment(id: UUID!, input: UpdateDepartmentInput!): DepartmentPayload!
+  deleteDepartment(id: UUID!): DeletePayload!
+
+  # Location mutations
+  createLocation(input: CreateLocationInput!): LocationPayload!
+  updateLocation(id: UUID!, input: UpdateLocationInput!): LocationPayload!
+  deleteLocation(id: UUID!): DeletePayload!
+
+  # Spend program mutations
+  createSpendProgram(input: CreateSpendProgramInput!): SpendProgramPayload!
+  updateSpendProgram(id: UUID!, input: UpdateSpendProgramInput!): SpendProgramPayload!
+  addCardToSpendProgram(spendProgramId: UUID!, cardId: UUID!): SpendProgramPayload!
+  removeCardFromSpendProgram(spendProgramId: UUID!, cardId: UUID!): SpendProgramPayload!
+  deleteSpendProgram(id: UUID!): DeletePayload!
+
+  # Receipt mutations
+  uploadReceipt(transactionId: UUID, reimbursementId: UUID, fileBase64: String!, mimeType: String!): Receipt!
+  deleteReceipt(id: UUID!): DeletePayload!
+}
