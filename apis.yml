@@ -72,6 +72,12 @@ apis:
   - url: graphql/ramp-graphql.md
     type: GraphQL
 common:
+- type: TrustCenter
+  url: security/ramp-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/ramp-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/ramp-domain-security.yml
 - type: Authentication
   url: authentication/ramp-authentication.yml
 - type: OAuthScopes
