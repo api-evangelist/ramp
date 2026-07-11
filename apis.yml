@@ -72,6 +72,10 @@ apis:
   - url: graphql/ramp-graphql.md
     type: GraphQL
 common:
+- type: Authentication
+  url: authentication/ramp-authentication.yml
+- type: OAuthScopes
+  url: scopes/ramp-scopes.yml
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/ramp/overview
 - type: Arazzo

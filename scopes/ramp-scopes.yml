@@ -1,0 +1,82 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/ramp-developer-api-openapi.yml
+schemes:
+- name: OAuth2
+  source: openapi/ramp-developer-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.ramp.com/developer/v1/token
+scopes:
+- scope: accounting:read
+  description: Read accounting resources
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/ramp-developer-api-openapi.yml
+- scope: accounting:write
+  description: Write accounting resources
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/ramp-developer-api-openapi.yml
+- scope: applications:read
+  description: Read applications
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/ramp-developer-api-openapi.yml
+- scope: audit:read
+  description: Read audit logs
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/ramp-developer-api-openapi.yml
+- scope: bills:read
+  description: Read bills
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/ramp-developer-api-openapi.yml
+- scope: cards:read
+  description: Read cards
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/ramp-developer-api-openapi.yml
+- scope: departments:read
+  description: Read departments
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/ramp-developer-api-openapi.yml
+- scope: locations:read
+  description: Read locations
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/ramp-developer-api-openapi.yml
+- scope: reimbursements:read
+  description: Read reimbursements
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/ramp-developer-api-openapi.yml
+- scope: statements:read
+  description: Read statements
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/ramp-developer-api-openapi.yml
+- scope: transactions:read
+  description: Read transactions
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/ramp-developer-api-openapi.yml
+- scope: users:read
+  description: Read users
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/ramp-developer-api-openapi.yml
