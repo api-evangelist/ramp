@@ -2,19 +2,14 @@
   "repo": "ramp",
   "feeds": [
     {
-      "source": "https://ramp.com/blog",
-      "feed_url": "",
-      "saved": 6,
-      "method": "agent-scrape"
-    },
-    {
       "source": "https://ramp.com/pricing",
-      "feed_url": "",
+      "feed_url": "https://ramp.com/pricing",
+      "title": "",
       "saved": 0,
-      "method": "agent-scrape"
+      "method": "none"
     }
   ],
-  "post_count": 15,
-  "fetched": "2026-06-27T13:04:03Z",
-  "agent_pulled": "2026-06-27"
+  "post_count": 21,
+  "fetched": "2026-07-11T11:50:51Z",
+  "agent_pulled": "2026-07-04"
 }
