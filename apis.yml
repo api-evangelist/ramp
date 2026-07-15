@@ -72,6 +72,8 @@ apis:
   - url: graphql/ramp-graphql.md
     type: GraphQL
 common:
+- type: AgenticAccess
+  url: agentic-access/ramp-agentic-access.yml
 - type: TrustCenter
   url: security/ramp-trust-center.yml
 - type: VulnerabilityDisclosure

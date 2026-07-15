@@ -1,0 +1,158 @@
+generated: '2026-07-15'
+method: generated
+source: openapi/ramp-developer-api-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 12
+  by_action_class:
+    connected: 12
+  by_consequence:
+    read: 12
+  human_in_the_loop_required: 0
+operations:
+- path: /accounting/accounts
+  method: get
+  operationId: listAccountingAccounts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - accounting:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /accounting/vendors
+  method: get
+  operationId: listAccountingVendors
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - accounting:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /transactions
+  method: get
+  operationId: listTransactions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - transactions:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /transactions/{id}
+  method: get
+  operationId: getTransaction
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - transactions:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /cards
+  method: get
+  operationId: listCards
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - cards:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /users
+  method: get
+  operationId: listUsers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - users:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /departments
+  method: get
+  operationId: listDepartments
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - departments:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /locations
+  method: get
+  operationId: listLocations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - locations:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /reimbursements
+  method: get
+  operationId: listReimbursements
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - reimbursements:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /bills
+  method: get
+  operationId: listBills
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - bills:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /statements
+  method: get
+  operationId: listStatements
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - statements:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /audit-logs/events
+  method: get
+  operationId: listAuditEvents
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - audit:read
+    token:
+      max-ttl: 3600
+    audit: none
