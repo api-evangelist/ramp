@@ -1,0 +1,98 @@
+openapi: 3.1.0
+info:
+  title: Ramp Developer Accounts API
+  description: The Ramp Developer API enables developers to access and manage Ramp account data, build applications for the Ramp App Center, and automate financial workflows. It provides programmatic access to spend management resources including transactions, cards, users, departments, locations, vendors, accounting integrations, reimbursements, bills, and statements. The API supports both reading data for reporting and analytics use cases and writing data for automation of financial operations across an organization.
+  version: '1.0'
+  contact:
+    name: Ramp Developer Support
+    url: https://docs.ramp.com/developer-api/v1/overview/introduction
+  termsOfService: https://ramp.com/legal/platform-agreement
+  license:
+    name: Ramp Platform Terms
+    url: https://ramp.com/legal/platform-agreement
+servers:
+- url: https://api.ramp.com/developer/v1
+  description: Production
+- url: https://demo-api.ramp.com/developer/v1
+  description: Demo
+tags:
+- name: Accounts
+  description: General ledger account resources used to map Ramp activity to accounting systems.
+paths:
+  /accounting/accounts:
+    get:
+      tags:
+      - Accounts
+      summary: List general ledger accounts
+      description: Returns a paginated list of general ledger accounts configured for the organization.
+      operationId: listAccountingAccounts
+      parameters:
+      - name: page_size
+        in: query
+        schema:
+          type: integer
+      - name: start
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A page of accounting accounts.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountList'
+      security:
+      - OAuth2:
+        - accounting:read
+components:
+  schemas:
+    AccountList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+        page:
+          $ref: '#/components/schemas/Page'
+    Account:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        code:
+          type: string
+        classification:
+          type: string
+    Page:
+      type: object
+      properties:
+        next:
+          type: string
+        previous:
+          type: string
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.ramp.com/developer/v1/token
+          scopes:
+            accounting:read: Read accounting resources
+            accounting:write: Write accounting resources
+            transactions:read: Read transactions
+            cards:read: Read cards
+            users:read: Read users
+            departments:read: Read departments
+            locations:read: Read locations
+            reimbursements:read: Read reimbursements
+            bills:read: Read bills
+            statements:read: Read statements
+            audit:read: Read audit logs
+            applications:read: Read applications
+externalDocs:
+  description: Ramp Developer API Documentation
+  url: https://docs.ramp.com/developer-api/v1/overview/introduction
