@@ -7,9 +7,22 @@ description: Ramp is a finance automation platform that combines corporate cards
   Ramp customers, and automate financial workflows by integrating Ramp into existing
   systems.
 type: Index
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/ramp.png
 tags:
 - Finance
 - Spend Management
@@ -24,27 +37,18 @@ modified: '2026-05-30'
 url: https://raw.githubusercontent.com/api-evangelist/ramp/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
-- aid: ramp:ramp-developer-api
-  name: Ramp Developer API
-  description: The Ramp Developer API enables developers to programmatically access
-    and manage Ramp account data, build applications for the Ramp App Center, and
-    automate financial workflows. It provides resources for transactions, cards, users,
-    departments, locations, vendors, accounting integrations, reimbursements, bills,
-    and statements, supporting both reporting and automation use cases.
+- aid: ramp:ramp-accounts-api
+  name: Ramp Accounts API
+  description: General ledger account resources used to map Ramp activity to accounting systems.
   humanURL: https://docs.ramp.com/developer-api/v1/overview/introduction
   baseURL: https://api.ramp.com/developer/v1
   tags:
-  - Finance
-  - Spend Management
-  - Corporate Cards
-  - Expense Management
-  - Accounts Payable
-  - Accounting
+  - Accounts
   properties:
+  - type: OpenAPI
+    url: openapi/ramp-accounts-api-openapi.yml
   - type: Documentation
     url: https://docs.ramp.com/developer-api/v1/overview/introduction
-  - type: OpenAPI
-    url: openapi/ramp-developer-api-openapi.yml
   - type: AsyncAPI
     url: asyncapi/ramp-developer-api-webhooks-asyncapi.yml
   - type: JSONSchema
@@ -69,8 +73,388 @@ apis:
     url: examples/ramp-list-users-example.json
   - type: SpectralRules
     url: rules/ramp-rules.yml
-  - url: graphql/ramp-graphql.md
-    type: GraphQL
+  - type: GraphQL
+    url: graphql/ramp-graphql.md
+- aid: ramp:ramp-audit-logs-api
+  name: Ramp Audit Logs API
+  description: Audit events recording activity within a Ramp organization.
+  humanURL: https://docs.ramp.com/developer-api/v1/overview/introduction
+  baseURL: https://api.ramp.com/developer/v1
+  tags:
+  - Audit Logs
+  properties:
+  - type: OpenAPI
+    url: openapi/ramp-audit-logs-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ramp.com/developer-api/v1/overview/introduction
+  - type: AsyncAPI
+    url: asyncapi/ramp-developer-api-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/ramp-transaction.json
+  - type: JSONSchema
+    url: json-schema/ramp-card.json
+  - type: JSONSchema
+    url: json-schema/ramp-user.json
+  - type: JSONLD
+    url: json-ld/ramp-context.jsonld
+  - type: JSONStructure
+    url: json-structure/ramp-transaction-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-card-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-user-structure.json
+  - type: Examples
+    url: examples/ramp-list-transactions-example.json
+  - type: Examples
+    url: examples/ramp-list-cards-example.json
+  - type: Examples
+    url: examples/ramp-list-users-example.json
+  - type: SpectralRules
+    url: rules/ramp-rules.yml
+  - type: GraphQL
+    url: graphql/ramp-graphql.md
+- aid: ramp:ramp-bills-api
+  name: Ramp Bills API
+  description: Bill pay records and approval workflows.
+  humanURL: https://docs.ramp.com/developer-api/v1/overview/introduction
+  baseURL: https://api.ramp.com/developer/v1
+  tags:
+  - Bills
+  properties:
+  - type: OpenAPI
+    url: openapi/ramp-bills-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ramp.com/developer-api/v1/overview/introduction
+  - type: AsyncAPI
+    url: asyncapi/ramp-developer-api-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/ramp-transaction.json
+  - type: JSONSchema
+    url: json-schema/ramp-card.json
+  - type: JSONSchema
+    url: json-schema/ramp-user.json
+  - type: JSONLD
+    url: json-ld/ramp-context.jsonld
+  - type: JSONStructure
+    url: json-structure/ramp-transaction-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-card-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-user-structure.json
+  - type: Examples
+    url: examples/ramp-list-transactions-example.json
+  - type: Examples
+    url: examples/ramp-list-cards-example.json
+  - type: Examples
+    url: examples/ramp-list-users-example.json
+  - type: SpectralRules
+    url: rules/ramp-rules.yml
+  - type: GraphQL
+    url: graphql/ramp-graphql.md
+- aid: ramp:ramp-cards-api
+  name: Ramp Cards API
+  description: Physical and virtual cards issued to users and departments.
+  humanURL: https://docs.ramp.com/developer-api/v1/overview/introduction
+  baseURL: https://api.ramp.com/developer/v1
+  tags:
+  - Cards
+  properties:
+  - type: OpenAPI
+    url: openapi/ramp-cards-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ramp.com/developer-api/v1/overview/introduction
+  - type: AsyncAPI
+    url: asyncapi/ramp-developer-api-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/ramp-transaction.json
+  - type: JSONSchema
+    url: json-schema/ramp-card.json
+  - type: JSONSchema
+    url: json-schema/ramp-user.json
+  - type: JSONLD
+    url: json-ld/ramp-context.jsonld
+  - type: JSONStructure
+    url: json-structure/ramp-transaction-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-card-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-user-structure.json
+  - type: Examples
+    url: examples/ramp-list-transactions-example.json
+  - type: Examples
+    url: examples/ramp-list-cards-example.json
+  - type: Examples
+    url: examples/ramp-list-users-example.json
+  - type: SpectralRules
+    url: rules/ramp-rules.yml
+  - type: GraphQL
+    url: graphql/ramp-graphql.md
+- aid: ramp:ramp-departments-api
+  name: Ramp Departments API
+  description: Department records used to organize spend.
+  humanURL: https://docs.ramp.com/developer-api/v1/overview/introduction
+  baseURL: https://api.ramp.com/developer/v1
+  tags:
+  - Departments
+  properties:
+  - type: OpenAPI
+    url: openapi/ramp-departments-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ramp.com/developer-api/v1/overview/introduction
+  - type: AsyncAPI
+    url: asyncapi/ramp-developer-api-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/ramp-transaction.json
+  - type: JSONSchema
+    url: json-schema/ramp-card.json
+  - type: JSONSchema
+    url: json-schema/ramp-user.json
+  - type: JSONLD
+    url: json-ld/ramp-context.jsonld
+  - type: JSONStructure
+    url: json-structure/ramp-transaction-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-card-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-user-structure.json
+  - type: Examples
+    url: examples/ramp-list-transactions-example.json
+  - type: Examples
+    url: examples/ramp-list-cards-example.json
+  - type: Examples
+    url: examples/ramp-list-users-example.json
+  - type: SpectralRules
+    url: rules/ramp-rules.yml
+  - type: GraphQL
+    url: graphql/ramp-graphql.md
+- aid: ramp:ramp-locations-api
+  name: Ramp Locations API
+  description: Location records used to organize spend.
+  humanURL: https://docs.ramp.com/developer-api/v1/overview/introduction
+  baseURL: https://api.ramp.com/developer/v1
+  tags:
+  - Locations
+  properties:
+  - type: OpenAPI
+    url: openapi/ramp-locations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ramp.com/developer-api/v1/overview/introduction
+  - type: AsyncAPI
+    url: asyncapi/ramp-developer-api-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/ramp-transaction.json
+  - type: JSONSchema
+    url: json-schema/ramp-card.json
+  - type: JSONSchema
+    url: json-schema/ramp-user.json
+  - type: JSONLD
+    url: json-ld/ramp-context.jsonld
+  - type: JSONStructure
+    url: json-structure/ramp-transaction-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-card-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-user-structure.json
+  - type: Examples
+    url: examples/ramp-list-transactions-example.json
+  - type: Examples
+    url: examples/ramp-list-cards-example.json
+  - type: Examples
+    url: examples/ramp-list-users-example.json
+  - type: SpectralRules
+    url: rules/ramp-rules.yml
+  - type: GraphQL
+    url: graphql/ramp-graphql.md
+- aid: ramp:ramp-reimbursements-api
+  name: Ramp Reimbursements API
+  description: Out-of-pocket reimbursement requests.
+  humanURL: https://docs.ramp.com/developer-api/v1/overview/introduction
+  baseURL: https://api.ramp.com/developer/v1
+  tags:
+  - Reimbursements
+  properties:
+  - type: OpenAPI
+    url: openapi/ramp-reimbursements-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ramp.com/developer-api/v1/overview/introduction
+  - type: AsyncAPI
+    url: asyncapi/ramp-developer-api-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/ramp-transaction.json
+  - type: JSONSchema
+    url: json-schema/ramp-card.json
+  - type: JSONSchema
+    url: json-schema/ramp-user.json
+  - type: JSONLD
+    url: json-ld/ramp-context.jsonld
+  - type: JSONStructure
+    url: json-structure/ramp-transaction-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-card-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-user-structure.json
+  - type: Examples
+    url: examples/ramp-list-transactions-example.json
+  - type: Examples
+    url: examples/ramp-list-cards-example.json
+  - type: Examples
+    url: examples/ramp-list-users-example.json
+  - type: SpectralRules
+    url: rules/ramp-rules.yml
+  - type: GraphQL
+    url: graphql/ramp-graphql.md
+- aid: ramp:ramp-statements-api
+  name: Ramp Statements API
+  description: Card statement records.
+  humanURL: https://docs.ramp.com/developer-api/v1/overview/introduction
+  baseURL: https://api.ramp.com/developer/v1
+  tags:
+  - Statements
+  properties:
+  - type: OpenAPI
+    url: openapi/ramp-statements-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ramp.com/developer-api/v1/overview/introduction
+  - type: AsyncAPI
+    url: asyncapi/ramp-developer-api-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/ramp-transaction.json
+  - type: JSONSchema
+    url: json-schema/ramp-card.json
+  - type: JSONSchema
+    url: json-schema/ramp-user.json
+  - type: JSONLD
+    url: json-ld/ramp-context.jsonld
+  - type: JSONStructure
+    url: json-structure/ramp-transaction-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-card-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-user-structure.json
+  - type: Examples
+    url: examples/ramp-list-transactions-example.json
+  - type: Examples
+    url: examples/ramp-list-cards-example.json
+  - type: Examples
+    url: examples/ramp-list-users-example.json
+  - type: SpectralRules
+    url: rules/ramp-rules.yml
+  - type: GraphQL
+    url: graphql/ramp-graphql.md
+- aid: ramp:ramp-transactions-api
+  name: Ramp Transactions API
+  description: Card and bill transactions across the organization.
+  humanURL: https://docs.ramp.com/developer-api/v1/overview/introduction
+  baseURL: https://api.ramp.com/developer/v1
+  tags:
+  - Transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/ramp-transactions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ramp.com/developer-api/v1/overview/introduction
+  - type: AsyncAPI
+    url: asyncapi/ramp-developer-api-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/ramp-transaction.json
+  - type: JSONSchema
+    url: json-schema/ramp-card.json
+  - type: JSONSchema
+    url: json-schema/ramp-user.json
+  - type: JSONLD
+    url: json-ld/ramp-context.jsonld
+  - type: JSONStructure
+    url: json-structure/ramp-transaction-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-card-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-user-structure.json
+  - type: Examples
+    url: examples/ramp-list-transactions-example.json
+  - type: Examples
+    url: examples/ramp-list-cards-example.json
+  - type: Examples
+    url: examples/ramp-list-users-example.json
+  - type: SpectralRules
+    url: rules/ramp-rules.yml
+  - type: GraphQL
+    url: graphql/ramp-graphql.md
+- aid: ramp:ramp-users-api
+  name: Ramp Users API
+  description: User accounts within a Ramp organization.
+  humanURL: https://docs.ramp.com/developer-api/v1/overview/introduction
+  baseURL: https://api.ramp.com/developer/v1
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/ramp-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ramp.com/developer-api/v1/overview/introduction
+  - type: AsyncAPI
+    url: asyncapi/ramp-developer-api-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/ramp-transaction.json
+  - type: JSONSchema
+    url: json-schema/ramp-card.json
+  - type: JSONSchema
+    url: json-schema/ramp-user.json
+  - type: JSONLD
+    url: json-ld/ramp-context.jsonld
+  - type: JSONStructure
+    url: json-structure/ramp-transaction-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-card-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-user-structure.json
+  - type: Examples
+    url: examples/ramp-list-transactions-example.json
+  - type: Examples
+    url: examples/ramp-list-cards-example.json
+  - type: Examples
+    url: examples/ramp-list-users-example.json
+  - type: SpectralRules
+    url: rules/ramp-rules.yml
+  - type: GraphQL
+    url: graphql/ramp-graphql.md
+- aid: ramp:ramp-vendors-api
+  name: Ramp Vendors API
+  description: Vendor records used by accounting integrations and bill pay workflows.
+  humanURL: https://docs.ramp.com/developer-api/v1/overview/introduction
+  baseURL: https://api.ramp.com/developer/v1
+  tags:
+  - Vendors
+  properties:
+  - type: OpenAPI
+    url: openapi/ramp-vendors-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ramp.com/developer-api/v1/overview/introduction
+  - type: AsyncAPI
+    url: asyncapi/ramp-developer-api-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/ramp-transaction.json
+  - type: JSONSchema
+    url: json-schema/ramp-card.json
+  - type: JSONSchema
+    url: json-schema/ramp-user.json
+  - type: JSONLD
+    url: json-ld/ramp-context.jsonld
+  - type: JSONStructure
+    url: json-structure/ramp-transaction-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-card-structure.json
+  - type: JSONStructure
+    url: json-structure/ramp-user-structure.json
+  - type: Examples
+    url: examples/ramp-list-transactions-example.json
+  - type: Examples
+    url: examples/ramp-list-cards-example.json
+  - type: Examples
+    url: examples/ramp-list-users-example.json
+  - type: SpectralRules
+    url: rules/ramp-rules.yml
+  - type: GraphQL
+    url: graphql/ramp-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/ramp-agentic-access.yml
