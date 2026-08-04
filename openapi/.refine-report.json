@@ -1,0 +1,34 @@
+{
+  "provider": "ramp",
+  "sources": [
+    "ramp-accounts-api-openapi.yml",
+    "ramp-audit-logs-api-openapi.yml",
+    "ramp-bills-api-openapi.yml",
+    "ramp-cards-api-openapi.yml",
+    "ramp-departments-api-openapi.yml",
+    "ramp-locations-api-openapi.yml",
+    "ramp-reimbursements-api-openapi.yml",
+    "ramp-statements-api-openapi.yml",
+    "ramp-transactions-api-openapi.yml",
+    "ramp-users-api-openapi.yml",
+    "ramp-vendors-api-openapi.yml"
+  ],
+  "outputs": [
+    "ramp-accounts-api-openapi.yml",
+    "ramp-audit-logs-api-openapi.yml",
+    "ramp-bills-api-openapi.yml",
+    "ramp-cards-api-openapi.yml",
+    "ramp-departments-api-openapi.yml",
+    "ramp-locations-api-openapi.yml",
+    "ramp-reimbursements-api-openapi.yml",
+    "ramp-statements-api-openapi.yml",
+    "ramp-transactions-api-openapi.yml",
+    "ramp-users-api-openapi.yml",
+    "ramp-vendors-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
