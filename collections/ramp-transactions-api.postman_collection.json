@@ -1,0 +1,255 @@
+{
+  "item": [
+    {
+      "id": "6cafe9cb-92ea-475b-84eb-a1b5cc8ddd5f",
+      "name": "Transactions",
+      "description": {
+        "content": "Card and bill transactions across the organization.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "02228add-e9a8-4182-9824-bce38411e618",
+          "name": "List transactions",
+          "request": {
+            "name": "List transactions",
+            "description": {
+              "content": "Returns a paginated list of transactions for the organization.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from_date",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "to_date",
+                  "value": "<date>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "02e477e7-3e22-4b4c-bdd6-b7f3bc730983",
+              "name": "A page of transactions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to_date",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"amount\": 1184.467042627717,\n      \"currency_code\": \"string\",\n      \"merchant_name\": \"string\",\n      \"user_transaction_time\": \"1987-08-19T08:05:01.314Z\",\n      \"state\": \"string\",\n      \"sk_category_id\": 2468,\n      \"card_id\": \"string\",\n      \"user_id\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"amount\": 5661.949077031484,\n      \"currency_code\": \"string\",\n      \"merchant_name\": \"string\",\n      \"user_transaction_time\": \"1949-06-19T00:14:39.692Z\",\n      \"state\": \"string\",\n      \"sk_category_id\": 5072,\n      \"card_id\": \"string\",\n      \"user_id\": \"string\"\n    }\n  ],\n  \"page\": {\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "033ee5d1-039d-49a5-b1bd-974afaefa51b",
+          "name": "Retrieve a transaction",
+          "request": {
+            "name": "Retrieve a transaction",
+            "description": {},
+            "url": {
+              "path": [
+                "transactions",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8e2dc958-ad07-420b-9e66-901291e6f0a0",
+              "name": "A transaction record.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"amount\": 1299.6071725959946,\n  \"currency_code\": \"string\",\n  \"merchant_name\": \"string\",\n  \"user_transaction_time\": \"1994-06-18T09:19:50.296Z\",\n  \"state\": \"string\",\n  \"sk_category_id\": 4976,\n  \"card_id\": \"string\",\n  \"user_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ramp.com/developer/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "4e05f736-122c-40ce-ab3f-365e202ad036",
+    "name": "Ramp Developer Accounts Transactions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Ramp Developer API enables developers to access and manage Ramp account data, build applications for the Ramp App Center, and automate financial workflows. It provides programmatic access to spend management resources including transactions, cards, users, departments, locations, vendors, accounting integrations, reimbursements, bills, and statements. The API supports both reading data for reporting and analytics use cases and writing data for automation of financial operations across an organization.\n\nContact Support:\n Name: Ramp Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "item": [
+    {
+      "id": "20b31d01-96c6-46ba-bb58-2e3ff01b17a8",
+      "name": "Statements",
+      "description": {
+        "content": "Card statement records.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6d461510-e889-482d-a261-dc0dfa6c7113",
+          "name": "List statements",
+          "request": {
+            "name": "List statements",
+            "description": {},
+            "url": {
+              "path": [
+                "statements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "684d3772-a607-4702-826b-db1621c55777",
+              "name": "A page of statements.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"start_date\": \"1966-05-16\",\n      \"end_date\": \"1949-06-05\",\n      \"amount\": 6069.2688809840765\n    },\n    {\n      \"id\": \"string\",\n      \"start_date\": \"1964-12-28\",\n      \"end_date\": \"1971-10-11\",\n      \"amount\": 9226.209385551161\n    }\n  ],\n  \"page\": {\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ramp.com/developer/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a04ce661-bdc1-4b27-a374-b4e7696c6582",
+    "name": "Ramp Developer Accounts Statements API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Ramp Developer API enables developers to access and manage Ramp account data, build applications for the Ramp App Center, and automate financial workflows. It provides programmatic access to spend management resources including transactions, cards, users, departments, locations, vendors, accounting integrations, reimbursements, bills, and statements. The API supports both reading data for reporting and analytics use cases and writing data for automation of financial operations across an organization.\n\nContact Support:\n Name: Ramp Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

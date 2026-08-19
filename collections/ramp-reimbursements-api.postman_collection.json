@@ -1,0 +1,123 @@
+{
+  "item": [
+    {
+      "id": "39a42396-5ab8-417f-a909-adc127e6ca86",
+      "name": "Reimbursements",
+      "description": {
+        "content": "Out-of-pocket reimbursement requests.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "664d8723-208d-4c57-ab02-79138d063241",
+          "name": "List reimbursements",
+          "request": {
+            "name": "List reimbursements",
+            "description": {},
+            "url": {
+              "path": [
+                "reimbursements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "accounting:read accounting:write transactions:read cards:read users:read departments:read locations:read reimbursements:read bills:read statements:read audit:read applications:read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.ramp.com/developer/v1/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "25661d66-a295-47b2-8af3-92c5061da198",
+              "name": "A page of reimbursements.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reimbursements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"amount\": 5894.271625576463,\n      \"currency\": \"string\",\n      \"merchant\": \"string\",\n      \"user_id\": \"string\",\n      \"transaction_date\": \"1970-03-20\",\n      \"state\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"amount\": 9890.02803876598,\n      \"currency\": \"string\",\n      \"merchant\": \"string\",\n      \"user_id\": \"string\",\n      \"transaction_date\": \"1954-08-06\",\n      \"state\": \"string\"\n    }\n  ],\n  \"page\": {\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ramp.com/developer/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "274dcb1d-eb05-44e4-86b1-bc4190a591f0",
+    "name": "Ramp Developer Accounts Reimbursements API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Ramp Developer API enables developers to access and manage Ramp account data, build applications for the Ramp App Center, and automate financial workflows. It provides programmatic access to spend management resources including transactions, cards, users, departments, locations, vendors, accounting integrations, reimbursements, bills, and statements. The API supports both reading data for reporting and analytics use cases and writing data for automation of financial operations across an organization.\n\nContact Support:\n Name: Ramp Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

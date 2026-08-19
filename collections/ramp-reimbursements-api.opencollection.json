@@ -1,0 +1,38 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Ramp Developer Accounts Reimbursements API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reimbursements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List reimbursements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ramp.com/developer/v1/reimbursements",
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api.ramp.com/developer/v1/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "List reimbursements"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
