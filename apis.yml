@@ -47,7 +47,7 @@ tags:
 created: '2025-02-17'
 modified: '2026-05-30'
 url: https://raw.githubusercontent.com/api-evangelist/ramp/refs/heads/main/apis.yml
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: ramp:ramp-accounts-api
   name: Ramp Accounts API
