@@ -12,8 +12,14 @@ info:
     OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: rampApi
-  url: ../openapi/ramp-developer-api-openapi.yml
+- name: cardsApi
+  url: ../openapi/ramp-cards-api-openapi.yml
+  type: openapi
+- name: transactionsApi
+  url: ../openapi/ramp-transactions-api-openapi.yml
+  type: openapi
+- name: usersApi
+  url: ../openapi/ramp-users-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: export-spend-snapshot

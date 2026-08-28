@@ -12,8 +12,11 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: rampApi
-  url: ../openapi/ramp-developer-api-openapi.yml
+- name: auditLogsApi
+  url: ../openapi/ramp-audit-logs-api-openapi.yml
+  type: openapi
+- name: usersApi
+  url: ../openapi/ramp-users-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: audit-event-target-lookup

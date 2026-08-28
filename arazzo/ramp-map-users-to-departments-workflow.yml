@@ -13,8 +13,14 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: rampApi
-  url: ../openapi/ramp-developer-api-openapi.yml
+- name: departmentsApi
+  url: ../openapi/ramp-departments-api-openapi.yml
+  type: openapi
+- name: locationsApi
+  url: ../openapi/ramp-locations-api-openapi.yml
+  type: openapi
+- name: usersApi
+  url: ../openapi/ramp-users-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: map-users-to-departments

@@ -13,8 +13,11 @@ info:
     read and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: rampApi
-  url: ../openapi/ramp-developer-api-openapi.yml
+- name: accountsApi
+  url: ../openapi/ramp-accounts-api-openapi.yml
+  type: openapi
+- name: transactionsApi
+  url: ../openapi/ramp-transactions-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: categorize-transaction-to-account
