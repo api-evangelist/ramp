@@ -256,6 +256,8 @@ apis:
   humanURL: https://docs.ramp.com/developer-api/v1/overview/introduction
   baseURL: https://api.ramp.com/developer/v1
   tags:
+  - Location
+  tags_raw:
   - Locations
   properties:
   - type: OpenAPI
