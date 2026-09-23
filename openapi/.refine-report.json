@@ -1,17 +1,7 @@
 {
   "provider": "ramp",
   "sources": [
-    "ramp-accounts-api-openapi.yml",
-    "ramp-audit-logs-api-openapi.yml",
-    "ramp-bills-api-openapi.yml",
-    "ramp-cards-api-openapi.yml",
-    "ramp-departments-api-openapi.yml",
-    "ramp-locations-api-openapi.yml",
-    "ramp-reimbursements-api-openapi.yml",
-    "ramp-statements-api-openapi.yml",
-    "ramp-transactions-api-openapi.yml",
-    "ramp-users-api-openapi.yml",
-    "ramp-vendors-api-openapi.yml"
+    "_original/ramp-developer-api-openapi.yml"
   ],
   "outputs": [
     "ramp-accounts-api-openapi.yml",
@@ -29,6 +19,22 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "ramp-developer-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "ramp-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ramp-audit-logs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ramp-bills-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ramp-cards-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ramp-departments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ramp-locations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ramp-reimbursements-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ramp-statements-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ramp-transactions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ramp-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ramp-vendors-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

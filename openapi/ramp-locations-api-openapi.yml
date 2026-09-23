@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Ramp Developer Accounts Locations API
-  description: The Ramp Developer API enables developers to access and manage Ramp account data, build applications for the Ramp App Center, and automate financial workflows. It provides programmatic access to spend management resources including transactions, cards, users, departments, locations, vendors, accounting integrations, reimbursements, bills, and statements. The API supports both reading data for reporting and analytics use cases and writing data for automation of financial operations across an organization.
+  title: Ramp Developer Locations API
+  description: The Ramp Developer API enables developers to access and manage Ramp account data, build applications for the Ramp App Center, and automate financial workflows.
   version: '1.0'
   contact:
     name: Ramp Developer Support
@@ -37,13 +37,6 @@ paths:
         - locations:read
 components:
   schemas:
-    Location:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
     LocationList:
       type: object
       properties:
@@ -53,6 +46,13 @@ components:
             $ref: '#/components/schemas/Location'
         page:
           $ref: '#/components/schemas/Page'
+    Location:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
     Page:
       type: object
       properties:
