@@ -96,8 +96,6 @@ apis:
     url: examples/ramp-list-users-example.json
   - type: SpectralRules
     url: rules/ramp-rules.yml
-  - type: GraphQL
-    url: graphql/ramp-graphql.md
 - aid: ramp:ramp-audit-logs-api
   name: Ramp Audit Logs API
   description: Audit events recording activity within a Ramp organization.
@@ -134,8 +132,6 @@ apis:
     url: examples/ramp-list-users-example.json
   - type: SpectralRules
     url: rules/ramp-rules.yml
-  - type: GraphQL
-    url: graphql/ramp-graphql.md
 - aid: ramp:ramp-bills-api
   name: Ramp Bills API
   description: Bill pay records and approval workflows.
@@ -172,8 +168,6 @@ apis:
     url: examples/ramp-list-users-example.json
   - type: SpectralRules
     url: rules/ramp-rules.yml
-  - type: GraphQL
-    url: graphql/ramp-graphql.md
 - aid: ramp:ramp-cards-api
   name: Ramp Cards API
   description: Physical and virtual cards issued to users and departments.
@@ -210,8 +204,6 @@ apis:
     url: examples/ramp-list-users-example.json
   - type: SpectralRules
     url: rules/ramp-rules.yml
-  - type: GraphQL
-    url: graphql/ramp-graphql.md
 - aid: ramp:ramp-departments-api
   name: Ramp Departments API
   description: Department records used to organize spend.
@@ -248,8 +240,6 @@ apis:
     url: examples/ramp-list-users-example.json
   - type: SpectralRules
     url: rules/ramp-rules.yml
-  - type: GraphQL
-    url: graphql/ramp-graphql.md
 - aid: ramp:ramp-locations-api
   name: Ramp Locations API
   description: Location records used to organize spend.
@@ -288,8 +278,6 @@ apis:
     url: examples/ramp-list-users-example.json
   - type: SpectralRules
     url: rules/ramp-rules.yml
-  - type: GraphQL
-    url: graphql/ramp-graphql.md
 - aid: ramp:ramp-reimbursements-api
   name: Ramp Reimbursements API
   description: Out-of-pocket reimbursement requests.
@@ -328,8 +316,6 @@ apis:
     url: examples/ramp-list-users-example.json
   - type: SpectralRules
     url: rules/ramp-rules.yml
-  - type: GraphQL
-    url: graphql/ramp-graphql.md
 - aid: ramp:ramp-statements-api
   name: Ramp Statements API
   description: Card statement records.
@@ -366,8 +352,6 @@ apis:
     url: examples/ramp-list-users-example.json
   - type: SpectralRules
     url: rules/ramp-rules.yml
-  - type: GraphQL
-    url: graphql/ramp-graphql.md
 - aid: ramp:ramp-transactions-api
   name: Ramp Transactions API
   description: Card and bill transactions across the organization.
@@ -406,8 +390,6 @@ apis:
     url: examples/ramp-list-users-example.json
   - type: SpectralRules
     url: rules/ramp-rules.yml
-  - type: GraphQL
-    url: graphql/ramp-graphql.md
 - aid: ramp:ramp-users-api
   name: Ramp Users API
   description: User accounts within a Ramp organization.
@@ -446,8 +428,6 @@ apis:
     url: examples/ramp-list-users-example.json
   - type: SpectralRules
     url: rules/ramp-rules.yml
-  - type: GraphQL
-    url: graphql/ramp-graphql.md
 - aid: ramp:ramp-vendors-api
   name: Ramp Vendors API
   description: Vendor records used by accounting integrations and bill pay workflows.
@@ -484,8 +464,6 @@ apis:
     url: examples/ramp-list-users-example.json
   - type: SpectralRules
     url: rules/ramp-rules.yml
-  - type: GraphQL
-    url: graphql/ramp-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/ramp-agentic-access.yml
