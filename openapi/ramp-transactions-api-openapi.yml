@@ -80,13 +80,6 @@ components:
             $ref: '#/components/schemas/Transaction'
         page:
           $ref: '#/components/schemas/Page'
-    Page:
-      type: object
-      properties:
-        next:
-          type: string
-        previous:
-          type: string
     Transaction:
       type: object
       properties:
@@ -108,6 +101,13 @@ components:
         card_id:
           type: string
         user_id:
+          type: string
+    Page:
+      type: object
+      properties:
+        next:
+          type: string
+        previous:
           type: string
   securitySchemes:
     OAuth2:

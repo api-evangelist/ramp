@@ -46,13 +46,6 @@ components:
             $ref: '#/components/schemas/AuditEvent'
         page:
           $ref: '#/components/schemas/Page'
-    Page:
-      type: object
-      properties:
-        next:
-          type: string
-        previous:
-          type: string
     AuditEvent:
       type: object
       properties:
@@ -67,6 +60,13 @@ components:
         timestamp:
           type: string
           format: date-time
+    Page:
+      type: object
+      properties:
+        next:
+          type: string
+        previous:
+          type: string
   securitySchemes:
     OAuth2:
       type: oauth2

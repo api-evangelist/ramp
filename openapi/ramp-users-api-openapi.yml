@@ -37,6 +37,22 @@ paths:
         - users:read
 components:
   schemas:
+    UserList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        page:
+          $ref: '#/components/schemas/Page'
+    Page:
+      type: object
+      properties:
+        next:
+          type: string
+        previous:
+          type: string
     User:
       type: object
       properties:
@@ -56,22 +72,6 @@ components:
           type: string
         is_manager:
           type: boolean
-    Page:
-      type: object
-      properties:
-        next:
-          type: string
-        previous:
-          type: string
-    UserList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-        page:
-          $ref: '#/components/schemas/Page'
   securitySchemes:
     OAuth2:
       type: oauth2
