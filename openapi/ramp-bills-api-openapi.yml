@@ -37,6 +37,15 @@ paths:
         - bills:read
 components:
   schemas:
+    BillList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bill'
+        page:
+          $ref: '#/components/schemas/Page'
     Bill:
       type: object
       properties:
@@ -60,15 +69,6 @@ components:
           type: string
         previous:
           type: string
-    BillList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Bill'
-        page:
-          $ref: '#/components/schemas/Page'
   securitySchemes:
     OAuth2:
       type: oauth2

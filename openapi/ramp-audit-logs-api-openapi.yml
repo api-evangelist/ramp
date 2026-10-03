@@ -37,15 +37,6 @@ paths:
         - audit:read
 components:
   schemas:
-    AuditEventList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/AuditEvent'
-        page:
-          $ref: '#/components/schemas/Page'
     AuditEvent:
       type: object
       properties:
@@ -67,6 +58,15 @@ components:
           type: string
         previous:
           type: string
+    AuditEventList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditEvent'
+        page:
+          $ref: '#/components/schemas/Page'
   securitySchemes:
     OAuth2:
       type: oauth2

@@ -37,21 +37,6 @@ paths:
         - cards:read
 components:
   schemas:
-    Card:
-      type: object
-      properties:
-        id:
-          type: string
-        cardholder_id:
-          type: string
-        display_name:
-          type: string
-        last_four:
-          type: string
-        state:
-          type: string
-        is_physical:
-          type: boolean
     CardList:
       type: object
       properties:
@@ -68,6 +53,21 @@ components:
           type: string
         previous:
           type: string
+    Card:
+      type: object
+      properties:
+        id:
+          type: string
+        cardholder_id:
+          type: string
+        display_name:
+          type: string
+        last_four:
+          type: string
+        state:
+          type: string
+        is_physical:
+          type: boolean
   securitySchemes:
     OAuth2:
       type: oauth2

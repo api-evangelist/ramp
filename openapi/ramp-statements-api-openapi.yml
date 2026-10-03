@@ -37,6 +37,22 @@ paths:
         - statements:read
 components:
   schemas:
+    StatementList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Statement'
+        page:
+          $ref: '#/components/schemas/Page'
+    Page:
+      type: object
+      properties:
+        next:
+          type: string
+        previous:
+          type: string
     Statement:
       type: object
       properties:
@@ -50,22 +66,6 @@ components:
           format: date
         amount:
           type: number
-    Page:
-      type: object
-      properties:
-        next:
-          type: string
-        previous:
-          type: string
-    StatementList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Statement'
-        page:
-          $ref: '#/components/schemas/Page'
   securitySchemes:
     OAuth2:
       type: oauth2
