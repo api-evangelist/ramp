@@ -1,0 +1,35 @@
+slug: ramp
+provider: Ramp
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Accounts
+  spec_file: ramp-accounts-api-openapi.yml
+  capability_id: BC-200.10
+  capability_id_l1: BC-200
+  capability_name: General Ledger Management
+  confidence: 0.85
+  evidence: GET /accounting/accounts  listAccountingAccounts  List general ledger accounts
+  reason: The operation summary explicitly lists general ledger accounts (chart of accounts), which is
+    General Ledger Management. 'Accounts' here is an accounting GL account, not a customer or user account.
+- tag: Transactions
+  spec_file: ramp-transactions-api-openapi.yml
+  capability_id: BC-200
+  capability_id_l1: BC-200
+  capability_name: Financial Management
+  confidence: 0.7
+  evidence: GET /transactions  listTransactions  List transactions; GET /transactions/{id}  getTransaction  Retrieve
+    a transaction
+  reason: Card spend transactions on a finance automation platform are corporate accounting/expense records
+    feeding the ledger. Financial Management L1 fits; the surface does not specify ledger posting versus
+    AP, so no L2.

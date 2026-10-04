@@ -465,6 +465,9 @@ apis:
   - type: SpectralRules
     url: rules/ramp-rules.yml
 common:
+- type: CapabilityMap
+  url: capabilities/ramp-capability-edges.yml
+  name: Ramp Business Capability Map
 - type: AgenticAccess
   url: agentic-access/ramp-agentic-access.yml
 - type: TrustCenter
