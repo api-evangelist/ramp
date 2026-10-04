@@ -71,6 +71,13 @@ paths:
         - transactions:read
 components:
   schemas:
+    Page:
+      type: object
+      properties:
+        next:
+          type: string
+        previous:
+          type: string
     TransactionList:
       type: object
       properties:
@@ -101,13 +108,6 @@ components:
         card_id:
           type: string
         user_id:
-          type: string
-    Page:
-      type: object
-      properties:
-        next:
-          type: string
-        previous:
           type: string
   securitySchemes:
     OAuth2:

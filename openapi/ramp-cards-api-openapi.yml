@@ -37,15 +37,6 @@ paths:
         - cards:read
 components:
   schemas:
-    CardList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Card'
-        page:
-          $ref: '#/components/schemas/Page'
     Page:
       type: object
       properties:
@@ -68,6 +59,15 @@ components:
           type: string
         is_physical:
           type: boolean
+    CardList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Card'
+        page:
+          $ref: '#/components/schemas/Page'
   securitySchemes:
     OAuth2:
       type: oauth2

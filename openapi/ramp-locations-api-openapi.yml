@@ -37,6 +37,13 @@ paths:
         - locations:read
 components:
   schemas:
+    Page:
+      type: object
+      properties:
+        next:
+          type: string
+        previous:
+          type: string
     LocationList:
       type: object
       properties:
@@ -52,13 +59,6 @@ components:
         id:
           type: string
         name:
-          type: string
-    Page:
-      type: object
-      properties:
-        next:
-          type: string
-        previous:
           type: string
   securitySchemes:
     OAuth2:

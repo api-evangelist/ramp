@@ -37,15 +37,13 @@ paths:
         - reimbursements:read
 components:
   schemas:
-    ReimbursementList:
+    Page:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Reimbursement'
-        page:
-          $ref: '#/components/schemas/Page'
+        next:
+          type: string
+        previous:
+          type: string
     Reimbursement:
       type: object
       properties:
@@ -64,13 +62,15 @@ components:
           format: date
         state:
           type: string
-    Page:
+    ReimbursementList:
       type: object
       properties:
-        next:
-          type: string
-        previous:
-          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reimbursement'
+        page:
+          $ref: '#/components/schemas/Page'
   securitySchemes:
     OAuth2:
       type: oauth2

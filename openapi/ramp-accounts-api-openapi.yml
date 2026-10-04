@@ -47,16 +47,12 @@ paths:
         - accounting:read
 components:
   schemas:
-    Account:
+    Page:
       type: object
       properties:
-        id:
+        next:
           type: string
-        name:
-          type: string
-        code:
-          type: string
-        classification:
+        previous:
           type: string
     AccountList:
       type: object
@@ -67,12 +63,16 @@ components:
             $ref: '#/components/schemas/Account'
         page:
           $ref: '#/components/schemas/Page'
-    Page:
+    Account:
       type: object
       properties:
-        next:
+        id:
           type: string
-        previous:
+        name:
+          type: string
+        code:
+          type: string
+        classification:
           type: string
   securitySchemes:
     OAuth2:

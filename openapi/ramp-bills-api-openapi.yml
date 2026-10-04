@@ -37,15 +37,13 @@ paths:
         - bills:read
 components:
   schemas:
-    BillList:
+    Page:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Bill'
-        page:
-          $ref: '#/components/schemas/Page'
+        next:
+          type: string
+        previous:
+          type: string
     Bill:
       type: object
       properties:
@@ -62,13 +60,15 @@ components:
           format: date-time
         status:
           type: string
-    Page:
+    BillList:
       type: object
       properties:
-        next:
-          type: string
-        previous:
-          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bill'
+        page:
+          $ref: '#/components/schemas/Page'
   securitySchemes:
     OAuth2:
       type: oauth2
