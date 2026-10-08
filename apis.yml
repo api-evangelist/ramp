@@ -465,6 +465,12 @@ apis:
   - type: SpectralRules
     url: rules/ramp-rules.yml
 common:
+- type: Plans
+  url: plans/ramp-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/ramp-rate-limits.yml
+- type: FinOps
+  url: finops/ramp-finops.yml
 - type: CapabilityMap
   url: capabilities/ramp-capability-edges.yml
   name: Ramp Business Capability Map
