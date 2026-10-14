@@ -27,3 +27,29 @@
   relationship: distribution-channel
   status: not-a-workflow
   arazzo: null
+- slug: ramp-adp-own
+  label: ADP (own)
+  partner: adp
+  partner_name: ADP (own)
+  category: EeT
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://apps.adp.com/apps/411359/ramp-connector-for-adp-workforce-now
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: ramp-workday-own
+  label: Workday (own)
+  partner: workday
+  partner_name: Workday (own)
+  category: Deployment Method
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://marketplace.workday.com/apps/451603/ramp-for-workday-financial-management
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null

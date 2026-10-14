@@ -1,8 +1,10 @@
 generated: '2026-10-13'
 method: searched
 checked:
+- adp/integrations/adp-integration-edges.yml
 - https://aws.amazon.com/marketplace/
 - https://azuremarketplace.microsoft.com/
+- workday/integrations/workday-integration-edges.yml
 marketplace_apps: []
 edges:
 - partner_name: AWS Marketplace
@@ -36,3 +38,43 @@ edges:
   seller_name: Ramp
   detected_by: sweep-cloud-marketplaces.py
   detected: '2026-10-13'
+- partner_name: ADP (own)
+  partner: adp
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://apps.adp.com/apps/411359/ramp-connector-for-adp-workforce-now
+  mirror_of: adp/integrations/adp-integration-edges.yml
+  apps:
+  - Ramp Connector for ADP Workforce Now®
+  - Ramp Expense Management Solution
+  listing_count: 2
+  detected: '2026-10-14'
+  detected_by: mirror-platform-listings.py
+  category: EeT
+- partner_name: Workday (own)
+  partner: workday
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://marketplace.workday.com/apps/451603/ramp-for-workday-financial-management
+  mirror_of: workday/integrations/workday-integration-edges.yml
+  apps:
+  - Ramp for Workday Financial Management
+  listing_count: 1
+  detected: '2026-10-14'
+  detected_by: mirror-platform-listings.py
+  category: Deployment Method
+  badges:
+  - Design Approved
+source:
+- adp/integrations/adp-integration-edges.yml
+- workday/integrations/workday-integration-edges.yml
