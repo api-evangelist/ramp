@@ -40,6 +40,19 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: ramp-stripe-own
+  label: Stripe (own)
+  partner: stripe
+  partner_name: Stripe (own)
+  category: banking_services
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://marketplace.stripe.com/apps/ramp
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
 - slug: ramp-workday-own
   label: Workday (own)
   partner: workday
