@@ -54,15 +54,6 @@ components:
           type: string
         previous:
           type: string
-    AccountList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Account'
-        page:
-          $ref: '#/components/schemas/Page'
     Account:
       type: object
       properties:
@@ -74,6 +65,15 @@ components:
           type: string
         classification:
           type: string
+    AccountList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+        page:
+          $ref: '#/components/schemas/Page'
   securitySchemes:
     OAuth2:
       type: oauth2

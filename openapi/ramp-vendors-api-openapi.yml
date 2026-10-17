@@ -44,15 +44,6 @@ components:
           type: string
         previous:
           type: string
-    Vendor:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        code:
-          type: string
     VendorList:
       type: object
       properties:
@@ -62,6 +53,15 @@ components:
             $ref: '#/components/schemas/Vendor'
         page:
           $ref: '#/components/schemas/Page'
+    Vendor:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        code:
+          type: string
   securitySchemes:
     OAuth2:
       type: oauth2

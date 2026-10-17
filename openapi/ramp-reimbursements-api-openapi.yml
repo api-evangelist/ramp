@@ -44,6 +44,15 @@ components:
           type: string
         previous:
           type: string
+    ReimbursementList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reimbursement'
+        page:
+          $ref: '#/components/schemas/Page'
     Reimbursement:
       type: object
       properties:
@@ -62,15 +71,6 @@ components:
           format: date
         state:
           type: string
-    ReimbursementList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Reimbursement'
-        page:
-          $ref: '#/components/schemas/Page'
   securitySchemes:
     OAuth2:
       type: oauth2

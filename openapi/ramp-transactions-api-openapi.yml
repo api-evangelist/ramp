@@ -78,15 +78,6 @@ components:
           type: string
         previous:
           type: string
-    TransactionList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Transaction'
-        page:
-          $ref: '#/components/schemas/Page'
     Transaction:
       type: object
       properties:
@@ -109,6 +100,15 @@ components:
           type: string
         user_id:
           type: string
+    TransactionList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+        page:
+          $ref: '#/components/schemas/Page'
   securitySchemes:
     OAuth2:
       type: oauth2
