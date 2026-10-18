@@ -149,7 +149,7 @@
     - alpha
     in_cloud: true
     builder: unknown (community connector; contributor not in the record)
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: ramp-fivetran
   label: Fivetran
@@ -175,7 +175,7 @@
     - connectors/applications/ramp
     vendor_link: https://ramp.com/
     builder: Fivetran
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: ramp-microsoft-teams-own
   label: Microsoft Teams (own)
