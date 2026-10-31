@@ -1,4 +1,4 @@
-# Ramp (ramp)
+# Ramp
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,88 +66,243 @@
 
 Ramp is a finance automation platform that combines corporate cards, expense management, accounts payable, vendor management, and accounting integrations into a single product. The Ramp Developer API enables developers to access and manage Ramp account data, build applications for the Ramp App Center reaching over 25,000 Ramp customers, and automate financial workflows by integrating Ramp into existing systems.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/ramp/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/ramp/refs/heads/main/apis.yml)
+**Areas:** Finance · Spend Management · Corporate Cards · Expense Management · Accounts Payable · Bill Pay · Accounting · Reimbursement
 
-## Scope
+## Ramp on APIs.io
 
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for Ramp is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/ramp/](https://apis.io/providers/ramp/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (11)
 
-- Finance
-- Spend Management
-- Corporate Cards
-- Expense Management
-- Accounts Payable
-- Bill Pay
-- Accounting
-- Reimbursements
+- [Ramp Accounts API](https://apis.io/apis/ramp/ramp-accounts-api/) — General ledger account resources used to map Ramp activity to accounting systems.
+- [Ramp Audit Logs API](https://apis.io/apis/ramp/ramp-audit-logs-api/) — Audit events recording activity within a Ramp organization.
+- [Ramp Bills API](https://apis.io/apis/ramp/ramp-bills-api/) — Bill pay records and approval workflows.
+- [Ramp Cards API](https://apis.io/apis/ramp/ramp-cards-api/) — Physical and virtual cards issued to users and departments.
+- [Ramp Departments API](https://apis.io/apis/ramp/ramp-departments-api/) — Department records used to organize spend.
+- [Ramp Locations API](https://apis.io/apis/ramp/ramp-locations-api/) — Location records used to organize spend.
+- [Ramp Reimbursements API](https://apis.io/apis/ramp/ramp-reimbursements-api/) — Out-of-pocket reimbursement requests.
+- [Ramp Statements API](https://apis.io/apis/ramp/ramp-statements-api/) — Card statement records.
+- [Ramp Transactions API](https://apis.io/apis/ramp/ramp-transactions-api/) — Card and bill transactions across the organization.
+- [Ramp Users API](https://apis.io/apis/ramp/ramp-users-api/) — User accounts within a Ramp organization.
+- [Ramp Vendors API](https://apis.io/apis/ramp/ramp-vendors-api/) — Vendor records used by accounting integrations and bill pay workflows.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2025-02-17
-- **Modified:** 2026-05-30
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Arazzo workflows (18)
 
-### Ramp Developer API
+Multi-step workflows that chain operations into a business task.
 
-The Ramp Developer API enables developers to programmatically access and manage Ramp account data, build applications for the Ramp App Center, and automate financial workflows. It provides resources for transactions, cards, users, departments, locations, vendors, accounting integrations, reimbursements, bills, and statements, supporting both reporting and automation use cases.
+- [Ramp Attribute Transaction To Cardholder](https://apis.io/arazzos/ramp/ramp-attribute-transaction-to-cardholder-workflow/)
+- [Ramp Audit Event Target Lookup](https://apis.io/arazzos/ramp/ramp-audit-event-target-lookup-workflow/)
+- [Ramp Card Inventory By Cardholder](https://apis.io/arazzos/ramp/ramp-card-inventory-by-cardholder-workflow/)
+- [Ramp Categorize Transaction To Account](https://apis.io/arazzos/ramp/ramp-categorize-transaction-to-account-workflow/)
+- [Ramp Export Spend Snapshot](https://apis.io/arazzos/ramp/ramp-export-spend-snapshot-workflow/)
+- [Ramp Find Cardholder Recent Spend](https://apis.io/arazzos/ramp/ramp-find-cardholder-recent-spend-workflow/)
+- [Ramp Flag Large Transaction](https://apis.io/arazzos/ramp/ramp-flag-large-transaction-workflow/)
+- [Ramp Flag Open Bill Vendor](https://apis.io/arazzos/ramp/ramp-flag-open-bill-vendor-workflow/)
+- [Ramp Inspect Transaction Detail](https://apis.io/arazzos/ramp/ramp-inspect-transaction-detail-workflow/)
+- [Ramp Locate Department Spend](https://apis.io/arazzos/ramp/ramp-locate-department-spend-workflow/)
+- [Ramp Locate Location Spend](https://apis.io/arazzos/ramp/ramp-locate-location-spend-workflow/)
+- [Ramp Map Users To Departments](https://apis.io/arazzos/ramp/ramp-map-users-to-departments-workflow/)
+- [Ramp Paginate Accounting Accounts](https://apis.io/arazzos/ramp/ramp-paginate-accounting-accounts-workflow/)
+- [Ramp Reconcile Bills With Vendors](https://apis.io/arazzos/ramp/ramp-reconcile-bills-with-vendors-workflow/)
+- [Ramp Reconcile Reimbursements To Users](https://apis.io/arazzos/ramp/ramp-reconcile-reimbursements-to-users-workflow/)
+- [Ramp Review Pending Reimbursement Detail](https://apis.io/arazzos/ramp/ramp-review-pending-reimbursement-detail-workflow/)
+- [Ramp Statement Close Detail](https://apis.io/arazzos/ramp/ramp-statement-close-detail-workflow/)
+- [Ramp Trace Transaction To Account Detail](https://apis.io/arazzos/ramp/ramp-trace-transaction-to-account-detail-workflow/)
 
-- **Human URL:** [https://docs.ramp.com/developer-api/v1/overview/introduction](https://docs.ramp.com/developer-api/v1/overview/introduction)
-- **Base URL:** `https://api.ramp.com/developer/v1`
+#### AsyncAPI (1)
 
-#### Tags
+Event-driven and webhook contracts.
 
-- Finance
-- Spend Management
-- Corporate Cards
-- Expense Management
-- Accounts Payable
-- Accounting
+- [Ramp Developer API Webhooks](https://apis.io/asyncapis/ramp/ramp-developer-api-webhooks-asyncapi/)
 
-#### Properties
+#### Event channels (1)
 
-- [Documentation](https://docs.ramp.com/developer-api/v1/overview/introduction)
-- [OpenAPI](openapi/ramp-developer-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/ramp-developer-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ramp-developer-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [AsyncAPI](asyncapi/ramp-developer-api-webhooks-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
-- [JSON Schema](json-schema/ramp-transaction.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/ramp-card.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/ramp-user.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/ramp-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [JSON Structure](json-structure/ramp-transaction-structure.json)
-- [JSON Structure](json-structure/ramp-card-structure.json)
-- [JSON Structure](json-structure/ramp-user-structure.json)
-- [Example](examples/ramp-list-transactions-example.json)
-- [Example](examples/ramp-list-cards-example.json)
-- [Example](examples/ramp-list-users-example.json)
-- [Spectral Rules](rules/ramp-rules.yml)
+Individual events and webhooks the provider emits.
 
-## Common Properties
+- [ramp/webhook](https://apis.io/channels/ramp/ramp-webhook/)
 
-- [Arazzo Workflows](arazzo/) — [Arazzo Specification](https://spec.openapis.org/arazzo/latest.html)
-- [GitHub Organization](https://github.com/ramp-public)
-- [LinkedIn](https://www.linkedin.com/company/ramp)
+#### GraphQL (1)
+
+GraphQL schemas.
+
+- [Moved to /providers/ramp/](https://apis.io/graphqls/ramp/ramp-graphql/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [ramp](https://apis.io/servers/ramp/ramp/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Ramp Agentic Access](https://apis.io/agentic-access/ramp/ramp-agentic-access/)
+
+#### JSON Schema (3)
+
+The data models the API reads and writes.
+
+- [Ramp Card](https://apis.io/schemas/ramp/ramp-card/)
+- [Ramp Transaction](https://apis.io/schemas/ramp/ramp-transaction/)
+- [Ramp User](https://apis.io/schemas/ramp/ramp-user/)
+
+#### JSON Structure (3)
+
+Data models expressed in JSON Structure.
+
+- [Ramp Card Structure](https://apis.io/json-structure/ramp/ramp-card-structure/)
+- [Ramp Transaction Structure](https://apis.io/json-structure/ramp/ramp-transaction-structure/)
+- [Ramp User Structure](https://apis.io/json-structure/ramp/ramp-user-structure/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Ramp Context](https://apis.io/jsonld/ramp/ramp-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Ramp Vocabulary](https://apis.io/vocabularies/ramp/ramp-vocabulary/)
+
+#### Examples (3)
+
+Example requests and responses.
+
+- [Ramp List Cards Example](https://apis.io/examples/ramp/ramp-list-cards-example/)
+- [Ramp List Transactions Example](https://apis.io/examples/ramp/ramp-list-transactions-example/)
+- [Ramp List Users Example](https://apis.io/examples/ramp/ramp-list-users-example/)
+
+#### Collections (13)
+
+Postman and Open Collection request collections.
+
+- [Ramp Developer Accounts API](https://apis.io/collections/ramp/open-ramp-accounts-api/)
+- [Ramp Developer Accounts Audit Logs API](https://apis.io/collections/ramp/open-ramp-audit-logs-api/)
+- [Ramp Developer Accounts Bills API](https://apis.io/collections/ramp/open-ramp-bills-api/)
+- [Ramp Developer Accounts Cards API](https://apis.io/collections/ramp/open-ramp-cards-api/)
+- [Ramp Developer Accounts Departments API](https://apis.io/collections/ramp/open-ramp-departments-api/)
+- [Ramp Developer API](https://apis.io/collections/ramp/open-ramp-developer-api/)
+- [Ramp Developer Accounts Locations API](https://apis.io/collections/ramp/open-ramp-locations-api/)
+- [Ramp Developer Accounts Reimbursements API](https://apis.io/collections/ramp/open-ramp-reimbursements-api/)
+- [Ramp Developer Accounts Statements API](https://apis.io/collections/ramp/open-ramp-statements-api/)
+- [Ramp Developer Accounts Transactions API](https://apis.io/collections/ramp/open-ramp-transactions-api/)
+- [Ramp Developer Accounts Users API](https://apis.io/collections/ramp/open-ramp-users-api/)
+- [Ramp Developer Accounts Vendors API](https://apis.io/collections/ramp/open-ramp-vendors-api/)
+- [Ramp Developer API](https://apis.io/collections/ramp/postman-ramp-developer-api/)
+
+#### Governance rules (3)
+
+Spectral rulesets for the provider's contracts.
+
+- [Ramp — asyncapi rules](https://apis.io/rules/ramp/ramp-asyncapi-spectral-rules/)
+- [Ramp — jsonschema rules](https://apis.io/rules/ramp/ramp-jsonschema-spectral-rules/)
+- [Ramp API Rules](https://apis.io/rules/ramp/ramp-rules/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Ramp Authentication](https://apis.io/security/ramp/ramp-authentication/)
+- [Ramp Domain Security](https://apis.io/security/ramp/ramp-domain-security/)
+- [Ramp Trust Center](https://apis.io/security/ramp/ramp-trust-center/)
+- [Ramp Vulnerability Disclosure](https://apis.io/security/ramp/ramp-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Ramp Scopes](https://apis.io/scopes/ramp/ramp-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Ramp Plans Pricing](https://apis.io/plans/ramp/ramp-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Ramp Rate Limits](https://apis.io/rate-limits/ramp/ramp-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Ramp Finops](https://apis.io/finops/ramp/ramp-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://ramp.com/)
 - [Documentation](https://docs.ramp.com/)
-- [Developer  Portal](https://docs.ramp.com/developer-api/v1/overview/introduction)
-- [Authentication](https://docs.ramp.com/developer-api/v1/guides/authorization)
-- [Sign Up](https://app.ramp.com/sign-up)
 - [Pricing](https://ramp.com/pricing)
-- [Blog](https://ramp.com/blog)
 - [Support](https://support.ramp.com/)
-- [Status Page](https://status.ramp.com/)
-- [Terms of Service](https://ramp.com/legal/platform-agreement)
-- [Privacy Policy](https://ramp.com/legal/privacy-policy)
-- [Vocabulary](vocabulary/ramp-vocabulary.yml)
-- [Integrations](https://ramp.com/integrations)
-- [L L Ms Txt](https://docs.ramp.com/llms.txt)
+- [Blog](https://ramp.com/blog)
+- [Terms of service](https://ramp.com/legal/platform-agreement)
+- [Privacy policy](https://ramp.com/legal/privacy-policy)
+- [GitHub](https://github.com/ramp-public)
+- [Status](https://status.ramp.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 47.5** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 67.8 |
+| Contract governance | 27.3 |
+| Operational transparency | 28.9 |
+| Developer ergonomics | 3.6 |
+| Access clarity | 60.5 |
+
+**Agent readiness 40.7** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | na |
+| MCP Server | verified |
+| Auth Clarity | negotiable (partial credit) |
+| Idempotency | na |
+| Error Semantics | — |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | — |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 41.1** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/ramp/](https://apis.io/providers/ramp/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Ramp: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/ramp/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
